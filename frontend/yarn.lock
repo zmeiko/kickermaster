@@ -4743,6 +4743,22 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.1, mkdirp@~0.5.0, mkdi
   dependencies:
     minimist "0.0.8"
 
+mobx-react@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-5.0.0.tgz#8d5a33be376fa22b184a6f555d40a6a3a8459a16"
+  dependencies:
+    hoist-non-react-statics "^2.3.1"
+
+mobx-state-tree@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/mobx-state-tree/-/mobx-state-tree-2.0.2.tgz#74664b733f7d55e93ad8a77f92b353f3ba20a78d"
+  dependencies:
+    mobx "^4.0.2"
+
+mobx@^4.0.2, mobx@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-4.1.1.tgz#7ce7ef92b22e85271d1fc274a124d7fa32fcceeb"
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"

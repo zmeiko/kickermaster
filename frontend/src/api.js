@@ -1,4 +1,4 @@
-const API_HOST = 'http://localhost:3000';
+const API_HOST = 'http://192.168.0.151:3000';
 
 async function request(path, options = {}) {
   const url = `${API_HOST}${path}`;

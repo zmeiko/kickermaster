@@ -1,5 +1,12 @@
 const db = require('../../models');
 
+async function getUsers() {
+  const users = await db.User.findAll({
+    include: [{ model: db.Goal }],
+  });
+  return users;
+}
+
 async function addGame(params) {
   const game = await db.Game.create(params);
   return game;
@@ -7,26 +14,17 @@ async function addGame(params) {
 
 async function getGames() {
   const games = await db.Game.findAll({
-    include: [{ model: db.User }, { model: db.Goal }]
+    include: [{ model: db.User }, { model: db.Goal }],
+    order: [
+      ['createdAt', 'DESC']
+    ]
   });
   return games;
 }
 
 async function getGame(gameId) {
   const game = await db.Game.findById(gameId, {
-    include: [
-      {
-        model: db.User,
-        include: [
-          {
-            model: db.Goal,
-            where: {
-              gameId
-            }
-          }
-        ]
-      }
-    ]
+    include: [{ model: db.User }, { model: db.Goal }]
   });
   return game;
 }
@@ -38,7 +36,6 @@ async function removeGame({ gameId }) {
 async function joinGame({ userId, gameId, team }) {
   const user = await db.User.findById(userId);
   const game = await db.Game.findById(gameId);
-
   if (game && user) {
     await game.addUser(user, { through: { team } });
   }
@@ -92,6 +89,7 @@ async function finishGame({ gameId }) {
 }
 
 module.exports = {
+  getUsers,
   getGames,
   getGame,
   addGame,

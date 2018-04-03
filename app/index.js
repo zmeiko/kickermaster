@@ -29,6 +29,10 @@ class App {
         const user = ctx.state.user || null
         ctx.body = { user };
       })
+      .get('/api/users', async function (ctx) {
+        const users = await gameActions.getUsers();
+        ctx.body = { users };
+      })
       .get('/api/games', async function getGames(ctx) {
         const games = await gameActions.getGames();
         ctx.body = { games };
@@ -50,14 +54,16 @@ class App {
         ctx.body = { success: true };
       })
       .post('/api/game/join', async function joinGame(ctx) {
-        const { id: userId } = ctx.state.user;
-        const { gameId, team } = ctx.request.body;
+        // const { id: userId } = ctx.state.user;
+        // const { gameId, team } = ctx.request.body;
+        const { gameId, userId, team } = ctx.request.body;
         await gameActions.joinGame({ userId, gameId, team });
         ctx.body = { success: true };
       })
       .post('/api/game/left', async function leftGame(ctx) {
-        const { id: userId } = ctx.state.user;
-        const { gameId } = ctx.request.body;
+        // const { id: userId } = ctx.state.user;
+        // const { gameId } = ctx.request.body;
+        const { gameId, userId } = ctx.request.body;
         await gameActions.leftGame({ userId, gameId });
         ctx.body = { success: true };
       })
@@ -72,8 +78,9 @@ class App {
         ctx.body = { success: true };
       })
       .post('/api/game/goal', async function addGoal(ctx) {
-        const { id: userId } = ctx.state.user;
-        const { gameId, ownGoal } = ctx.request.body;
+        // const { id: userId } = ctx.state.user;
+        // const { gameId, ownGoal } = ctx.request.body;
+        const { gameId, ownGoal, userId } = ctx.request.body;
         const goal = await gameActions.addGoal({ userId, gameId, ownGoal });
         ctx.body = { goal };
       })
