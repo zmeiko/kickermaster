@@ -20,4 +20,4 @@ server.use(passport.session())
 server.use(bodyParser());
 server.use(app.router.routes());
 server.use(serve('frontend/build'));
-server.listen(3000);
+server.listen(8080);
