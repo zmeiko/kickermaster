@@ -89,10 +89,7 @@ const Game = observer(class extends Component {
   }
 
   removeLastGoal = async () => {
-    const { game } = this.state;
-    await api.delete(`/api/game/lastGoal`, {
-      gameId: game.id,
-    });
+    gameStore.removeLastGoal()
   }
 
   startGame = async () => {
@@ -135,11 +132,20 @@ const Game = observer(class extends Component {
             width: 200,
             height: 80,
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center'
           }}
         >
           <Score game={game} />
+          <br />
+          <br />
+          <Button
+            onClick={this.removeLastGoal}
+            color="secondary"
+          >
+            REMOVE LAST GOAL
+          </Button>
         </div>
       </div>
     );

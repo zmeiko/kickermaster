@@ -67,6 +67,10 @@ async function addGoal({ gameId, userId, ownGoal = false }) {
   return goal;
 }
 
+async function removeGoal({ goalId }) {
+  await db.Goal.destroy({ where: { id: goalId } });
+}
+
 async function removeLastGoal({ gameId, userId }) {
   const goal = await db.Goal.findOne({
     where: {
@@ -98,6 +102,7 @@ module.exports = {
   leftGame,
   startGame,
   addGoal,
+  removeGoal,
   removeLastGoal,
   finishGame,
 }

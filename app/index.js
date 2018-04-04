@@ -84,10 +84,9 @@ class App {
         const goal = await gameActions.addGoal({ userId, gameId, ownGoal });
         ctx.body = { goal };
       })
-      .delete('/api/game/lastGoal', async function removeGoal(ctx) {
-        const { id: userId } = ctx.state.user;
-        const { gameId } = ctx.request.body;
-        gameActions.removeLastGoal({ userId, gameId });
+      .delete('/api/game/goal', async function removeGoal(ctx) {
+        const { goalId } = ctx.request.body;
+        await gameActions.removeGoal({ goalId });
         ctx.body = { success: true };
       });
   }
