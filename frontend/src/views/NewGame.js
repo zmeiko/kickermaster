@@ -17,7 +17,7 @@ const UserListDialog = observer(class extends Component {
     const { handleClose, selectValue, ...other } = this.props;
     return (
       <Dialog onClose={this.handleClose} {...other}>
-        <DialogTitle>Set backup account</DialogTitle>
+        <DialogTitle>Select player</DialogTitle>
         <div>
           <List>
             {store.users.map(user => (

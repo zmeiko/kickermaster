@@ -25,15 +25,17 @@ const Leaders = observer(class extends Component {
             <TableCell></TableCell>
             <TableCell style={{ width: '100%' }}></TableCell>
             <TableCell numeric>Goals</TableCell>
+            <TableCell numeric>Own goals</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {store.users.sort((a, b) => b.Goals.length - a.Goals.length).map((user, index) => (
+          {store.users.sort((a, b) => b.goals.length - a.goals.length).map((user, index) => (
             <TableRow key={user.id}>
               <TableCell>{index + 1}</TableCell>
               <TableCell><Avatar src={user.photoUrl} /></TableCell>
               <TableCell>{user.name}</TableCell>
-              <TableCell numeric>{user.Goals.length}</TableCell>
+              <TableCell numeric>{user.goals.length}</TableCell>
+              <TableCell numeric>{user.ownGoals.length}</TableCell>
             </TableRow>
           ))}
         </TableBody>

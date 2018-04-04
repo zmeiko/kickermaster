@@ -16,7 +16,14 @@ const User = types.model({
   photoUrl: types.string,
   GamePlayer: types.maybe(GamePlayer),
   Goals: types.optional(types.array(Goal), [])
-})
+}).views(self => ({
+  get goals() {
+    return self.Goals.filter(goal => !goal.ownGoal)
+  },
+  get ownGoals() {
+    return self.Goals.filter(goal => goal.ownGoal)
+  }
+}))
 
 const TEAM_RED = 0;
 const TEAM_BLUE = 1;
