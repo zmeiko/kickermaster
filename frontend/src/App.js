@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom';
+import { HashRouter, Route, Switch, withRouter } from 'react-router-dom';
 import BottomNavigation, { BottomNavigationAction } from 'material-ui/BottomNavigation';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import AddIcon from 'material-ui-icons/Add';
@@ -28,7 +28,7 @@ const Navbar = withRouter(({ history }) => {
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div className="App">
           <div className="App-content">
             <Switch>
@@ -40,7 +40,7 @@ class App extends Component {
           </div>
           <Navbar />
         </div>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }
