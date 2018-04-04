@@ -1,4 +1,4 @@
-const API_HOST = 'http://192.168.0.151:3000';
+const API_HOST = 'http://kicker.mercdev.com';
 
 async function request(path, options = {}) {
   const url = `${API_HOST}${path}`;
