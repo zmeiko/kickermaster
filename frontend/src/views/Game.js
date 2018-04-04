@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Paper from "material-ui/Paper";
 import Button from "material-ui/Button";
-import Avatar from "material-ui/Avatar";
+import UserAvatar from "../components/UserAvatar";
 import Typography from "material-ui/Typography";
 import dateFormat from "dateformat";
 import { observer } from "mobx-react";
@@ -36,7 +36,7 @@ class User extends Component {
     const { user } = this.props;
     return (
       <div>
-        <Avatar src={user.photoUrl} style={{ width: 200, height: 200 }} />
+        <UserAvatar user={user} style={{ width: 200, height: 200, fontSize: 60 }} />
       </div>
     );
   }

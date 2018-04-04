@@ -16,7 +16,7 @@ const User = types
   .model({
     id: types.number,
     name: types.string,
-    photoUrl: types.string,
+    photoUrl: types.maybe(types.string),
     GamePlayer: types.maybe(GamePlayer),
     Goals: types.optional(types.array(Goal), [])
   })

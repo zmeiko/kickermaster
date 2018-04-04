@@ -3,7 +3,7 @@ import { withRouter, Link } from "react-router-dom";
 import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
 import Button from "material-ui/Button";
-import Avatar from "material-ui/Avatar";
+import UserAvatar from "../components/UserAvatar";
 import List, { ListItem, ListItemText } from "material-ui/List";
 import dateFormat from "dateformat";
 import api from "../api";
@@ -28,7 +28,7 @@ const Game = withRouter(
               <div
                 style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}
               >
-                {game.redUsers.map(user => <Avatar src={user.photoUrl} />)}
+                {game.redUsers.map(user => <UserAvatar user={user} />)}
               </div>
               <ListItemText style={{ width: 100, textAlign: "center" }}>
                 {game.score}
@@ -40,7 +40,7 @@ const Game = withRouter(
                   justifyContent: "flex-start"
                 }}
               >
-                {game.blueUsers.map(user => <Avatar src={user.photoUrl} />)}
+                {game.blueUsers.map(user => <UserAvatar user={user} />)}
               </div>
             </div>
           </Link>

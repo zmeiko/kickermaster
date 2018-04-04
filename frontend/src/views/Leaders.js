@@ -3,7 +3,7 @@ import { withRouter, Link } from "react-router-dom";
 import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
 import Button from "material-ui/Button";
-import Avatar from "material-ui/Avatar";
+import UserAvatar from "../components/UserAvatar";
 import List, { ListItem, ListItemText } from "material-ui/List";
 import Table, {
   TableBody,
@@ -41,7 +41,7 @@ const Leaders = observer(
                 <TableRow key={user.id}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>
-                    <Avatar src={user.photoUrl} />
+                    <UserAvatar user={user} />
                   </TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell numeric>{user.goals.length}</TableCell>

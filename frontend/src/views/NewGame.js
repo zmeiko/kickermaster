@@ -8,8 +8,10 @@ import List, { ListItem, ListItemText } from "material-ui/List";
 import Dialog, { DialogTitle } from "material-ui/Dialog";
 
 import dateFormat from "dateformat";
+import UserAvatar from "../components/UserAvatar";
 import api from "../api";
 import { store } from "../store";
+
 
 const UserListDialog = observer(
   class extends Component {
@@ -26,7 +28,7 @@ const UserListDialog = observer(
                   button
                   onClick={() => selectValue(user)}
                 >
-                  <Avatar src={user.photoUrl} />
+                  <UserAvatar user={user} />
                   <ListItemText primary={user.name} />
                 </ListItem>
               ))}
@@ -43,7 +45,7 @@ class User extends Component {
     const { user } = this.props;
     return (
       <div>
-        <Avatar src={user.photoUrl} style={{ width: 200, height: 200 }} />
+        <UserAvatar user={user} style={{ width: 200, height: 200, fontSize: 60 }} />
       </div>
     );
   }
