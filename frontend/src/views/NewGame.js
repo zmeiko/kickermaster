@@ -131,11 +131,11 @@ const NewGame = class extends Component {
   render() {
     return (
       <div style={{ display: 'flex', flex: 1, position: 'relative' }}>
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', borderRight: '1px solid rgba(0, 0, 0, 0.1)', background: 'radial-gradient(ellipse at center, rgba(248,80,50,0.3) 0%, rgba(231,56,39,0.5) 100%)' }}>
           <Player onSelect={user => this.selectUser('user1', user.id, TEAM_RED)} />
           <Player onSelect={user => this.selectUser('user2', user.id, TEAM_RED)} />
         </div>
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: 'radial-gradient(ellipse at center, rgba(73,155,234,0.3) 0%, rgba(32,124,229,0.5) 100%)' }}>
           <Player onSelect={user => this.selectUser('user3', user.id, TEAM_BLUE)} />
           <Player onSelect={user => this.selectUser('user4', user.id, TEAM_BLUE)} />
         </div>
