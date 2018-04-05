@@ -1,12 +1,12 @@
-const API_HOST = 'http://kicker.mercdev.com';
+const API_HOST = process.env.REACT_APP_API_HOST;
 
 async function request(path, options = {}) {
   const url = `${API_HOST}${path}`;
   const json = await fetch(url, {
-    credentials: 'include',
+    credentials: "include",
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      Accept: "application/json",
+      "Content-Type": "application/json"
     },
     ...options
   }).then(response => response.json());
@@ -15,21 +15,21 @@ async function request(path, options = {}) {
 }
 
 const api = {
-  get: async (path) => {
-    return await request(path)
+  get: async path => {
+    return await request(path);
   },
   post: async (path, body) => {
     return await request(path, {
-      method: 'post',
+      method: "post",
       body: JSON.stringify(body)
-    })
+    });
   },
   delete: async (path, body) => {
     return await request(path, {
-      method: 'delete',
+      method: "delete",
       body: JSON.stringify(body)
-    })
+    });
   }
-}
+};
 
 export default api;
