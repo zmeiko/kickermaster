@@ -7,7 +7,12 @@ import dateFormat from "dateformat";
 import { observer } from "mobx-react";
 import api from "../api";
 import { gameStore } from "../store";
-import { TEAM_RED, TEAM_BLUE } from "../constants";
+import {
+  TEAM_RED,
+  TEAM_BLUE,
+  POSITION_FORWARD,
+  POSITION_DEFENDER
+} from "../constants";
 
 const Score = observer(
   class extends Component {
@@ -56,7 +61,7 @@ const Player = observer(
     };
 
     render() {
-      const { user, left } = this.props;
+      const { user, left, style } = this.props;
       return (
         <div
           style={{
@@ -64,9 +69,26 @@ const Player = observer(
             display: "flex",
             flexDirection: left ? "row-reverse" : null,
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
+            position: "relative",
+            ...style
           }}
         >
+          {user.GamePlayer.position === POSITION_FORWARD && (
+            <Typography
+              style={{
+                position: "absolute",
+                top: 10,
+                left: 0,
+                right: 0,
+                opacity: 0.5,
+                fontSize: 11,
+                textAlign: "center"
+              }}
+            >
+              FORWARD
+            </Typography>
+          )}
           <Button
             onClick={this.addGoal}
             variant="fab"
@@ -95,6 +117,21 @@ const Player = observer(
           >
             OWN
           </Button>
+          {user.GamePlayer.position === POSITION_DEFENDER && (
+            <Typography
+              style={{
+                position: "absolute",
+                bottom: 10,
+                left: 0,
+                right: 0,
+                opacity: 0.5,
+                fontSize: 11,
+                textAlign: "center"
+              }}
+            >
+              DEFENDER
+            </Typography>
+          )}
         </div>
       );
     }

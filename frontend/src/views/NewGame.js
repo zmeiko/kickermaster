@@ -11,7 +11,12 @@ import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
 import api from "../api";
 import { store } from "../store";
-import { TEAM_RED, TEAM_BLUE } from "../constants";
+import {
+  TEAM_RED,
+  TEAM_BLUE,
+  POSITION_FORWARD,
+  POSITION_DEFENDER
+} from "../constants";
 
 const UserListDialog = observer(
   class extends Component {
@@ -72,15 +77,33 @@ class Player extends Component {
 
   render() {
     const { user } = this.state;
+    const { style, position } = this.props;
     return (
       <div
         style={{
           flex: 1,
           display: "flex",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
+          position: "relative",
+          ...style
         }}
       >
+        {position === POSITION_FORWARD && (
+          <Typography
+            style={{
+              position: "absolute",
+              top: 10,
+              left: 0,
+              right: 0,
+              opacity: 0.5,
+              fontSize: 11,
+              textAlign: "center"
+            }}
+          >
+            FORWARD
+          </Typography>
+        )}
         {user ? (
           <User user={user} />
         ) : (
@@ -95,6 +118,21 @@ class Player extends Component {
           >
             JOIN
           </Button>
+        )}
+        {position === POSITION_DEFENDER && (
+          <Typography
+            style={{
+              position: "absolute",
+              bottom: 10,
+              left: 0,
+              right: 0,
+              opacity: 0.5,
+              fontSize: 11,
+              textAlign: "center"
+            }}
+          >
+            DEFENDER
+          </Typography>
         )}
         <UserListDialog
           selectValue={this.selectUser}
@@ -127,9 +165,9 @@ const NewGame = class extends Component {
     );
   }
 
-  selectUser = (userSlot, userId, team) => {
+  selectUser = (userSlot, userId, team, position) => {
     this.setState({
-      [userSlot]: { userId, team }
+      [userSlot]: { userId, team, position }
     });
   };
 
@@ -157,10 +195,17 @@ const NewGame = class extends Component {
           }}
         >
           <Player
-            onSelect={user => this.selectUser("user1", user.id, TEAM_RED)}
+            position={POSITION_FORWARD}
+            style={{ borderBottom: "1px solid rgba(0, 0, 0, .1)" }}
+            onSelect={user =>
+              this.selectUser("user1", user.id, TEAM_RED, POSITION_FORWARD)
+            }
           />
           <Player
-            onSelect={user => this.selectUser("user2", user.id, TEAM_RED)}
+            position={POSITION_DEFENDER}
+            onSelect={user =>
+              this.selectUser("user2", user.id, TEAM_RED, POSITION_DEFENDER)
+            }
           />
         </div>
         <div
@@ -173,10 +218,17 @@ const NewGame = class extends Component {
           }}
         >
           <Player
-            onSelect={user => this.selectUser("user3", user.id, TEAM_BLUE)}
+            position={POSITION_FORWARD}
+            style={{ borderBottom: "1px solid rgba(0, 0, 0, .1)" }}
+            onSelect={user =>
+              this.selectUser("user3", user.id, TEAM_BLUE, POSITION_FORWARD)
+            }
           />
           <Player
-            onSelect={user => this.selectUser("user4", user.id, TEAM_BLUE)}
+            position={POSITION_DEFENDER}
+            onSelect={user =>
+              this.selectUser("user4", user.id, TEAM_BLUE, POSITION_DEFENDER)
+            }
           />
         </div>
         <Button

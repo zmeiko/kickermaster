@@ -3,7 +3,8 @@ import api from "../api";
 import { TEAM_RED, TEAM_BLUE } from "../constants";
 
 const GamePlayer = types.model({
-  team: types.number
+  team: types.number,
+  position: types.maybe(types.number)
 });
 
 const Goal = types.model({

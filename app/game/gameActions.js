@@ -37,11 +37,11 @@ async function removeGame({ gameId }) {
   await db.Game.destroy({ where: { id: gameId } });
 }
 
-async function joinGame({ userId, gameId, team }) {
+async function joinGame({ userId, gameId, team, position }) {
   const user = await db.User.findById(userId);
   const game = await db.Game.findById(gameId);
   if (game && user) {
-    await game.addUser(user, { through: { team } });
+    await game.addUser(user, { through: { team, position } });
   }
 }
 
