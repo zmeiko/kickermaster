@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const Koa = require("koa");
 const bodyParser = require("koa-bodyparser");
 const session = require("koa-session");
@@ -12,9 +14,9 @@ const app = new App({
   clients: wsServer.clients
 });
 
-server.keys = ["secret"];
+server.keys = [process.env.SECRET_KEY];
 server.use(cors({ credentials: true }));
-server.use(session({ domain: "localhost" }, server));
+server.use(session({}, server));
 server.use(passport.initialize());
 server.use(passport.session());
 server.use(bodyParser());
