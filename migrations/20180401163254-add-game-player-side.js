@@ -1,11 +1,13 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    queryInterface.addColumn('GamePlayers', 'team', { type: Sequelize.INTEGER })
+    queryInterface.addColumn("GamePlayers", "team", {
+      type: Sequelize.INTEGER
+    });
   },
 
   down: (queryInterface, Sequelize) => {
-    queryInterface.removeColumn('Users', 'team')
+    queryInterface.removeColumn("Users", "team");
   }
 };

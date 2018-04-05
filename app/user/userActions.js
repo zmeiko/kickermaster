@@ -1,8 +1,8 @@
-const db = require('../../models');
+const db = require("../../models");
 
 async function login(params) {
   const { email } = params;
-  let user = await db.User.findOne({ where: { email }});
+  let user = await db.User.findOne({ where: { email } });
   if (user === null) {
     user = await db.User.create(params);
   }
@@ -10,5 +10,5 @@ async function login(params) {
 }
 
 module.exports = {
-  login,
-}
+  login
+};

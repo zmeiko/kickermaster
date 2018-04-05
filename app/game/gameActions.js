@@ -1,8 +1,8 @@
-const db = require('../../models');
+const db = require("../../models");
 
 async function getUsers() {
   const users = await db.User.findAll({
-    include: [{ model: db.Goal }],
+    include: [{ model: db.Goal }]
   });
   return users;
 }
@@ -15,9 +15,7 @@ async function addGame(params) {
 async function getGames() {
   const games = await db.Game.findAll({
     include: [{ model: db.User }, { model: db.Goal }],
-    order: [
-      ['createdAt', 'DESC']
-    ]
+    order: [["createdAt", "DESC"]]
   });
   return games;
 }
@@ -52,7 +50,7 @@ async function leftGame({ userId, gameId }) {
 async function startGame({ gameId }) {
   const game = await db.Game.findById(gameId);
   if (game) {
-    await game.update({ status: 'STARTED' });
+    await game.update({ status: "STARTED" });
   }
   return game;
 }
@@ -61,9 +59,9 @@ async function addGoal({ gameId, userId, ownGoal = false }) {
   const user = await db.User.findById(userId);
   const game = await db.Game.findById(gameId);
   const goal = db.Goal.build({ ownGoal });
-  goal.setUser(user, { save: false })
-  goal.setGame(game, { save: false })
-  await goal.save()
+  goal.setUser(user, { save: false });
+  goal.setGame(game, { save: false });
+  await goal.save();
   return goal;
 }
 
@@ -77,17 +75,15 @@ async function removeLastGoal({ gameId, userId }) {
       gameId,
       userId
     },
-    order: [
-      ['createdAt', 'DESC']
-    ]
+    order: [["createdAt", "DESC"]]
   });
-  await goal.destroy()
+  await goal.destroy();
 }
 
 async function finishGame({ gameId }) {
   const game = await db.Game.findById(gameId);
   if (game) {
-    await game.update({ status: 'FINISHED' });
+    await game.update({ status: "FINISHED" });
   }
   return game;
 }
@@ -104,5 +100,5 @@ module.exports = {
   addGoal,
   removeGoal,
   removeLastGoal,
-  finishGame,
-}
+  finishGame
+};
