@@ -19,7 +19,10 @@ const User = types
     name: types.string,
     photoUrl: types.maybe(types.string),
     GamePlayer: types.maybe(GamePlayer),
-    Goals: types.optional(types.array(Goal), [])
+    Goals: types.optional(types.array(Goal), []),
+    games: types.late(() =>
+      types.optional(types.array(types.reference(Game)), [])
+    )
   })
   .views(self => ({
     get goals() {
@@ -27,12 +30,15 @@ const User = types
     },
     get ownGoals() {
       return self.Goals.filter(goal => goal.ownGoal);
+    },
+    get goalsPerMatch() {
+      return self.goals.length / self.games.length;
     }
   }));
 
 const Game = types
   .model({
-    id: types.number,
+    id: types.identifier(types.number),
     createdAt: types.string,
     Users: types.optional(types.array(User), []),
     Goals: types.optional(types.array(Goal), [])

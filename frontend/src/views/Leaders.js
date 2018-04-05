@@ -18,11 +18,13 @@ import { observer } from "mobx-react";
 
 const Leaders = observer(
   class extends Component {
-    componentWillMount() {
-      store.loadUsers();
+    async componentWillMount() {
+      await store.loadGames();
+      await store.loadUsers();
     }
 
     render() {
+      const MIN_MATCHES_REQUIRED = 5;
       return (
         <Table>
           <TableHead>
@@ -30,13 +32,15 @@ const Leaders = observer(
               <TableCell>#</TableCell>
               <TableCell />
               <TableCell style={{ width: "100%" }} />
-              <TableCell numeric>Goals</TableCell>
-              <TableCell numeric>Own goals</TableCell>
+              <TableCell numeric>
+                <nobr>Goals per match (minimum 5 matches required)</nobr>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {store.users
-              .sort((a, b) => b.goals.length - a.goals.length)
+              .filter(user => user.games.length >= MIN_MATCHES_REQUIRED)
+              .sort((a, b) => b.goalsPerMatch - a.goalsPerMatch)
               .map((user, index) => (
                 <TableRow key={user.id}>
                   <TableCell>{index + 1}</TableCell>
@@ -44,8 +48,7 @@ const Leaders = observer(
                     <UserAvatar user={user} />
                   </TableCell>
                   <TableCell>{user.name}</TableCell>
-                  <TableCell numeric>{user.goals.length}</TableCell>
-                  <TableCell numeric>{user.ownGoals.length}</TableCell>
+                  <TableCell numeric>{user.goalsPerMatch}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
