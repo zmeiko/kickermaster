@@ -79,10 +79,18 @@ const Game = types
   }))
   .actions(self => ({
     addGoal(UserId) {
-      self.Goals.push({ UserId, ownGoal: false, createdAt: new Date().toString() });
+      self.Goals.push({
+        UserId,
+        ownGoal: false,
+        createdAt: new Date().toString()
+      });
     },
     addOwnGoal(UserId) {
-      self.Goals.push({ UserId, ownGoal: true, createdAt: new Date().toString() });
+      self.Goals.push({
+        UserId,
+        ownGoal: true,
+        createdAt: new Date().toString()
+      });
     }
   }));
 
@@ -135,9 +143,9 @@ const GameStore = types
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
         yield api.delete(`/api/game/goal`, {
-          goalId: lastGoal.id,
+          goalId: lastGoal.id
         });
-        self.game.Goals.remove(lastGoal)
+        self.game.Goals.remove(lastGoal);
       })
     };
   });

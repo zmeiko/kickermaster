@@ -12,7 +12,6 @@ import UserAvatar from "../components/UserAvatar";
 import api from "../api";
 import { store } from "../store";
 
-
 const UserListDialog = observer(
   class extends Component {
     render() {
@@ -45,7 +44,10 @@ class User extends Component {
     const { user } = this.props;
     return (
       <div>
-        <UserAvatar user={user} style={{ width: 200, height: 200, fontSize: 60 }} />
+        <UserAvatar
+          user={user}
+          style={{ width: 200, height: 200, fontSize: 60 }}
+        />
       </div>
     );
   }
