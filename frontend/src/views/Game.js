@@ -7,9 +7,7 @@ import dateFormat from "dateformat";
 import { observer } from "mobx-react";
 import api from "../api";
 import { gameStore } from "../store";
-
-const TEAM_RED = 0;
-const TEAM_BLUE = 1;
+import { TEAM_RED, TEAM_BLUE } from "../constants";
 
 const Score = observer(
   class extends Component {

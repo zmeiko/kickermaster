@@ -1,5 +1,6 @@
 import { types, flow } from "mobx-state-tree";
 import api from "../api";
+import { TEAM_RED, TEAM_BLUE } from "../constants";
 
 const GamePlayer = types.model({
   team: types.number
@@ -28,9 +29,6 @@ const User = types
       return self.Goals.filter(goal => goal.ownGoal);
     }
   }));
-
-const TEAM_RED = 0;
-const TEAM_BLUE = 1;
 
 const Game = types
   .model({

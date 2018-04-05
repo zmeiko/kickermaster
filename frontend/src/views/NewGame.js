@@ -11,6 +11,7 @@ import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
 import api from "../api";
 import { store } from "../store";
+import { TEAM_RED, TEAM_BLUE } from "../constants";
 
 const UserListDialog = observer(
   class extends Component {
@@ -104,9 +105,6 @@ class Player extends Component {
     );
   }
 }
-
-const TEAM_RED = 0;
-const TEAM_BLUE = 1;
 
 const NewGame = class extends Component {
   state = {
