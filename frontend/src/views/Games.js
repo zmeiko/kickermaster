@@ -59,7 +59,9 @@ const Games = observer(
     render() {
       return (
         <List style={{ width: "100%" }}>
-          {store.games.map(game => <Game key={game.id} game={game} />)}
+          {store.games
+            .filter(game => game.isValid)
+            .map(game => <Game key={game.id} game={game} />)}
         </List>
       );
     }
