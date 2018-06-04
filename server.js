@@ -5,14 +5,13 @@ const bodyParser = require("koa-bodyparser");
 const session = require("koa-session");
 const passport = require("koa-passport");
 const cors = require("koa-cors");
-const App = require("./app");
 const serve = require("koa-static");
-const wsServer = require("./wsServer");
+
+const authRouter = require("./routers/authRouter");
+const apiUsersRouter = require("./routers/apiUsersRouter");
+const apiGamesRouter = require("./routers/apiGamesRouter");
 
 const server = new Koa();
-const app = new App({
-  clients: wsServer.clients
-});
 
 server.keys = [process.env.SECRET_KEY];
 server.use(cors({ credentials: true }));
@@ -20,6 +19,11 @@ server.use(session({}, server));
 server.use(passport.initialize());
 server.use(passport.session());
 server.use(bodyParser());
-server.use(app.router.routes());
+
+server.use(authRouter.routes());
+server.use(apiUsersRouter.routes());
+server.use(apiGamesRouter.routes());
+
 server.use(serve("frontend/build"));
-server.listen(8080);
+
+server.listen(process.env.PORT);

@@ -1,17 +1,4 @@
-const db = require("../../models");
-
-async function getUsers() {
-  const users = await db.User.findAll({
-    include: [{ model: db.Goal }, { model: db.Game }]
-  });
-  return users.map(model => {
-    const { Games, ...user } = model.toJSON();
-    return {
-      ...user,
-      games: Games.map(game => game.id)
-    };
-  });
-}
+const db = require("../models");
 
 async function addGame(params) {
   const game = await db.Game.create(params);
@@ -95,7 +82,6 @@ async function finishGame({ gameId }) {
 }
 
 module.exports = {
-  getUsers,
   getGames,
   getGame,
   addGame,
