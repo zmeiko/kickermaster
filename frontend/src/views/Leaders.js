@@ -20,11 +20,10 @@ import { observable, decorate } from "mobx";
 const Leaders = observer(
   class extends Component {
     async componentWillMount() {
-      await store.loadGames();
-      await store.loadUsers();
+      await store.loadStats();
     }
 
-    sortingProperty = "myAverageGameRating";
+    @observable sortingProperty = "myAverageGameRating";
 
     render() {
       const MIN_MATCHES_REQUIRED = 5;
@@ -38,12 +37,10 @@ const Leaders = observer(
               <TableCell numeric>
                 <Button
                   color={
-                    this.sortingProperty === "gamesCount"
-                      ? "primary"
-                      : "default"
+                    this.sortingProperty === "games" ? "primary" : "default"
                   }
                   onClick={() => {
-                    this.sortingProperty = "gamesCount";
+                    this.sortingProperty = "games";
                   }}
                 >
                   Games
@@ -52,10 +49,10 @@ const Leaders = observer(
               <TableCell numeric>
                 <Button
                   color={
-                    this.sortingProperty === "winsCount" ? "primary" : "default"
+                    this.sortingProperty === "wins" ? "primary" : "default"
                   }
                   onClick={() => {
-                    this.sortingProperty = "winsCount";
+                    this.sortingProperty = "wins";
                   }}
                 >
                   Wins
@@ -64,51 +61,31 @@ const Leaders = observer(
               <TableCell numeric>
                 <Button
                   color={
-                    this.sortingProperty === "loosesCount"
-                      ? "primary"
-                      : "default"
+                    this.sortingProperty === "defeats" ? "primary" : "default"
                   }
                   onClick={() => {
-                    this.sortingProperty = "loosesCount";
+                    this.sortingProperty = "defeats";
                   }}
                 >
-                  Looses
+                  Defeats
                 </Button>
               </TableCell>
               <TableCell numeric>
                 <Button
                   color={
-                    this.sortingProperty === "goalsPerMatch"
-                      ? "primary"
-                      : "default"
+                    this.sortingProperty === "goals" ? "primary" : "default"
                   }
                   onClick={() => {
-                    this.sortingProperty = "goalsPerMatch";
+                    this.sortingProperty = "goals";
                   }}
                 >
-                  <nobr>Goals per match</nobr>
-                </Button>
-              </TableCell>
-              <TableCell numeric>
-                <Button
-                  color={
-                    this.sortingProperty === "myAverageGameRating"
-                      ? "primary"
-                      : "default"
-                  }
-                  onClick={() => {
-                    this.sortingProperty = "myAverageGameRating";
-                  }}
-                >
-                  <nobr>Average rating</nobr>
+                  <nobr>Goals</nobr>
                 </Button>
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {store.users
-              .filter(user => user.games.length >= MIN_MATCHES_REQUIRED)
-              .filter(user => !isNaN(user.myAverageGameRating))
+            {store.usersStats
               .sort((a, b) => b[this.sortingProperty] - a[this.sortingProperty])
               .map((user, index) => (
                 <TableRow key={user.id}>
@@ -120,43 +97,34 @@ const Leaders = observer(
                   <TableCell
                     numeric
                     style={{
-                      fontSize: this.sortingProperty === "gamesCount" && 18
+                      fontSize: this.sortingProperty === "games" && 18
                     }}
                   >
-                    {user.gamesCount}
+                    {user.games}
                   </TableCell>
                   <TableCell
                     numeric
                     style={{
-                      fontSize: this.sortingProperty === "winsCount" && 18
+                      fontSize: this.sortingProperty === "wins" && 18
                     }}
                   >
-                    {user.winsCount}
+                    {user.wins} ({user.winsPercent}%)
                   </TableCell>
                   <TableCell
                     numeric
                     style={{
-                      fontSize: this.sortingProperty === "loosesCount" && 18
+                      fontSize: this.sortingProperty === "defeats" && 18
                     }}
                   >
-                    {user.loosesCount}
+                    {user.defeats} ({user.defeatsPercent}%)
                   </TableCell>
                   <TableCell
                     numeric
                     style={{
-                      fontSize: this.sortingProperty === "goalsPerMatch" && 18
+                      fontSize: this.sortingProperty === "goals" && 18
                     }}
                   >
-                    {user.goalsPerMatch.toFixed(2)}
-                  </TableCell>
-                  <TableCell
-                    numeric
-                    style={{
-                      fontSize:
-                        this.sortingProperty === "myAverageGameRating" && 18
-                    }}
-                  >
-                    {user.myAverageGameRating.toFixed(2)}
+                    {user.goals}
                   </TableCell>
                 </TableRow>
               ))}
@@ -166,9 +134,5 @@ const Leaders = observer(
     }
   }
 );
-
-decorate(Leaders, {
-  sortingProperty: observable
-});
 
 export default Leaders;

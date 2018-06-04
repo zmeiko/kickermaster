@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { HashRouter, Route, Switch, withRouter } from "react-router-dom";
+import {
+  HashRouter,
+  Route,
+  Switch,
+  withRouter,
+  Redirect
+} from "react-router-dom";
 import BottomNavigation, {
   BottomNavigationAction
 } from "material-ui/BottomNavigation";
@@ -45,10 +51,11 @@ class App extends Component {
       <HashRouter>
         <div className="App">
           <Switch>
-            <Route exact path="/" component={Game} />
+            {/* <Route exact path="/" component={Game} /> */}
             <Route exact path="/game/:gameId" component={Game} />
             <Route exact path="/games" component={Games} />
             <Route exact path="/leaders" component={Leaders} />
+            <Redirect to="/leaders" />
           </Switch>
         </div>
       </HashRouter>

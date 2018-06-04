@@ -1,7 +1,5 @@
 const passport = require("koa-passport");
-const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-auth").Strategy;
-const MD5 = require("crypto-js/md5");
 const db = require("../models");
 
 function initPassportStrategies() {
