@@ -1,16 +1,13 @@
+:root {
+  --blue: #235cff;
+  --red: #ff234a;
+}
+
+html {
+  background: #191919;
+}
+
 .App {
-  height: 100vh;
   display: flex;
-  flex-direction: COLUMN;
-}
-
-.App-navbar {
-  flex-shrink: 0;
-}
-
-.App-content {
-  display: flex;
-  flex: 1;
-  overflow: auto;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+  flex-direction: column;
 }

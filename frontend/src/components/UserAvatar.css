@@ -1,0 +1,11 @@
+.UserAvatar {
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--red);
+  background-size: cover;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "GothamPro-Medium";
+}

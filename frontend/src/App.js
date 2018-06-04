@@ -44,15 +44,12 @@ class App extends Component {
     return (
       <HashRouter>
         <div className="App">
-          <div className="App-content">
-            <Switch>
-              <Route exact path="/" component={NewGame} />
-              <Route exact path="/game/:gameId" component={Game} />
-              <Route exact path="/games" component={Games} />
-              <Route exact path="/leaders" component={Leaders} />
-            </Switch>
-          </div>
-          <Navbar />
+          <Switch>
+            <Route exact path="/" component={Game} />
+            <Route exact path="/game/:gameId" component={Game} />
+            <Route exact path="/games" component={Games} />
+            <Route exact path="/leaders" component={Leaders} />
+          </Switch>
         </div>
       </HashRouter>
     );

@@ -1,17 +1,29 @@
 import React from "react";
-import Avatar from "material-ui/Avatar";
+import "./UserAvatar.css";
 
-const UserAvatar = ({ user, ...other }) =>
+const UserAvatar = ({ user, size = 60, className, ...other }) =>
   user.photoUrl ? (
-    <Avatar src={user.photoUrl} {...other} />
+    <div
+      className={`${className} UserAvatar`}
+      style={{
+        backgroundImage: `url(${user.photoUrl})`,
+        width: size,
+        height: size
+      }}
+      {...other}
+    />
   ) : (
-    <Avatar {...other}>
+    <div
+      className={`${className} UserAvatar`}
+      style={{ width: size, height: size }}
+      {...other}
+    >
       {user.name
         .split(" ")
         .map(word => word[0])
         .slice(0, 2)
         .join("")}
-    </Avatar>
+    </div>
   );
 
 export default UserAvatar;

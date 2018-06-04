@@ -1,0 +1,134 @@
+.PlayerSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.PlayerSection:nth-child(1),
+.PlayerSection:nth-child(4) {
+  background-color: #191919;
+}
+
+.PlayerSection:nth-child(2),
+.PlayerSection:nth-child(3) {
+  background-color: #0e0e0e;
+}
+
+.PlayerSection:nth-child(1) {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: 48px;
+  padding-left: 48px;
+}
+
+.PlayerSection:nth-child(2) {
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding-top: 48px;
+  padding-right: 48px;
+}
+
+.PlayerSection:nth-child(3) {
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-bottom: 48px;
+  padding-left: 48px;
+}
+
+.PlayerSection:nth-child(4) {
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding-bottom: 48px;
+  padding-right: 48px;
+}
+
+.Player {
+  display: flex;
+  align-items: center;
+}
+
+.PlayerSection:nth-child(1) .Player,
+.PlayerSection:nth-child(3) .Player {
+  flex-direction: row;
+}
+
+.PlayerSection:nth-child(2) .Player,
+.PlayerSection:nth-child(4) .Player {
+  flex-direction: row-reverse;
+}
+
+.PlayerSection:nth-child(1) .Player,
+.PlayerSection:nth-child(2) .Player {
+  margin-bottom: 43px;
+}
+
+.PlayerSection:nth-child(3) .Player,
+.PlayerSection:nth-child(4) .Player {
+  margin-top: 43px;
+}
+
+.Player-position {
+  font-family: "GothamPro-Black";
+  font-size: 18px;
+  line-height: 1.22;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.--blue .Player-position {
+  color: var(--blue);
+  margin-left: 20px;
+}
+
+.--red .Player-position {
+  color: var(--red);
+  margin-right: 20px;
+}
+
+.AddButton {
+  width: 120px;
+  height: 120px;
+  border: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 1;
+  position: relative;
+}
+
+.--blue .AddButton {
+  background: var(--blue);
+}
+
+.--red .AddButton {
+  background: var(--red);
+}
+
+.GoalButton {
+  width: 240px;
+  margin: 15px 0;
+}
+
+.--blue .GoalButton {
+  color: var(--blue);
+}
+
+.--red .GoalButton {
+  color: var(--red);
+}
+
+.OwnGoalButton {
+  width: 240px;
+  margin: 15px 0;
+}
+
+.--blue .OwnGoalButton {
+  color: var(--blue);
+}
+
+.--red .OwnGoalButton {
+  color: var(--red);
+}

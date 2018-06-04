@@ -1,0 +1,15 @@
+.Button {
+  padding: 0;
+  background: none;
+  border-color: inherit;
+  height: 64px;
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Button-text {
+  font-family: "GothamPro-Black";
+  text-align: "center";
+}
