@@ -9,16 +9,12 @@ import {
 import BottomNavigation, {
   BottomNavigationAction
 } from "material-ui/BottomNavigation";
-import Tabs, { Tab } from "material-ui/Tabs";
-import AddIcon from "material-ui-icons/Add";
+// import AddIcon from "material-ui-icons/Add";
 import ListIcon from "material-ui-icons/List";
 import StarIcon from "material-ui-icons/Star";
-import LocationOnIcon from "material-ui-icons/LocationOn";
-import api from "./api";
-import Store from "./store";
 
+// import Game from "./views/Game";
 import Games from "./views/Games";
-import Game from "./views/Game";
 import Leaders from "./views/Leaders";
 import "./App.css";
 

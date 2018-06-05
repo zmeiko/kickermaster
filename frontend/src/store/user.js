@@ -1,8 +1,5 @@
-import { types, flow } from "mobx-state-tree";
-import api from "../api";
-import { TEAM_BLUE, POSITION_FORWARD, MAX_GAME_GOALS } from "../constants";
+import { types } from "mobx-state-tree";
 import GamePlayer from "./gamePlayer";
-import Goal from "./goal";
 
 const User = types.model({
   id: types.number,

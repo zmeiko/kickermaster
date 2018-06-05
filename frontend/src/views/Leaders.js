@@ -1,21 +1,15 @@
 import React, { Component } from "react";
-import { withRouter, Link } from "react-router-dom";
-import Paper from "material-ui/Paper";
-import Typography from "material-ui/Typography";
 import Button from "material-ui/Button";
-import UserAvatar from "../components/UserAvatar";
-import List, { ListItem, ListItemText } from "material-ui/List";
 import Table, {
   TableBody,
   TableCell,
   TableHead,
   TableRow
 } from "material-ui/Table";
-import dateFormat from "dateformat";
-import api from "../api";
-import { store } from "../store";
 import { observer } from "mobx-react";
-import { observable, decorate } from "mobx";
+import { observable } from "mobx";
+import UserAvatar from "../components/UserAvatar";
+import { store } from "../store";
 
 const Leaders = observer(
   class extends Component {

@@ -1,37 +1,37 @@
 import React, { Component } from "react";
-import { withRouter, Link } from "react-router-dom";
-import Paper from "material-ui/Paper";
-import Typography from "material-ui/Typography";
-import Button from "material-ui/Button";
-import UserAvatar from "../components/UserAvatar";
+import { observer } from "mobx-react";
+import { withRouter } from "react-router-dom";
 import List, { ListItem, ListItemText } from "material-ui/List";
 import dateFormat from "dateformat";
-import api from "../api";
+import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
-import { observer } from "mobx-react";
 
 const Game = withRouter(
   class extends Component {
     render() {
-      const { game, joined } = this.props;
+      const { game } = this.props;
 
       return (
         <ListItem>
           <div style={{ width: "100%" }}>
             <ListItemText style={{ textAlign: "center" }}>
-              {dateFormat(
-                new Date(game.createdAt),
-                "dddd, mmmm dS, yyyy, hh:MM"
-              )}
+              <span>
+                {dateFormat(
+                  new Date(game.createdAt),
+                  "dddd, mmmm dS, yyyy, hh:MM"
+                )}
+              </span>
             </ListItemText>
             <div style={{ display: "flex" }}>
               <div
                 style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}
               >
-                {game.redUsers.map(user => <UserAvatar user={user} />)}
+                {game.redUsers.map(user => (
+                  <UserAvatar key={user.id} user={user} />
+                ))}
               </div>
               <ListItemText style={{ width: 100, textAlign: "center" }}>
-                {game.score}
+                <span>{game.score}</span>
               </ListItemText>
               <div
                 style={{
@@ -40,7 +40,9 @@ const Game = withRouter(
                   justifyContent: "flex-start"
                 }}
               >
-                {game.blueUsers.map(user => <UserAvatar user={user} />)}
+                {game.blueUsers.map(user => (
+                  <UserAvatar key={user.id} user={user} />
+                ))}
               </div>
             </div>
           </div>

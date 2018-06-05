@@ -1,5 +1,4 @@
-import { types, flow } from "mobx-state-tree";
-import api from "../api";
+import { types } from "mobx-state-tree";
 import { TEAM_RED, TEAM_BLUE, MAX_GAME_GOALS } from "../constants";
 import User from "./user";
 import Goal from "./goal";
