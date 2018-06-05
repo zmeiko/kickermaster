@@ -1,13 +1,31 @@
 const db = require("../models");
 
 const GOALS_TO_FINISH_GAME = 10;
+const POSITION_FORWARD = 0;
+const POSITION_DEFENDER = 1;
+
+const FRW_GOALS_KOEF = 2;
+const DEF_SAVES_KOEF = 2;
+const WIN_BONUS_KOEF = 1.5;
 
 async function getUsersStats() {
   const gamesQuery = `
     SELECT
       Games.id AS 'gameId',
-      SUM(CASE WHEN GamePlayers.team = 0 THEN 1 ELSE 0 END) AS 'firstTeamGoals',
-      SUM(CASE WHEN GamePlayers.team = 1 THEN 1 ELSE 0 END) AS 'secondTeamGoals'
+      SUM(
+        CASE
+          WHEN GamePlayers.team = 0 AND Goals.ownGoal = 0 THEN 1
+          WHEN GamePlayers.team = 1 AND Goals.ownGoal = 1 THEN 1
+          ELSE 0
+        END
+      ) AS 'goalsTeam0',
+      SUM(
+        CASE
+          WHEN GamePlayers.team = 1 AND Goals.ownGoal = 0 THEN 1
+          WHEN GamePlayers.team = 0 AND Goals.ownGoal = 1 THEN 1
+          ELSE 0
+        END
+      ) AS 'goalsTeam1'
     FROM Games
       LEFT JOIN Goals
         ON Games.id = Goals.gameId
@@ -23,24 +41,30 @@ async function getUsersStats() {
       Games.id AS 'gameId',
       GamePlayers.team AS 'team',
       GamePlayers.position AS 'position',
-      COUNT(Goals.id) AS 'goals',
+      SUM(
+        CASE
+          WHEN Goals.ownGoal = 0
+          THEN 1
+          ELSE 0
+        END
+      ) AS 'goals',
       CASE
         WHEN GamePlayers.team = 0
-        THEN GameScores.firstTeamGoals
-        ELSE GameScores.secondTeamGoals
+        THEN GameScores.goalsTeam0
+        ELSE GameScores.goalsTeam1
       END as 'ourGoals',
       CASE
         WHEN GamePlayers.team = 0
-        THEN GameScores.secondTeamGoals
-        ELSE GameScores.firstTeamGoals
+        THEN GameScores.goalsTeam1
+        ELSE GameScores.goalsTeam0
       END as 'theirGoals',
       CASE
-        WHEN GamePlayers.team = 0 AND GameScores.firstTeamGoals > GameScores.secondTeamGoals
+        WHEN GamePlayers.team = 0 AND GameScores.goalsTeam0 > GameScores.goalsTeam1
         THEN 1
         ELSE 0
       END AS 'win',
       CASE
-        WHEN GamePlayers.team = 0 AND GameScores.firstTeamGoals > GameScores.secondTeamGoals
+        WHEN GamePlayers.team = 0 AND GameScores.goalsTeam0 > GameScores.goalsTeam1
         THEN 0
         ELSE 1
       END AS 'defeat'
@@ -54,7 +78,9 @@ async function getUsersStats() {
           AND Goals.userId = Users.id
       LEFT JOIN (${gamesQuery}) AS GameScores
         ON Games.id = GameScores.gameId
-    GROUP BY Users.id
+    GROUP BY
+      Users.id,
+      Games.id
     HAVING GamePlayers.position IS NOT NULL
       AND (ourGoals = ${GOALS_TO_FINISH_GAME} OR theirGoals = ${GOALS_TO_FINISH_GAME})
   `;
@@ -79,7 +105,16 @@ async function getUsersStats() {
         WHEN SUM(UserGames.defeat) IS NULL
         THEN 0
         ELSE CAST(SUM(UserGames.defeat) AS UNSIGNED)
-      END AS 'defeats'
+      END AS 'defeats',
+      CAST(
+        AVG(
+          CASE
+            WHEN UserGames.position = ${POSITION_FORWARD}
+            THEN UserGames.goals * ${FRW_GOALS_KOEF} + (${GOALS_TO_FINISH_GAME} - UserGames.theirGoals)
+            ELSE (${GOALS_TO_FINISH_GAME} - UserGames.theirGoals) * ${DEF_SAVES_KOEF} + UserGames.goals
+          END
+        ) AS UNSIGNED
+      ) AS 'rating'
     FROM Users
       LEFT JOIN (${usersGamesQuery}) AS UserGames
         ON Users.id = UserGames.userId

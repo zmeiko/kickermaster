@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
       wins: DataTypes.INTEGER,
       defeats: DataTypes.INTEGER,
       goals: DataTypes.INTEGER,
-      games: DataTypes.INTEGER
+      games: DataTypes.INTEGER,
+      rating: DataTypes.INTEGER
     },
     {}
   );

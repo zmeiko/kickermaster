@@ -23,10 +23,9 @@ const Leaders = observer(
       await store.loadStats();
     }
 
-    @observable sortingProperty = "myAverageGameRating";
+    @observable sortingProperty = "rating";
 
     render() {
-      const MIN_MATCHES_REQUIRED = 5;
       return (
         <Table>
           <TableHead>
@@ -82,6 +81,18 @@ const Leaders = observer(
                   <nobr>Goals</nobr>
                 </Button>
               </TableCell>
+              <TableCell numeric>
+                <Button
+                  color={
+                    this.sortingProperty === "rating" ? "primary" : "default"
+                  }
+                  onClick={() => {
+                    this.sortingProperty = "rating";
+                  }}
+                >
+                  <nobr>Rating</nobr>
+                </Button>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -125,6 +136,14 @@ const Leaders = observer(
                     }}
                   >
                     {user.goals}
+                  </TableCell>
+                  <TableCell
+                    numeric
+                    style={{
+                      fontSize: this.sortingProperty === "rating" && 18
+                    }}
+                  >
+                    {user.rating}
                   </TableCell>
                 </TableRow>
               ))}

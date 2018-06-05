@@ -16,7 +16,8 @@ const UserStats = types
     wins: types.number,
     defeats: types.number,
     goals: types.number,
-    games: types.number
+    games: types.number,
+    rating: types.maybe(types.number)
   })
   .views(self => ({
     get winsPercent() {
