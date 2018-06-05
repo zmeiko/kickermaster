@@ -1,3 +1,4 @@
+const moment = require("moment");
 const db = require("../models");
 
 const GOALS_TO_FINISH_GAME = 10;
@@ -8,7 +9,7 @@ const FRW_GOALS_KOEF = 2;
 const DEF_SAVES_KOEF = 2;
 const WIN_BONUS_KOEF = 1.5;
 
-async function getUsersStats() {
+async function getUsersStats(date) {
   const gamesQuery = `
     SELECT
       Games.id AS 'gameId',
@@ -39,6 +40,7 @@ async function getUsersStats() {
     SELECT
       Users.id AS 'userId',
       Games.id AS 'gameId',
+      Games.createdAt AS 'gameDate',
       GamePlayers.team AS 'team',
       GamePlayers.position AS 'position',
       SUM(
@@ -85,6 +87,13 @@ async function getUsersStats() {
       AND (ourGoals = ${GOALS_TO_FINISH_GAME} OR theirGoals = ${GOALS_TO_FINISH_GAME})
   `;
 
+  const startOfWeek = moment(date)
+    .startOf("week")
+    .format("MM/DD/YYYY");
+  const endOfWeek = moment(date)
+    .endOf("week")
+    .format("MM/DD/YYYY");
+
   const usersStatsQuery = `
     SELECT
       Users.id,
@@ -118,6 +127,9 @@ async function getUsersStats() {
     FROM Users
       LEFT JOIN (${usersGamesQuery}) AS UserGames
         ON Users.id = UserGames.userId
+    WHERE
+      UserGames.gameDate > STR_TO_DATE('${startOfWeek}', '%m/%d/%Y')
+        AND UserGames.gameDate <= STR_TO_DATE('${endOfWeek}', '%m/%d/%Y')
     GROUP BY Users.id
   `;
 

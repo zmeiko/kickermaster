@@ -1,5 +1,9 @@
 require("dotenv").config();
 
+const moment = require("moment");
+require("moment/locale/ru");
+moment.locale("ru");
+
 const Koa = require("koa");
 const bodyParser = require("koa-bodyparser");
 const session = require("koa-session");
