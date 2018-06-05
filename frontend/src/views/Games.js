@@ -17,7 +17,7 @@ const Game = withRouter(
 
       return (
         <ListItem>
-          <Link to={`/game/${game.id}`} style={{ width: "100%" }}>
+          <div style={{ width: "100%" }}>
             <ListItemText style={{ textAlign: "center" }}>
               {dateFormat(
                 new Date(game.createdAt),
@@ -43,7 +43,7 @@ const Game = withRouter(
                 {game.blueUsers.map(user => <UserAvatar user={user} />)}
               </div>
             </div>
-          </Link>
+          </div>
         </ListItem>
       );
     }
@@ -59,9 +59,7 @@ const Games = observer(
     render() {
       return (
         <List style={{ width: "100%" }}>
-          {store.games
-            .filter(game => game.isValid)
-            .map(game => <Game key={game.id} game={game} />)}
+          {store.games.map(game => <Game key={game.id} game={game} />)}
         </List>
       );
     }

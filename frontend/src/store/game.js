@@ -69,16 +69,6 @@ const Game = types
     },
     get winnerPlayers() {
       return self.winnerTeam === TEAM_BLUE ? self.blueUsers : self.redUsers;
-    },
-    get isValid() {
-      return (
-        self.completed &&
-        self.Users.length === 4 &&
-        self.Users.every(
-          user =>
-            user.GamePlayer.team !== null && user.GamePlayer.position !== null
-        )
-      );
     }
   }))
   .actions(self => ({

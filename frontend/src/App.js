@@ -17,7 +17,6 @@ import LocationOnIcon from "material-ui-icons/LocationOn";
 import api from "./api";
 import Store from "./store";
 
-import NewGame from "./views/NewGame";
 import Games from "./views/Games";
 import Game from "./views/Game";
 import Leaders from "./views/Leaders";
@@ -26,11 +25,11 @@ import "./App.css";
 const Navbar = withRouter(({ history }) => {
   return (
     <BottomNavigation showLabels>
-      <BottomNavigationAction
+      {/* <BottomNavigationAction
         label="NEW GAME"
         icon={<AddIcon />}
         onClick={() => history.push(`/`)}
-      />
+      /> */}
       <BottomNavigationAction
         label="GAMES"
         icon={<ListIcon />}
@@ -52,11 +51,12 @@ class App extends Component {
         <div className="App">
           <Switch>
             {/* <Route exact path="/" component={Game} /> */}
-            <Route exact path="/game/:gameId" component={Game} />
+            {/* <Route exact path="/game/:gameId" component={Game} /> */}
             <Route exact path="/games" component={Games} />
             <Route exact path="/leaders" component={Leaders} />
             <Redirect to="/leaders" />
           </Switch>
+          <Navbar />
         </div>
       </HashRouter>
     );
