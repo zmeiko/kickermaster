@@ -8,6 +8,11 @@ apiGamesRouter
     const games = await gamesModule.getGames();
     ctx.body = { games };
   })
+  .get("/api/game/:gameId", async function getGames(ctx) {
+    const { gameId } = ctx.params;
+    const game = await gamesModule.getGame(gameId);
+    ctx.body = { game };
+  })
   .post("/api/game", async ctx => {
     ctx.body = await gamesModule.addGame(ctx.request.body);
   })
