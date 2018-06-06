@@ -61,7 +61,7 @@ const Game = types
       );
     },
     get score() {
-      return `${self.blueScore}:${self.redScore}`;
+      return `${self.redScore}:${self.blueScore}`;
     },
     get winnerTeam() {
       return self.blueScore > self.redScore ? TEAM_BLUE : TEAM_RED;

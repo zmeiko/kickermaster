@@ -61,14 +61,14 @@ async function getUsersStats(date) {
         ELSE GameScores.goalsTeam0
       END as 'theirGoals',
       CASE
-        WHEN GamePlayers.team = 0 AND GameScores.goalsTeam0 > GameScores.goalsTeam1
-        THEN 1
+        WHEN GamePlayers.team = 0 AND GameScores.goalsTeam0 > GameScores.goalsTeam1 THEN 1
+        WHEN GamePlayers.team = 1 AND GameScores.goalsTeam1 > GameScores.goalsTeam0 THEN 1
         ELSE 0
       END AS 'win',
       CASE
-        WHEN GamePlayers.team = 0 AND GameScores.goalsTeam0 > GameScores.goalsTeam1
-        THEN 0
-        ELSE 1
+        WHEN GamePlayers.team = 0 AND GameScores.goalsTeam0 < GameScores.goalsTeam1 THEN 1
+        WHEN GamePlayers.team = 1 AND GameScores.goalsTeam1 < GameScores.goalsTeam0 THEN 1
+        ELSE 0
       END AS 'defeat'
     FROM Users
       LEFT JOIN GamePlayers
