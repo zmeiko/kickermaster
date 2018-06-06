@@ -82,7 +82,10 @@ async function getUsersStats(date) {
         ON Games.id = GameScores.gameId
     GROUP BY
       Users.id,
-      Games.id
+      Games.id,
+      Games.createdAt,
+      GamePlayers.team,
+      GamePlayers.position
     HAVING GamePlayers.position IS NOT NULL
       AND (ourGoals = ${GOALS_TO_FINISH_GAME} OR theirGoals = ${GOALS_TO_FINISH_GAME})
   `;
