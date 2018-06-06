@@ -1,4 +1,5 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const moment = require("moment");
 require("moment/locale/ru");
@@ -30,6 +31,6 @@ server.use(apiUsersRouter.routes());
 server.use(apiGamesRouter.routes());
 server.use(apiStatsRouter.routes());
 
-server.use(serve("frontend/build"));
+server.use(serve(path.join(__dirname, "frontend/build")));
 
 server.listen(process.env.PORT);
