@@ -120,11 +120,21 @@ async function getUsersStats(date) {
       END AS 'defeats',
       CAST(
         AVG(
-          CASE
-            WHEN UserGames.position = ${POSITION_FORWARD}
-            THEN UserGames.goals * ${FRW_GOALS_KOEF} + (${GOALS_TO_FINISH_GAME} - UserGames.theirGoals)
-            ELSE (${GOALS_TO_FINISH_GAME} - UserGames.theirGoals) * ${DEF_SAVES_KOEF} + UserGames.goals
-          END
+          (
+            CASE
+              WHEN UserGames.position = ${POSITION_FORWARD}
+              THEN UserGames.goals * ${FRW_GOALS_KOEF} + (${GOALS_TO_FINISH_GAME} - UserGames.theirGoals)
+              ELSE (${GOALS_TO_FINISH_GAME} - UserGames.theirGoals) * ${DEF_SAVES_KOEF} + UserGames.goals
+            END
+          )
+          *
+          (
+            CASE
+              WHEN UserGames.win = 1
+              THEN ${WIN_BONUS_KOEF}
+              ELSE 1
+            END
+          )
         ) AS UNSIGNED
       ) AS 'rating'
     FROM Users
