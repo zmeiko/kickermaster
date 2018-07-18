@@ -3,14 +3,18 @@
 var fs = require("fs");
 var path = require("path");
 var Sequelize = require("sequelize");
+var configs = require("../sequelizeConfig.js");
+
+var env = process.env.NODE_ENV || "development";
+var config = configs[env];
 var basename = path.basename(__filename);
 var db = {};
 
 var sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USERNAME,
-  process.env.DB_PASSWORD,
-  { dialect: "mysql" }
+  config.database,
+  config.username,
+  config.password,
+  config
 );
 
 fs
