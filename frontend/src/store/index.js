@@ -8,8 +8,7 @@ const Store = types
   .model({
     users: types.optional(types.array(User), []),
     games: types.optional(types.array(Game), []),
-    usersStats: types.optional(types.array(UserStats), []),
-    appBarCheck: true
+    usersStats: types.optional(types.array(UserStats), [])
   })
   .actions(self => {
     return {
@@ -24,10 +23,7 @@ const Store = types
       loadStats: flow(function*() {
         const { usersStats } = yield api.get("/api/stats");
         self.usersStats = usersStats;
-      }),
-      changeAppBar() {
-        self.appBarCheck = false;
-      }
+      })
     };
   });
 
