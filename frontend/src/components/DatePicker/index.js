@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import React from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import moment from "moment";
@@ -14,11 +14,9 @@ import startOfWeek from "date-fns/startOfWeek";
 import endOfWeek from "date-fns/endOfWeek";
 import isWithinInterval from "date-fns/isWithinInterval";
 import pickerStyles from "./DatePicker.module.css";
-import { observer } from "mobx-react";
 import { store } from "../../store";
 
-@observer
-class CustomElements extends React.Component {
+class CustomElements extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired
   };
@@ -95,7 +93,7 @@ class CustomElements extends React.Component {
           invalidDateMessage=""
           showTodayButton
           disableFuture
-          clearable
+          todayLabel="current week"
         />
       </div>
     );
