@@ -17,6 +17,8 @@ authRouter.get("/auth/google/callback", ctx => {
       ctx.login(user);
       ctx.redirect("/");
     }
+    ctx.set("Access-Control-Allow-Credentials", "true");
+    ctx.set("Access-Control-Allow-Origin", "*");
   })(ctx);
 });
 

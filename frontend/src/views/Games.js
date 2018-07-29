@@ -57,13 +57,18 @@ const Games = observer(
     componentWillMount() {
       store.loadGames();
     }
-
-    render() {
+    renderList(isRefreshed) {
+      if (!isRefreshed) {
+        store.loadGames();
+      }
       return (
         <List style={{ width: "100%" }}>
           {store.games.map(game => <Game key={game.id} game={game} />)}
         </List>
       );
+    }
+    render() {
+      return this.renderList(store.isRefresh);
     }
   }
 );

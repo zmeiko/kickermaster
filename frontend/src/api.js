@@ -8,6 +8,7 @@ async function request(path, options = {}) {
       Accept: "application/json",
       "Content-Type": "application/json"
     },
+    mode: "cors",
     ...options
   }).then(response => response.json());
 

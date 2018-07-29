@@ -18,8 +18,10 @@ const Leaders = observer(
     }
 
     @observable sortingProperty = "rating";
-
-    render() {
+    renderTable(isRefreshed) {
+      if (!isRefreshed) {
+        store.loadStats();
+      }
       return (
         <Table>
           <TableHead>
@@ -144,6 +146,9 @@ const Leaders = observer(
           </TableBody>
         </Table>
       );
+    }
+    render() {
+      return this.renderTable(store.isRefresh);
     }
   }
 );
