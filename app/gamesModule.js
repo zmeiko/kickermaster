@@ -7,7 +7,6 @@ async function addGame(params) {
 }
 
 async function getGames(date) {
-  console.log(date);
   const startOfWeek = moment(date)
     .startOf("week")
     .toDate();
@@ -15,8 +14,6 @@ async function getGames(date) {
     .endOf("week")
     .toDate();
   const { Op } = db.Sequelize;
-  console.log(startOfWeek);
-  console.log(endOfWeek);
   const games = await db.Game.findAll({
     include: [{ model: db.User }, { model: db.Goal }],
     where: {
