@@ -25,11 +25,11 @@ class CustomElements extends PureComponent {
     selectedDate: new Date()
   };
 
-  handleWeekChange = (date, locale) => {
+  handleWeekChange = async date => {
     this.setState({ selectedDate: startOfWeek(date) });
     let newDate = new Date(startOfWeek(date));
     newDate.setDate(newDate.getDate() + 1);
-    store.setStartOfWeek(newDate);
+    await store.setStartOfWeek(newDate);
   };
 
   formatWeekSelectLabel = (date, invalidLabel) => {
