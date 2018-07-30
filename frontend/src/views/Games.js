@@ -55,7 +55,7 @@ const Game = withRouter(
 const Games = observer(
   class extends Component {
     async componentWillMount() {
-      await store.loadGames();
+      store.loadGames();
     }
     renderList(isRefreshed) {
       if (!isRefreshed) {

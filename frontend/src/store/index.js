@@ -24,7 +24,6 @@ const Store = types
         self.users = users;
       }),
       loadGames: flow(function*() {
-        console.log(self.startOfWeek);
         const { games } = yield api.post("/api/games", {
           startOfWeek: self.startOfWeek
         });
