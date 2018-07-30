@@ -10,12 +10,7 @@ const Store = types
     users: types.optional(types.array(User), []),
     games: types.optional(types.array(Game), []),
     usersStats: types.optional(types.array(UserStats), []),
-    startOfWeek: types.optional(
-      types.Date,
-      moment(new Date())
-        .startOf("week")
-        .toDate()
-    ),
+    startOfWeek: types.optional(types.Date, moment().toDate()),
     isRefresh: types.optional(types.boolean, true)
   })
   .actions(self => {
@@ -29,6 +24,7 @@ const Store = types
         self.users = users;
       }),
       loadGames: flow(function*() {
+        console.log(self.startOfWeek);
         const { games } = yield api.post("/api/games", {
           startOfWeek: self.startOfWeek
         });
