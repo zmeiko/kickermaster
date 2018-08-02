@@ -3,39 +3,34 @@ import api from "../api";
 import User from "./user";
 import UserStats from "./userStats";
 import Game from "./game";
-import moment from "moment";
 
 const Store = types
   .model({
     users: types.optional(types.array(User), []),
     games: types.optional(types.array(Game), []),
     usersStats: types.optional(types.array(UserStats), []),
-    startOfWeek: types.optional(types.Date, moment().toDate()),
-    isRefresh: types.optional(types.boolean, true)
+    startOfWeekForFilter: types.optional(types.Date, new Date())
   })
   .actions(self => {
     return {
       setStartOfWeek(date) {
-        self.startOfWeek = date;
-        self.isRefresh = false;
+        self.startOfWeekForFilter = date;
       },
       loadUsers: flow(function*() {
         const { users } = yield api.get("/api/users");
         self.users = users;
       }),
       loadGames: flow(function*() {
-        const { games } = yield api.post("/api/games", {
-          startOfWeek: self.startOfWeek
-        });
+        const { games } = yield api.get(
+          `/api/games/${self.startOfWeekForFilter}`
+        );
         self.games = games;
-        self.isRefresh = true;
       }),
       loadStats: flow(function*() {
-        const { usersStats } = yield api.post("/api/stats", {
-          startOfWeek: self.startOfWeek
-        });
+        const { usersStats } = yield api.get(
+          `/api/stats/${self.startOfWeekForFilter}`
+        );
         self.usersStats = usersStats;
-        self.isRefresh = true;
       })
     };
   });

@@ -1,13 +1,10 @@
-/* eslint-disable no-param-reassign */
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
-import moment from "moment";
 
 import { DatePicker } from "material-ui-pickers";
 import { IconButton, withStyles } from "@material-ui/core";
 
-import isValid from "date-fns/isValid";
 import format from "date-fns/format";
 import isSameDay from "date-fns/isSameDay";
 import startOfWeek from "date-fns/startOfWeek";
@@ -26,35 +23,22 @@ class CustomElements extends PureComponent {
   };
 
   handleWeekChange = date => {
-    this.setState({ selectedDate: startOfWeek(date) });
-    let newDate = new Date(startOfWeek(date));
-    newDate.setDate(newDate.getDate() + 1);
-    store.setStartOfWeek(newDate);
+    this.setState({ selectedDate: startOfWeek(date, { weekStartsOn: 1 }) });
+    store.setStartOfWeek(date, { weekStartsOn: 1 });
   };
 
-  formatWeekSelectLabel = (date, invalidLabel) => {
-    if (date === null || date == "Invalid Date") {
-      return "week isn't choose ";
-    }
-
-    if (date instanceof moment) {
-      date = date.toDate();
-    }
-
-    return date && isValid(date)
-      ? `Week of ${format(startOfWeek(date), "MMM Do")}`
-      : invalidLabel;
+  formatWeekSelectLabel = date => {
+    return `Week of ${format(
+      startOfWeek(date, { weekStartsOn: 1 }),
+      "MMM Do"
+    )}`;
   };
 
   renderWrappedWeekDay = (date, selectedDate, dayInCurrentMonth) => {
     const { classes } = this.props;
 
-    if (date instanceof moment) {
-      date = date.toDate();
-    }
-
-    const start = startOfWeek(selectedDate);
-    const end = endOfWeek(selectedDate);
+    const start = startOfWeek(selectedDate, { weekStartsOn: 1 });
+    const end = endOfWeek(selectedDate, { weekStartsOn: 1 });
 
     const dayIsBetween = isWithinInterval(date, { start, end });
     const isFirstDay = isSameDay(date, start);
@@ -90,7 +74,6 @@ class CustomElements extends PureComponent {
           onChange={this.handleWeekChange}
           renderDay={this.renderWrappedWeekDay}
           labelFunc={this.formatWeekSelectLabel}
-          invalidDateMessage=""
           showTodayButton
           disableFuture
           todayLabel="current week"

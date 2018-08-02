@@ -4,17 +4,9 @@ const gamesModule = require("../app/gamesModule");
 const apiGamesRouter = new Router();
 
 apiGamesRouter
-  .get("/api/games", async ctx => {
-    const games = await gamesModule.getGames();
-    ctx.set("Access-Control-Allow-Credentials", "true");
-    ctx.set("Access-Control-Allow-Origin", "*");
-    ctx.body = { games };
-  })
-  .post("/api/games", async ctx => {
-    const games = await gamesModule.getGames(ctx.request.body.startOfWeek);
-    ctx.set("Access-Control-Allow-Credentials", "true");
-    ctx.set("Access-Control-Allow-Origin", "http://localhost:3000");
-    ctx.set("Access-Control-Allow-Methods", "POST");
+  .get("/api/games/:currentDate", async ctx => {
+    console.log(ctx.params.currentDate);
+    const games = await gamesModule.getGames(ctx.params.currentDate);
     ctx.body = { games };
   })
   .get("/api/game/:gameId", async function getGames(ctx) {

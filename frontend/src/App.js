@@ -10,16 +10,15 @@ import Leaders from "./views/Leaders";
 import AppBar from "./AppBar";
 import "./App.css";
 
-/* eslint-disable */
 import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider";
-// pick utils
 import DateFnsUtils from "material-ui-pickers/utils/date-fns-utils";
+import localeEn from "date-fns/locale/en-GB";
 
 class App extends Component {
   render() {
     return (
-      <HashRouter>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localeEn}>
+        <HashRouter>
           <div className="App">
             <AppBar />
             <Switch>
@@ -30,8 +29,8 @@ class App extends Component {
               <Redirect to="/leaders" />
             </Switch>
           </div>
-        </MuiPickersUtilsProvider>
-      </HashRouter>
+        </HashRouter>
+      </MuiPickersUtilsProvider>
     );
   }
 }

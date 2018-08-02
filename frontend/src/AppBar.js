@@ -7,10 +7,6 @@ import ListIcon from "material-ui-icons/List";
 import StarIcon from "material-ui-icons/Star";
 import Typography from "material-ui/Typography";
 import DatePicker from "./components/DatePicker";
-/* eslint-disable */
-import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider";
-// pick utils
-import DateFnsUtils from "material-ui-pickers/utils/date-fns-utils";
 
 function TabContainer(props) {
   return (
@@ -53,9 +49,7 @@ class ScrollableTabsButtonForce extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position="static" color="default">
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <DatePicker />
-          </MuiPickersUtilsProvider>
+          <DatePicker />
           <Tabs
             value={value}
             onChange={this.handleChange}

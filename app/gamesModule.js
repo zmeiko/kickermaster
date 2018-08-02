@@ -14,6 +14,7 @@ async function getGames(date) {
     .endOf("week")
     .toDate();
   const { Op } = db.Sequelize;
+
   const games = await db.Game.findAll({
     include: [{ model: db.User }, { model: db.Goal }],
     where: {

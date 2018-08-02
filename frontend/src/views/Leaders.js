@@ -8,6 +8,7 @@ import Table, {
 } from "material-ui/Table";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
+import { autorun } from "mobx";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
 
@@ -18,10 +19,8 @@ const Leaders = observer(
     }
 
     @observable sortingProperty = "rating";
-    renderTable(isRefreshed) {
-      if (!isRefreshed) {
-        store.loadStats();
-      }
+
+    render() {
       return (
         <Table>
           <TableHead>
@@ -147,10 +146,12 @@ const Leaders = observer(
         </Table>
       );
     }
-    render() {
-      return this.renderTable(store.isRefresh);
-    }
   }
 );
+
+autorun(() => {
+  store.startOfWeekForFilter;
+  store.loadStats();
+});
 
 export default Leaders;
