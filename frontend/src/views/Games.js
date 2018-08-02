@@ -58,6 +58,7 @@ const Games = observer(
     componentWillMount() {
       store.loadGames();
     }
+
     render() {
       return (
         <List style={{ width: "100%" }}>
