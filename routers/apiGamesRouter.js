@@ -5,7 +5,6 @@ const apiGamesRouter = new Router();
 
 apiGamesRouter
   .get("/api/games/:currentDate", async ctx => {
-    console.log(ctx.params.currentDate);
     const games = await gamesModule.getGames(ctx.params.currentDate);
     ctx.body = { games };
   })
