@@ -5,7 +5,7 @@ import List, { ListItem, ListItemText } from "material-ui/List";
 import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
-import { autorun } from "mobx";
+import DatePicker from "../components/DatePicker";
 
 const Game = withRouter(
   class extends Component {
@@ -61,17 +61,15 @@ const Games = observer(
 
     render() {
       return (
-        <List style={{ width: "100%" }}>
-          {store.games.map(game => <Game key={game.id} game={game} />)}
-        </List>
+        <div className={"wrapper"}>
+          <DatePicker loadNewData={store.loadGames} />
+          <List style={{ width: "100%" }}>
+            {store.games.map(game => <Game key={game.id} game={game} />)}
+          </List>
+        </div>
       );
     }
   }
 );
-
-autorun(() => {
-  store.startOfWeekForFilter;
-  store.loadGames();
-});
 
 export default Games;

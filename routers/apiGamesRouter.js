@@ -4,8 +4,8 @@ const gamesModule = require("../app/gamesModule");
 const apiGamesRouter = new Router();
 
 apiGamesRouter
-  .get("/api/games/:currentDate", async ctx => {
-    const games = await gamesModule.getGames(ctx.params.currentDate);
+  .get("/api/games", async ctx => {
+    const games = await gamesModule.getGames(ctx.request.query.currentDate);
     ctx.body = { games };
   })
   .get("/api/game/:gameId", async function getGames(ctx) {

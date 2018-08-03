@@ -6,7 +6,6 @@ import Tabs, { Tab } from "material-ui/Tabs";
 import ListIcon from "material-ui-icons/List";
 import StarIcon from "material-ui-icons/Star";
 import Typography from "material-ui/Typography";
-import DatePicker from "./components/DatePicker";
 
 function TabContainer(props) {
   return (
@@ -49,7 +48,6 @@ class ScrollableTabsButtonForce extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position="static" color="default">
-          <DatePicker />
           <Tabs
             value={value}
             onChange={this.handleChange}

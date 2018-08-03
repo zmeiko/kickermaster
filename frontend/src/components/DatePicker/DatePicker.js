@@ -5,13 +5,14 @@ import classNames from "classnames";
 import { DatePicker } from "material-ui-pickers";
 import { IconButton, withStyles } from "@material-ui/core";
 
-import format from "date-fns/format";
-import isSameDay from "date-fns/isSameDay";
-import startOfWeek from "date-fns/startOfWeek";
-import endOfWeek from "date-fns/endOfWeek";
-import isWithinInterval from "date-fns/isWithinInterval";
 import pickerStyles from "./DatePicker.module.css";
-import { store } from "../../store";
+import {
+  format,
+  isSameDay,
+  startOfWeek,
+  endOfWeek,
+  isWithinInterval
+} from "../../utils/dateFnsWrappes";
 
 class CustomElements extends PureComponent {
   static propTypes = {
@@ -23,8 +24,8 @@ class CustomElements extends PureComponent {
   };
 
   handleWeekChange = date => {
-    this.setState({ selectedDate: startOfWeek(date, { weekStartsOn: 1 }) });
-    store.setStartOfWeek(date, { weekStartsOn: 1 });
+    this.setState({ selectedDate: startOfWeek(date) });
+    this.props.loadNewData(date);
   };
 
   formatWeekSelectLabel = date => {
@@ -37,8 +38,8 @@ class CustomElements extends PureComponent {
   renderWrappedWeekDay = (date, selectedDate, dayInCurrentMonth) => {
     const { classes } = this.props;
 
-    const start = startOfWeek(selectedDate, { weekStartsOn: 1 });
-    const end = endOfWeek(selectedDate, { weekStartsOn: 1 });
+    const start = startOfWeek(selectedDate);
+    const end = endOfWeek(selectedDate);
 
     const dayIsBetween = isWithinInterval(date, { start, end });
     const isFirstDay = isSameDay(date, start);
