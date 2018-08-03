@@ -29,10 +29,7 @@ class CustomElements extends PureComponent {
   };
 
   formatWeekSelectLabel = date => {
-    return `Week of ${format(
-      startOfWeek(date, { weekStartsOn: 1 }),
-      "MMM Do"
-    )}`;
+    return `Week of ${format(startOfWeek(date), "MMM Do")}`;
   };
 
   renderWrappedWeekDay = (date, selectedDate, dayInCurrentMonth) => {
