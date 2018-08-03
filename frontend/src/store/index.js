@@ -25,6 +25,13 @@ const Store = types
         self.usersStats = usersStats;
       })
     };
+  })
+  .views(self => {
+    return {
+      userById(id) {
+        return self.users.filter(user => user.id === id);
+      }
+    };
   });
 
 export const store = Store.create({});

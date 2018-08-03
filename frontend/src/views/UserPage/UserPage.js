@@ -14,8 +14,10 @@ class UserPage extends Component {
   @observable profileContentTitle = "Raiting";
 
   render() {
-    const { location } = this.props;
-    const userId = parseInt(location.search.replace(/\D+/g, ""));
+    const { match } = this.props;
+    const userId = parseInt(match.params.id);
+    const user = store.userById(userId);
+
     return (
       <div className={styles.container}>
         <div className={styles.profileContent}>
@@ -25,7 +27,7 @@ class UserPage extends Component {
           Some user related content goes here...
         </div>
 
-        {store.users.filter(user => user.id === userId).map(user => (
+        {user.map(user => (
           <div className={styles.sidebar} key={user.id}>
             <UserAvatar user={user} size={200} />
             <div className={styles.usertitleName}>{user.name}</div>
