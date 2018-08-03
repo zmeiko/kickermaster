@@ -3,7 +3,6 @@ import isSameDayClean from "date-fns/isSameDay";
 import startOfWeekClean from "date-fns/startOfWeek";
 import endOfWeekClean from "date-fns/endOfWeek";
 import isWithinIntervalClean from "date-fns/isWithinInterval";
-import isValidClean from "date-fns/isValid";
 import localeEn from "date-fns/locale/en-GB";
 
 const format = (date, formatStr) => {
@@ -23,8 +22,5 @@ const endOfWeek = date => {
 const isWithinInterval = (date, interval) => {
   return isWithinIntervalClean(date, interval);
 };
-const isValid = date => {
-  return isValidClean(date);
-};
 
-export { format, isSameDay, startOfWeek, endOfWeek, isWithinInterval, isValid };
+export { format, isSameDay, startOfWeek, endOfWeek, isWithinInterval };
