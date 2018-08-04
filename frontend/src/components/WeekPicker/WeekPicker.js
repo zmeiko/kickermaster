@@ -5,14 +5,14 @@ import classNames from "classnames";
 import { DatePicker } from "material-ui-pickers";
 import { IconButton, withStyles } from "@material-ui/core";
 
-import pickerStyles from "./DatePicker.module.css";
+import pickerStyles from "./WeekPicker.module.css";
 import {
   format,
   isSameDay,
   startOfWeek,
   endOfWeek,
   isWithinInterval
-} from "../../utils/dateFnsWrappes";
+} from "../../utils/dateFnsWrappers";
 
 class CustomElements extends PureComponent {
   static propTypes = {
@@ -25,7 +25,7 @@ class CustomElements extends PureComponent {
 
   handleWeekChange = date => {
     this.setState({ selectedDate: startOfWeek(date) });
-    this.props.loadNewData(date);
+    this.props.onChangeDate(date);
   };
 
   formatWeekSelectLabel = date => {

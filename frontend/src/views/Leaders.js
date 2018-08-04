@@ -10,7 +10,8 @@ import { observer } from "mobx-react";
 import { observable } from "mobx";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
-import DatePicker from "../components/DatePicker";
+import WeekPicker from "../components/WeekPicker";
+import { Date } from "core-js";
 
 const Leaders = observer(
   class extends Component {
@@ -18,12 +19,16 @@ const Leaders = observer(
       await store.loadStats();
     }
 
-    @observable sortingProperty = "rating";
+    updateLeadersTables(date) {
+      store.loadStats(date);
+    }
+
+    @observable DatesortingProperty = "rating";
 
     render() {
       return (
-        <div className={"wrapper"}>
-          <DatePicker loadNewData={store.loadStats} />
+        <React.Fragment>
+          <WeekPicker onChangeDate={this.updateLeadersTables} />
           <Table>
             <TableHead>
               <TableRow>
@@ -148,7 +153,7 @@ const Leaders = observer(
                 ))}
             </TableBody>
           </Table>
-        </div>
+        </React.Fragment>
       );
     }
   }
