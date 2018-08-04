@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 class UserAvatar extends React.Component {
   handleClick = () => {
     const { history, user } = this.props;
-    history.push(`/UserPage/${user.id}`);
+    history.push(`/userpage/${user.id}`);
   };
 
   render() {

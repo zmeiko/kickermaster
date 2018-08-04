@@ -1,86 +1,54 @@
 import React, { Component } from "react";
 import UserAvatar from "../../components/UserAvatar";
-import Button from "material-ui/Button";
+import Table, { TableCell, TableBody, TableRow } from "material-ui/Table";
 import { store } from "../../store";
 import { observer } from "mobx-react";
-import { observable } from "mobx";
 import styles from "./UserPage.module.css";
 
 class UserPage extends Component {
   componentWillMount() {
-    store.loadUsers();
+    /*не знаю,как связать изменение массива и проверку, понятно,
+    что через get в views можно возвращать длину массива,
+    а проверить на изменение не знаю*/
+    if (!store.isEmpty) {
+      store.loadUsers();
+    }
   }
-
-  @observable profileContentTitle = "Raiting";
 
   render() {
     const { match } = this.props;
     const userId = parseInt(match.params.id);
-    const user = store.userById(userId);
+    const userData = store.getUserById(userId);
 
     return (
       <div className={styles.container}>
-        <div className={styles.profileContent}>
-          <h1 style={{ fontFamily: "GothamPro-Black" }}>
-            {this.profileContentTitle}
-          </h1>
-          Some user related content goes here...
-        </div>
-
-        {user.map(user => (
+        {userData.map(user => (
           <div className={styles.sidebar} key={user.id}>
             <UserAvatar user={user} size={200} />
             <div className={styles.usertitleName}>{user.name}</div>
           </div>
         ))}
-        <div className={styles.usermenu}>
-          <ul>
-            <li>
-              <Button
-                color={
-                  this.profileContentTitle === "Raiting" ? "primary" : "default"
-                }
-                fullWidth={true}
-                onClick={() => (this.profileContentTitle = "Raiting")}
-              >
-                Raiting
-              </Button>
-            </li>
-            <li>
-              <Button
-                color={
-                  this.profileContentTitle === "Games" ? "primary" : "default"
-                }
-                fullWidth={true}
-                onClick={() => (this.profileContentTitle = "Games")}
-              >
-                Games
-              </Button>
-            </li>
-            <li>
-              <Button
-                color={
-                  this.profileContentTitle === "Wins" ? "primary" : "default"
-                }
-                fullWidth={true}
-                onClick={() => (this.profileContentTitle = "Wins")}
-              >
-                Wins
-              </Button>
-            </li>
-            <li>
-              <Button
-                color={
-                  this.profileContentTitle === "Defeats" ? "primary" : "default"
-                }
-                fullWidth={true}
-                onClick={() => (this.profileContentTitle = "Defeats")}
-              >
-                Defeats
-              </Button>
-            </li>
-          </ul>
-        </div>
+
+        <Table style={{ width: "50%", margin: "25px 0 0 350px" }}>
+          <TableBody>
+            <TableRow>
+              <TableCell style={{ border: "none" }}>Raiting</TableCell>
+              <TableCell style={{ border: "none" }}>{2}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell style={{ border: "none" }}>Games</TableCell>
+              <TableCell style={{ border: "none" }}>{12}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell style={{ border: "none" }}>Wins</TableCell>
+              <TableCell style={{ border: "none" }}>{7}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell style={{ border: "none" }}>Defeats</TableCell>
+              <TableCell style={{ border: "none" }}>{5}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </div>
     );
   }

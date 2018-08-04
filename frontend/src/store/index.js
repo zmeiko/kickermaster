@@ -28,8 +28,14 @@ const Store = types
   })
   .views(self => {
     return {
-      userById(id) {
+      getUserById(id) {
+        //let user = {};
+        //self.users.filter(user => user.id === id).map(data => user = data);
+        //console.log((user))
         return self.users.filter(user => user.id === id);
+      },
+      get isEmpty() {
+        return !!self.users.length;
       }
     };
   });

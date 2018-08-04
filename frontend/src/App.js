@@ -20,7 +20,7 @@ class App extends Component {
           <Switch>
             {/* <Route exact path="/" component={Game} /> */}
             {/* <Route exact path="/game/:gameId" component={Game} /> */}
-            <Route path="/UserPage/:id" component={UserPage} />
+            <Route path="/userpage/:id" component={UserPage} />
             <Route exact path="/games" component={Games} />
             <Route exact path="/leaders" component={Leaders} />
             <Redirect to="/leaders" />

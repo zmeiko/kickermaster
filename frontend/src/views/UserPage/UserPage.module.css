@@ -6,39 +6,16 @@
 .sidebar {
   padding: 20px 0 10px 0;
   background: #fff;
+  float: left;
 }
 
 .usertitleName {
   padding-top: 15px;
-  margin-left: 35px;
+  margin-left: 5px;
   font-family: "GothamPro-Black";
   font-size: 20px;
   font-weight: 600;
   max-width: 200px;
-  width: 150px;
+  width: 300px;
   margin-bottom: 7px;
-}
-
-.usermenu ul {
-  padding-left: 0;
-}
-
-.usermenu ul li {
-  border-bottom: 1px solid #bdbdbd;
-  list-style-type: none;
-  width: 200px;
-}
-
-.usermenu ul li:last-child {
-  border-bottom: none;
-}
-
-.profileContent {
-  float: right;
-  font-family: "GothamPro";
-  width: 1000px;
-  height: 500px;
-  margin-right: 100px;
-  margin-top: 25px;
-  box-shadow: 6px 9px 25px 6px #ccc;
 }
