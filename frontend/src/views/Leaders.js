@@ -11,7 +11,6 @@ import { observable } from "mobx";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
 import WeekPicker from "../components/WeekPicker";
-import { Date } from "core-js";
 
 const Leaders = observer(
   class extends Component {
