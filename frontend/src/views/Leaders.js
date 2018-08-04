@@ -18,7 +18,7 @@ const Leaders = observer(
       await store.loadStats();
     }
 
-    updateLeadersTables(date) {
+    updateLeadersList(date) {
       store.loadStats(date);
     }
 
@@ -27,7 +27,7 @@ const Leaders = observer(
     render() {
       return (
         <React.Fragment>
-          <WeekPicker onChangeDate={this.updateLeadersTables} />
+          <WeekPicker onChangeDate={this.updateLeadersList} />
           <Table>
             <TableHead>
               <TableRow>

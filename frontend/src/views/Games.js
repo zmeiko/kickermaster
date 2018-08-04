@@ -58,13 +58,13 @@ const Games = observer(
     componentWillMount() {
       store.loadGames();
     }
-    updateLeadersTables(date) {
+    updateGamesList(date) {
       store.loadGames(date);
     }
     render() {
       return (
         <React.Fragment>
-          <WeekPicker onChangeDate={this.updateLeadersTables} />
+          <WeekPicker onChangeDate={this.updateGamesList} />
           <List style={{ width: "100%" }}>
             {store.games.map(game => <Game key={game.id} game={game} />)}
           </List>
