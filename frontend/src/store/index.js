@@ -16,12 +16,16 @@ const Store = types
         const { users } = yield api.get("/api/users");
         self.users = users;
       }),
-      loadGames: flow(function*() {
-        const { games } = yield api.get("/api/games");
+      loadGames: flow(function*(date) {
+        const { games } = yield api.get(
+          `/api/games?currentDate=${date || new Date()}`
+        );
         self.games = games;
       }),
-      loadStats: flow(function*() {
-        const { usersStats } = yield api.get("/api/stats");
+      loadStats: flow(function*(date) {
+        const { usersStats } = yield api.get(
+          `/api/stats?currentDate=${date || new Date()}`
+        );
         self.usersStats = usersStats;
       })
     };
