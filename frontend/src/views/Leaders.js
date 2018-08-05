@@ -11,15 +11,15 @@ import { observable } from "mobx";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
 import WeekPicker from "../components/WeekPicker";
-import { startOfWeek } from "../utils/dateFnsWrappers";
 
 const Leaders = observer(
   class extends Component {
-    async componentWillMount() {
-      await store.loadStats();
+    componentWillMount() {
+      store.loadStats(store.gamesWeekFilter);
     }
 
     updateLeadersList(date) {
+      store.applyGamesWeekFilter(date.toString());
       store.loadStats(date);
     }
 
@@ -29,8 +29,8 @@ const Leaders = observer(
       return (
         <React.Fragment>
           <WeekPicker
+            value={store.gamesWeekFilter}
             onChange={this.updateLeadersList}
-            startOfcurrentWeek={startOfWeek(new Date())}
           />
           <Table>
             <TableHead>
