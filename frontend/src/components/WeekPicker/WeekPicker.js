@@ -20,12 +20,12 @@ class CustomElements extends PureComponent {
   };
 
   state = {
-    selectedDate: new Date()
+    selectedDate: this.props.startOfcurrentWeek
   };
 
   handleWeekChange = date => {
     this.setState({ selectedDate: startOfWeek(date) });
-    this.props.onChangeDate(date);
+    this.props.onChange(date);
   };
 
   formatWeekSelectLabel = date => {

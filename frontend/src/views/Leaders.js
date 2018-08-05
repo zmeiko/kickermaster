@@ -11,6 +11,7 @@ import { observable } from "mobx";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
 import WeekPicker from "../components/WeekPicker";
+import { startOfWeek } from "../utils/dateFnsWrappers";
 
 const Leaders = observer(
   class extends Component {
@@ -22,12 +23,15 @@ const Leaders = observer(
       store.loadStats(date);
     }
 
-    @observable DatesortingProperty = "rating";
+    @observable sortingProperty = "rating";
 
     render() {
       return (
         <React.Fragment>
-          <WeekPicker onChangeDate={this.updateLeadersList} />
+          <WeekPicker
+            onChange={this.updateLeadersList}
+            startOfcurrentWeek={startOfWeek(new Date())}
+          />
           <Table>
             <TableHead>
               <TableRow>
