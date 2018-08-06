@@ -4,23 +4,36 @@ import Table, { TableCell, TableBody, TableRow } from "material-ui/Table";
 import { store } from "../../store";
 import { observer } from "mobx-react";
 import styles from "./UserPage.module.css";
+import { computed, observable } from "mobx";
 
 class UserPage extends Component {
+  @computed
   get user() {
     const { match } = this.props;
     const userId = parseInt(match.params.id);
     return store.getUserById(userId);
   }
+  @observable loading = true;
 
-  render() {
+  async loadData() {
     if (this.user === undefined) {
-      console.log("STORE");
       store.loadUsers();
     }
-    const user = this.user;
-    console.log(user.name);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    this.loading = false;
+  }
+
+  render() {
+    if (this.loading) {
+      this.loadData();
+      return <div>Loading....</div>;
+    }
     return (
       <div className={styles.container}>
+        <div className={styles.sidebar} key={this.user.id}>
+          <UserAvatar user={this.user} size={200} />
+          <div className={styles.usertitleName}>{this.user.name}</div>
+        </div>
         <Table style={{ width: "50%", margin: "25px 0 0 350px" }}>
           <TableBody>
             <TableRow>
