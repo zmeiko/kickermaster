@@ -7,33 +7,33 @@ module.exports = {
       [
         {
           ball: null,
-          updatedAt: new Date(),
           createdAt: new Date(),
-          status: "STARTED"
-        },
-        {
-          ball: null,
           updatedAt: new Date(),
-          createdAt: new Date(),
           status: "FINISHED"
         },
         {
           ball: null,
-          updatedAt: new Date(),
           createdAt: new Date(),
+          updatedAt: new Date(),
           status: "STARTED"
         },
         {
           ball: null,
-          updatedAt: new Date(),
           createdAt: new Date(),
+          updatedAt: new Date(),
           status: "FINISHED"
         },
         {
           ball: null,
-          updatedAt: new Date(),
           createdAt: new Date(),
+          updatedAt: new Date(),
           status: "STARTED"
+        },
+        {
+          ball: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          status: "FINISHED"
         }
       ],
       {}
