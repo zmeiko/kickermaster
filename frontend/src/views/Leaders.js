@@ -50,7 +50,10 @@ const Leaders = observer(
 
       return (
         <React.Fragment>
-          <LeadersBar onChange={this.onSwitchTab} value={OF_THE_WEEK} />
+          <LeadersBar
+            onChange={this.onSwitchTab}
+            value={this.state.currentTab}
+          />
           {!this.state.currentTab ? weekPickerConst : ""}
           <Table>
             <TableHead>
