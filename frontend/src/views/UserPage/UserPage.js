@@ -6,29 +6,21 @@ import { observer } from "mobx-react";
 import styles from "./UserPage.module.css";
 
 class UserPage extends Component {
-  componentWillMount() {
-    /*не знаю,как связать изменение массива и проверку, понятно,
-    что через get в views можно возвращать длину массива,
-    а проверить на изменение не знаю*/
-    if (!store.isEmpty) {
-      store.loadUsers();
-    }
+  get user() {
+    const { match } = this.props;
+    const userId = parseInt(match.params.id);
+    return store.getUserById(userId);
   }
 
   render() {
-    const { match } = this.props;
-    const userId = parseInt(match.params.id);
-    const userData = store.getUserById(userId);
-
+    if (this.user === undefined) {
+      console.log("STORE");
+      store.loadUsers();
+    }
+    const user = this.user;
+    console.log(user.name);
     return (
       <div className={styles.container}>
-        {userData.map(user => (
-          <div className={styles.sidebar} key={user.id}>
-            <UserAvatar user={user} size={200} />
-            <div className={styles.usertitleName}>{user.name}</div>
-          </div>
-        ))}
-
         <Table style={{ width: "50%", margin: "25px 0 0 350px" }}>
           <TableBody>
             <TableRow>
