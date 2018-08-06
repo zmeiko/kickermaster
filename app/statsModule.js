@@ -90,12 +90,20 @@ async function getUsersStats(date) {
       AND (ourGoals = ${GOALS_TO_FINISH_GAME} OR theirGoals = ${GOALS_TO_FINISH_GAME})
   `;
 
-  const startOfWeek = moment(date)
-    .startOf("week")
-    .format("MM/DD/YYYY");
-  const endOfWeek = moment(date)
-    .endOf("week")
-    .format("MM/DD/YYYY");
+  const startOfWeek =
+    date !== "undefined"
+      ? moment(date)
+          .startOf("week")
+          .format("MM/DD/YYYY")
+      : moment(new Date(0)).format("MM/DD/YYYY");
+  const endOfWeek =
+    date !== "undefined"
+      ? moment(date)
+          .endOf("week")
+          .format("MM/DD/YYYY")
+      : moment(new Date())
+          .endOf("week")
+          .format("MM/DD/YYYY");
 
   const usersStatsQuery = `
     SELECT
