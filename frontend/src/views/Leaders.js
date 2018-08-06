@@ -41,7 +41,7 @@ const Leaders = observer(
     @observable sortingProperty = "rating";
 
     render() {
-      const wp = (
+      const weekPickerConst = (
         <WeekPicker
           value={store.gamesWeekFilter}
           onChange={this.updateLeadersList}
@@ -51,7 +51,7 @@ const Leaders = observer(
       return (
         <React.Fragment>
           <LeadersBar onChange={this.onSwitchTab} value={OF_THE_WEEK} />
-          {!this.state.currentTab ? wp : ""}
+          {!this.state.currentTab ? weekPickerConst : ""}
           <Table>
             <TableHead>
               <TableRow>
