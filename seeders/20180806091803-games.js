@@ -2,6 +2,38 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
+    await queryInterface.bulkInsert("Games", [
+      {
+        ball: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        status: "FINISHED"
+      },
+      {
+        ball: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        status: "STARTED"
+      },
+      {
+        ball: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        status: "FINISHED"
+      },
+      {
+        ball: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        status: "STARTED"
+      },
+      {
+        ball: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        status: "FINISHED"
+      }
+    ]);
     let usersId = await queryInterface.sequelize.query(
       "SELECT users.id FROM users",
       { type: queryInterface.sequelize.QueryTypes.SELECT }
@@ -10,9 +42,10 @@ module.exports = {
       "SELECT games.id FROM games",
       { type: queryInterface.sequelize.QueryTypes.SELECT }
     );
+
     if (usersId !== undefined && gamesId !== undefined) {
       return Promise.all([
-        queryInterface.bulkInsert("Goals", [
+        await queryInterface.bulkInsert("Goals", [
           {
             userId: usersId[0].id,
             gameId: gamesId[0].id,
@@ -84,7 +117,7 @@ module.exports = {
             ownGoal: 1
           }
         ]),
-        queryInterface.bulkInsert(
+        await queryInterface.bulkInsert(
           "GamePlayers",
           [
             {
@@ -177,7 +210,8 @@ module.exports = {
   down: (queryInterface, Sequelize) => {
     return Promise.all([
       queryInterface.bulkDelete("Goals", null, {}),
-      queryInterface.bulkDelete("GamePlayers", null, {})
+      queryInterface.bulkDelete("GamePlayers", null, {}),
+      queryInterface.bulkDelete("Games", null, {})
     ]);
   }
 };
