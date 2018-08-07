@@ -13,17 +13,28 @@ class UserPage extends Component {
     const userId = parseInt(match.params.id);
     return store.getUserById(userId);
   }
-  @observable loading = true;
 
-  async componentWillMount() {
-    if (this.user === undefined) {
+  @observable isLoading;
+
+  async loadUsersIfNeeded() {
+    try {
+      this.isLoading = true;
       await store.loadUsers();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.isLoading = false;
     }
-    this.loading = false;
+  }
+
+  componentWillMount() {
+    if (this.user === undefined) {
+      this.loadUsersIfNeeded();
+    }
   }
 
   render() {
-    if (this.loading) {
+    if (this.isLoading) {
       return <div>Loading....</div>;
     }
     return (
