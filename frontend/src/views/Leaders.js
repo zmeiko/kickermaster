@@ -67,13 +67,13 @@ const Leaders = observer(
       return (
         <React.Fragment>
           <LeadersBar
-            onChange={this.onSwitchTab.bind(this)}
+            onChange={this.onSwitchTab}
             value={this.state.currentTab}
           />
           {this.state.currentTab === OF_THE_WEEK && (
             <WeekPicker
               value={store.gamesWeekFilter}
-              onChange={this.updateLeadersList}
+              onChange={this.updateLeadersList.bind(this)}
             />
           )}
           <Table>
