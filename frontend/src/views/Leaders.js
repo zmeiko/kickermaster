@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import Button from "material-ui/Button";
-import Table, {
+import {
+  Button,
+  Table,
   TableBody,
   TableCell,
   TableHead,
-  TableRow
-} from "material-ui/Table";
-import CircularProgress from "material-ui/Progress/CircularProgress";
+  TableRow,
+  CircularProgress
+} from "@material-ui/core";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
 import UserAvatar from "../components/UserAvatar";

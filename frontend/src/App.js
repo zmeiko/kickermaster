@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
-// import AddIcon from "material-ui-icons/Add";
-import ListIcon from "material-ui-icons/List";
-import StarIcon from "material-ui-icons/Star";
+// import AddIcon from "@material-ui/icons/Add";
+import ListIcon from "@material-ui/icons/List";
+import StarIcon from "@material-ui/icons/Star";
 
 // import Game from "./views/Game";
 import Games from "./views/Games";

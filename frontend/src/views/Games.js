@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { withRouter } from "react-router-dom";
-import List, { ListItem, ListItemText } from "material-ui/List";
-import CircularProgress from "material-ui/Progress/CircularProgress";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  CircularProgress
+} from "@material-ui/core";
 import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
