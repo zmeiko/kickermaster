@@ -23,6 +23,12 @@ const UserStats = types
         return Math.round(self.defeats / self.games * 100);
       }
       return 0;
+    },
+    get goalsPerMatch() {
+      if (self.games > 0) {
+        return self.goals / self.games;
+      }
+      return 0;
     }
   }));
 
