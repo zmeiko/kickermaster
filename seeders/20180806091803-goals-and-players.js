@@ -175,6 +175,9 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("Goals", null, {});
+    return Promise.all([
+      queryInterface.bulkDelete("Goals", null, {}),
+      queryInterface.bulkDelete("GamePlayers", null, {})
+    ]);
   }
 };
