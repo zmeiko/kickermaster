@@ -119,7 +119,7 @@ const Leaders = observer(
                       this.sortingProperty = "goalsPerMatch";
                     }}
                   >
-                    Average
+                    <nobr>Goals per match</nobr>
                   </Button>
                 </TableCell>
                 <TableCell numeric>
