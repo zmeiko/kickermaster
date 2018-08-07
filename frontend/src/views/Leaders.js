@@ -5,7 +5,8 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  CircularProgress
 } from "@material-ui/core";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
@@ -19,29 +20,46 @@ const OF_THE_WEEK = 0;
 
 const Leaders = observer(
   class extends Component {
-    state = {
-      currentTab: OF_THE_WEEK
+    constructor(props) {
+      super(props);
+      this.state = {
+        isLoading: true,
+        currentTab: OF_THE_WEEK
+      };
+    }
+
+    async componentDidMount() {
+      await store.loadStats(store.gamesWeekFilter);
+      this.setState({ isLoading: false });
+    }
+
+    updateLeadersList = async date => {
+      store.applyGamesWeekFilter(date.toString());
+      this.setState({ isLoading: true });
+      await store.loadStats(store.gamesWeekFilter);
+      this.setState({ isLoading: false });
     };
 
-    componentWillMount() {
-      store.loadStats(store.gamesWeekFilter);
-    }
-
-    updateLeadersList(date) {
-      store.applyGamesWeekFilter(date.toString());
-      store.loadStats(date);
-    }
-
-    onSwitchTab = value => {
+    onSwitchTab = async value => {
       this.setState({ currentTab: value });
+      this.setState({ isLoading: true });
       value === OF_ALL_TIME
-        ? store.loadStats()
-        : store.loadStats(store.gamesWeekFilter);
+        ? await store.loadStats()
+        : await store.loadStats(store.gamesWeekFilter);
+      this.setState({ isLoading: false });
     };
 
     @observable sortingProperty = "rating";
 
     render() {
+      if (this.state.isLoading) {
+        const spinnerStyle = {
+          marginTop: "15px",
+          marginLeft: "auto",
+          marginRight: "auto"
+        };
+        return <CircularProgress style={spinnerStyle} />;
+      }
       return (
         <React.Fragment>
           <LeadersBar
