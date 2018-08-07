@@ -104,7 +104,19 @@ const Leaders = observer(
                       this.sortingProperty = "goals";
                     }}
                   >
-                    <nobr>Goals</nobr>
+                    Goals
+                  </Button>
+                </TableCell>
+                <TableCell numeric>
+                  <Button
+                    color={
+                      this.sortingProperty === "average" ? "primary" : "default"
+                    }
+                    onClick={() => {
+                      this.sortingProperty = "average";
+                    }}
+                  >
+                    Average
                   </Button>
                 </TableCell>
                 <TableCell numeric>
@@ -116,7 +128,7 @@ const Leaders = observer(
                       this.sortingProperty = "rating";
                     }}
                   >
-                    <nobr>Rating</nobr>
+                    Rating
                   </Button>
                 </TableCell>
               </TableRow>
@@ -164,6 +176,16 @@ const Leaders = observer(
                       }}
                     >
                       {user.goals}
+                    </TableCell>
+                    <TableCell
+                      numeric
+                      style={{
+                        fontSize: this.sortingProperty === "average" && 18
+                      }}
+                    >
+                      {isNaN(user.goals / user.games)
+                        ? "-"
+                        : user.goals / user.games}
                     </TableCell>
                     <TableCell
                       numeric
