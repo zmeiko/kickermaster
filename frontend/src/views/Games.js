@@ -63,29 +63,24 @@ const Games = observer(
     constructor(props) {
       super(props);
       this.state = {
-        loading: true
+        isLoading: true
       };
     }
 
     async componentDidMount() {
       await store.loadGames(store.gamesWeekFilter);
-      this.setState({ loading: false });
+      this.setState({ isLoading: false });
     }
 
-    updateGamesList(date) {
+    updateGamesList = async date => {
       store.applyGamesWeekFilter(date.toString());
-      this.setState({ loading: true });
-    }
-
-    async componentDidUpdate() {
-      if (this.state.loading) {
-        await store.loadGames(store.gamesWeekFilter);
-        this.setState({ loading: false });
-      }
-    }
+      this.setState({ isLoading: true });
+      await store.loadGames(store.gamesWeekFilter);
+      this.setState({ isLoading: false });
+    };
 
     render() {
-      if (this.state.loading) {
+      if (this.state.isLoading) {
         const spinnerStyle = {
           marginTop: "15px",
           marginLeft: "auto",
@@ -97,7 +92,7 @@ const Games = observer(
         <React.Fragment>
           <WeekPicker
             value={store.gamesWeekFilter}
-            onChange={this.updateGamesList.bind(this)}
+            onChange={this.updateGamesList}
           />
           <List style={{ width: "100%" }}>
             {store.games.map(game => <Game key={game.id} game={game} />)}

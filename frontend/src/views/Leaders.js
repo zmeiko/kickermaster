@@ -23,41 +23,36 @@ const Leaders = observer(
     constructor(props) {
       super(props);
       this.state = {
-        loading: true,
+        isLoading: true,
         currentTab: OF_THE_WEEK
       };
     }
 
     async componentDidMount() {
       await store.loadStats(store.gamesWeekFilter);
-      this.setState({ loading: false });
+      this.setState({ isLoading: false });
     }
 
-    updateLeadersList(date) {
+    updateLeadersList = async date => {
       store.applyGamesWeekFilter(date.toString());
-      this.setState({ loading: true });
-    }
-
-    onSwitchTab = value => {
-      this.setState({ currentTab: value });
-      this.setState({ loading: true });
+      this.setState({ isLoading: true });
+      await store.loadStats(store.gamesWeekFilter);
+      this.setState({ isLoading: false });
     };
 
-    async componentDidUpdate() {
-      if (this.state.loading) {
-        if (this.state.currentTab === OF_ALL_TIME) {
-          await store.loadStats();
-        } else {
-          await store.loadStats(store.gamesWeekFilter);
-        }
-        this.setState({ loading: false });
-      }
-    }
+    onSwitchTab = async value => {
+      this.setState({ currentTab: value });
+      this.setState({ isLoading: true });
+      value === OF_ALL_TIME
+        ? await store.loadStats()
+        : await store.loadStats(store.gamesWeekFilter);
+      this.setState({ isLoading: false });
+    };
 
     @observable sortingProperty = "rating";
 
     render() {
-      if (this.state.loading) {
+      if (this.state.isLoading) {
         const spinnerStyle = {
           marginTop: "15px",
           marginLeft: "auto",
@@ -74,7 +69,7 @@ const Leaders = observer(
           {this.state.currentTab === OF_THE_WEEK && (
             <WeekPicker
               value={store.gamesWeekFilter}
-              onChange={this.updateLeadersList.bind(this)}
+              onChange={this.updateLeadersList}
             />
           )}
           <Table>
