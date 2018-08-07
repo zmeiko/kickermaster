@@ -126,7 +126,21 @@ const Leaders = observer(
                       this.sortingProperty = "goals";
                     }}
                   >
-                    <nobr>Goals</nobr>
+                    Goals
+                  </Button>
+                </TableCell>
+                <TableCell numeric>
+                  <Button
+                    color={
+                      this.sortingProperty === "goalsPerMatch"
+                        ? "primary"
+                        : "default"
+                    }
+                    onClick={() => {
+                      this.sortingProperty = "goalsPerMatch";
+                    }}
+                  >
+                    <nobr>Goals per match</nobr>
                   </Button>
                 </TableCell>
                 <TableCell numeric>
@@ -138,7 +152,7 @@ const Leaders = observer(
                       this.sortingProperty = "rating";
                     }}
                   >
-                    <nobr>Rating</nobr>
+                    Rating
                   </Button>
                 </TableCell>
               </TableRow>
@@ -186,6 +200,14 @@ const Leaders = observer(
                       }}
                     >
                       {user.goals}
+                    </TableCell>
+                    <TableCell
+                      numeric
+                      style={{
+                        fontSize: this.sortingProperty === "goalsPerMatch" && 18
+                      }}
+                    >
+                      {user.goalsPerMatch}
                     </TableCell>
                     <TableCell
                       numeric
