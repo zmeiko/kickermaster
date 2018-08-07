@@ -15,17 +15,15 @@ class UserPage extends Component {
   }
   @observable loading = true;
 
-  async loadData() {
+  async componentWillMount() {
     if (this.user === undefined) {
-      store.loadUsers();
+      await store.loadUsers();
     }
-    await new Promise(resolve => setTimeout(resolve, 1000));
     this.loading = false;
   }
 
   render() {
     if (this.loading) {
-      this.loadData();
       return <div>Loading....</div>;
     }
     return (

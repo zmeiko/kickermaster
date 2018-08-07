@@ -34,9 +34,6 @@ const Store = types
     return {
       getUserById(id) {
         return self.users.find(user => user.id === id);
-      },
-      get isEmpty() {
-        return !!self.users.length;
       }
     };
   });
