@@ -1,11 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { withStyles } from "material-ui/styles";
-import AppBar from "material-ui/AppBar";
-import Tabs, { Tab } from "material-ui/Tabs";
-import ListIcon from "material-ui-icons/List";
-import StarIcon from "material-ui-icons/Star";
-import Typography from "material-ui/Typography";
+import { AppBar, Tabs, Tab, Typography, withStyles } from "@material-ui/core";
+import ListIcon from "@material-ui/icons/List";
+import StarIcon from "@material-ui/icons/Star";
 
 function TabContainer(props) {
   return (
