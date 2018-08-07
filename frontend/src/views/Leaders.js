@@ -11,9 +11,17 @@ import { observable } from "mobx";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
 import WeekPicker from "../components/WeekPicker";
+import LeadersBar from "../components/LeadersBar";
+
+const OF_ALL_TIME = 1;
+const OF_THE_WEEK = 0;
 
 const Leaders = observer(
   class extends Component {
+    state = {
+      currentTab: OF_THE_WEEK
+    };
+
     componentWillMount() {
       store.loadStats(store.gamesWeekFilter);
     }
@@ -23,15 +31,28 @@ const Leaders = observer(
       store.loadStats(date);
     }
 
+    onSwitchTab = value => {
+      this.setState({ currentTab: value });
+      value === OF_ALL_TIME
+        ? store.loadStats()
+        : store.loadStats(store.gamesWeekFilter);
+    };
+
     @observable sortingProperty = "rating";
 
     render() {
       return (
         <React.Fragment>
-          <WeekPicker
-            value={store.gamesWeekFilter}
-            onChange={this.updateLeadersList}
+          <LeadersBar
+            onChange={this.onSwitchTab}
+            value={this.state.currentTab}
           />
+          {this.state.currentTab === OF_THE_WEEK && (
+            <WeekPicker
+              value={store.gamesWeekFilter}
+              onChange={this.updateLeadersList}
+            />
+          )}
           <Table>
             <TableHead>
               <TableRow>
