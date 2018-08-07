@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^1.4.1",
+    "date-fns": "2.0.0-alpha.7",
     "dateformat": "^3.0.3",
     "material-ui": "^1.0.0-beta.39",
     "material-ui-icons": "^1.0.0-beta.36",
+    "material-ui-pickers": "^1.0.0-rc.11",
     "mobx": "^4.1.1",
     "mobx-react": "^5.0.0",
     "mobx-state-tree": "^2.0.2",

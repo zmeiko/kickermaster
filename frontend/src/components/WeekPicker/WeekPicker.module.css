@@ -1,0 +1,7 @@
+.picker {
+  display: inline-block;
+  position: fixed;
+  top: 10px;
+  left: 30px;
+  z-index: 1;
+}

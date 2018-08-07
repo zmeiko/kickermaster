@@ -5,6 +5,7 @@ import List, { ListItem, ListItemText } from "material-ui/List";
 import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
+import WeekPicker from "../components/WeekPicker";
 
 const Game = withRouter(
   class extends Component {
@@ -55,14 +56,25 @@ const Game = withRouter(
 const Games = observer(
   class extends Component {
     componentWillMount() {
-      store.loadGames();
+      store.loadGames(store.gamesWeekFilter);
+    }
+
+    updateGamesList(date) {
+      store.applyGamesWeekFilter(date.toString());
+      store.loadGames(date);
     }
 
     render() {
       return (
-        <List style={{ width: "100%" }}>
-          {store.games.map(game => <Game key={game.id} game={game} />)}
-        </List>
+        <React.Fragment>
+          <WeekPicker
+            value={store.gamesWeekFilter}
+            onChange={this.updateGamesList}
+          />
+          <List style={{ width: "100%" }}>
+            {store.games.map(game => <Game key={game.id} game={game} />)}
+          </List>
+        </React.Fragment>
       );
     }
   }
