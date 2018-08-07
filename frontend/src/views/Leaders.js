@@ -6,6 +6,7 @@ import Table, {
   TableHead,
   TableRow
 } from "material-ui/Table";
+import CircularProgress from "material-ui/Progress/CircularProgress";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
 import UserAvatar from "../components/UserAvatar";
@@ -18,33 +19,55 @@ const OF_THE_WEEK = 0;
 
 const Leaders = observer(
   class extends Component {
-    state = {
-      currentTab: OF_THE_WEEK
-    };
+    constructor(props) {
+      super(props);
+      this.state = {
+        loading: true,
+        currentTab: OF_THE_WEEK
+      };
+    }
 
-    componentWillMount() {
-      store.loadStats(store.gamesWeekFilter);
+    async componentDidMount() {
+      await store.loadStats(store.gamesWeekFilter);
+      this.setState({ loading: false });
     }
 
     updateLeadersList(date) {
       store.applyGamesWeekFilter(date.toString());
-      store.loadStats(date);
+      this.setState({ loading: true });
     }
 
     onSwitchTab = value => {
       this.setState({ currentTab: value });
-      value === OF_ALL_TIME
-        ? store.loadStats()
-        : store.loadStats(store.gamesWeekFilter);
+      this.setState({ loading: true });
     };
+
+    async componentDidUpdate() {
+      if (this.state.loading) {
+        if (this.state.currentTab === OF_ALL_TIME) {
+          await store.loadStats();
+        } else {
+          await store.loadStats(store.gamesWeekFilter);
+        }
+        this.setState({ loading: false });
+      }
+    }
 
     @observable sortingProperty = "rating";
 
     render() {
+      if (this.state.loading) {
+        const spinnerStyle = {
+          marginTop: "15px",
+          marginLeft: "auto",
+          marginRight: "auto"
+        };
+        return <CircularProgress style={spinnerStyle} />;
+      }
       return (
         <React.Fragment>
           <LeadersBar
-            onChange={this.onSwitchTab}
+            onChange={this.onSwitchTab.bind(this)}
             value={this.state.currentTab}
           />
           {this.state.currentTab === OF_THE_WEEK && (
