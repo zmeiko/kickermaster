@@ -23,30 +23,33 @@ const Leaders = observer(
     constructor(props) {
       super(props);
       this.state = {
-        isLoading: true,
         currentTab: OF_THE_WEEK
       };
     }
 
-    async componentDidMount() {
-      await store.loadStats(store.gamesWeekFilter);
-      this.setState({ isLoading: false });
+    async loadStatsIfNeeded(filter) {
+      this.setState({ isLoading: true });
+      try {
+        await store.loadStats(filter);
+      } finally {
+        this.setState({ isLoading: false });
+      }
     }
 
-    updateLeadersList = async date => {
+    componentDidMount() {
+      this.loadStatsIfNeeded(store.gamesWeekFilter);
+    }
+
+    updateLeadersList = date => {
       store.applyGamesWeekFilter(date.toString());
-      this.setState({ isLoading: true });
-      await store.loadStats(store.gamesWeekFilter);
-      this.setState({ isLoading: false });
+      this.loadStatsIfNeeded(store.gamesWeekFilter);
     };
 
-    onSwitchTab = async value => {
+    onSwitchTab = value => {
       this.setState({ currentTab: value });
-      this.setState({ isLoading: true });
       value === OF_ALL_TIME
-        ? await store.loadStats()
-        : await store.loadStats(store.gamesWeekFilter);
-      this.setState({ isLoading: false });
+        ? this.loadStatsIfNeeded()
+        : this.loadStatsIfNeeded(store.gamesWeekFilter);
     };
 
     @observable sortingProperty = "rating";
