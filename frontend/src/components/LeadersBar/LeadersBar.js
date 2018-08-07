@@ -40,19 +40,17 @@ class LeadersTabs extends React.Component {
 
     return (
       <div>
-        <AppBar position="static">
-          <Tabs
-            value={value}
-            onChange={this.handleChange}
-            centered
-            classes={{
-              flexContainer: classes.flexContainer
-            }}
-          >
-            <Tab label="Of The Week" />
-            <Tab label="Of All Time" />
-          </Tabs>
-        </AppBar>
+        <Tabs
+          value={value}
+          onChange={this.handleChange}
+          centered
+          classes={{
+            flexContainer: classes.flexContainer
+          }}
+        >
+          <Tab label="Of The Week" />
+          <Tab label="Of All Time" />
+        </Tabs>
       </div>
     );
   }
