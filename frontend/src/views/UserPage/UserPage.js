@@ -1,10 +1,15 @@
 import React, { Component } from "react";
 import UserAvatar from "../../components/UserAvatar";
-import Table, { TableCell, TableBody, TableRow } from "material-ui/Table";
 import { store } from "../../store";
 import { observer } from "mobx-react";
 import styles from "./UserPage.module.css";
-import { CircularProgress } from "@material-ui/core";
+import {
+  CircularProgress,
+  Table,
+  TableCell,
+  TableBody,
+  TableRow
+} from "@material-ui/core";
 import { computed, observable } from "mobx";
 
 class UserPage extends Component {
