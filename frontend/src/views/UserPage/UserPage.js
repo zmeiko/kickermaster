@@ -4,6 +4,7 @@ import Table, { TableCell, TableBody, TableRow } from "material-ui/Table";
 import { store } from "../../store";
 import { observer } from "mobx-react";
 import styles from "./UserPage.module.css";
+import { CircularProgress } from "@material-ui/core";
 import { computed, observable } from "mobx";
 
 class UserPage extends Component {
@@ -17,25 +18,23 @@ class UserPage extends Component {
   @observable isLoading;
 
   async loadUsersIfNeeded() {
-    try {
-      this.isLoading = true;
-      await store.loadUsers();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      this.isLoading = false;
+    if (this.user === undefined) {
+      try {
+        this.isLoading = true;
+        await store.loadUsers();
+      } finally {
+        this.isLoading = false;
+      }
     }
   }
 
   componentWillMount() {
-    if (this.user === undefined) {
-      this.loadUsersIfNeeded();
-    }
+    this.loadUsersIfNeeded();
   }
 
   render() {
     if (this.isLoading) {
-      return <div>Loading....</div>;
+      return <CircularProgress />;
     }
     return (
       <div className={styles.container}>
