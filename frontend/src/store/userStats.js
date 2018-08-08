@@ -26,7 +26,7 @@ const UserStats = types
     },
     get goalsPerMatch() {
       if (self.games > 0) {
-        return (self.goals / self.games).toFixed(0);
+        return (self.goals / self.games).toFixed(2);
       }
       return 0;
     }
