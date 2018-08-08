@@ -131,6 +131,69 @@ module.exports = {
             ownGoal: 1
           },
           {
+            userId: usersId[2].id,
+            gameId: gamesId[1].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[1].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[1].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[1].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[1].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[1].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[1].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[1].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[1].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
             userId: usersId[3].id,
             gameId: gamesId[1].id,
             createdAt: new Date(),
@@ -139,6 +202,69 @@ module.exports = {
           },
           {
             userId: usersId[4].id,
+            gameId: gamesId[2].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[2].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[2].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[2].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[2].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[2].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[2].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[2].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
+            gameId: gamesId[2].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[2].id,
             gameId: gamesId[2].id,
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -164,6 +290,118 @@ module.exports = {
             createdAt: new Date(),
             updatedAt: new Date(),
             ownGoal: 1
+          },
+          {
+            userId: usersId[4].id,
+            gameId: gamesId[3].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[4].id,
+            gameId: gamesId[3].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[4].id,
+            gameId: gamesId[3].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[4].id,
+            gameId: gamesId[3].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[4].id,
+            gameId: gamesId[3].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[4].id,
+            gameId: gamesId[3].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[4].id,
+            gameId: gamesId[3].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[4].id,
+            gameId: gamesId[3].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[1].id,
+            gameId: gamesId[4].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 0
+          },
+          {
+            userId: usersId[1].id,
+            gameId: gamesId[4].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 0
+          },
+          {
+            userId: usersId[1].id,
+            gameId: gamesId[4].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 0
+          },
+          {
+            userId: usersId[1].id,
+            gameId: gamesId[4].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 0
+          },
+          {
+            userId: usersId[1].id,
+            gameId: gamesId[4].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 0
+          },
+          {
+            userId: usersId[1].id,
+            gameId: gamesId[4].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 0
+          },
+          {
+            userId: usersId[1].id,
+            gameId: gamesId[4].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 0
+          },
+          {
+            userId: usersId[1].id,
+            gameId: gamesId[4].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 0
           },
           {
             userId: usersId[1].id,
