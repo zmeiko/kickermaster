@@ -51,7 +51,70 @@ module.exports = {
             gameId: gamesId[0].id,
             createdAt: new Date(),
             updatedAt: new Date(),
-            ownGoal: 0
+            ownGoal: 1
+          },
+          {
+            userId: usersId[0].id,
+            gameId: gamesId[0].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[0].id,
+            gameId: gamesId[0].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[0].id,
+            gameId: gamesId[0].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[0].id,
+            gameId: gamesId[0].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[0].id,
+            gameId: gamesId[0].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[0].id,
+            gameId: gamesId[0].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[0].id,
+            gameId: gamesId[0].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[0].id,
+            gameId: gamesId[0].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
+          },
+          {
+            userId: usersId[0].id,
+            gameId: gamesId[0].id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            ownGoal: 1
           },
           {
             userId: usersId[1].id,
