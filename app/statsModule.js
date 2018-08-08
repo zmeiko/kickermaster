@@ -93,10 +93,10 @@ async function getUsersStats({ weekDate, userId }) {
   const whereConditions = ["1 = 1"];
 
   if (weekDate) {
-    const startOfWeek = moment(date)
+    const startOfWeek = moment(weekDate)
       .startOf("week")
       .format("MM/DD/YYYY");
-    const endOfWeek = moment(date)
+    const endOfWeek = moment(weekDate)
       .endOf("week")
       .format("MM/DD/YYYY");
 
