@@ -20,6 +20,11 @@ class UserPage extends Component {
     return store.getUserById(userId);
   }
 
+  @computed
+  get userStats() {
+    return store.getUserStats();
+  }
+
   @observable isLoading;
 
   async loadUsersIfNeeded() {
@@ -27,13 +32,21 @@ class UserPage extends Component {
       try {
         this.isLoading = true;
         await store.loadUsers();
+        await this.loadUserStats();
       } finally {
         this.isLoading = false;
       }
     }
   }
 
+  loadUserStats() {
+    const { match } = this.props;
+    const userId = parseInt(match.params.id);
+    store.loadStatsByUserId(userId);
+  }
+
   componentWillMount() {
+    this.loadUserStats();
     this.loadUsersIfNeeded();
   }
 
@@ -51,19 +64,27 @@ class UserPage extends Component {
           <TableBody>
             <TableRow>
               <TableCell style={{ border: "none" }}>Raiting</TableCell>
-              <TableCell style={{ border: "none" }}>{2}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.userStats.rating}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Games</TableCell>
-              <TableCell style={{ border: "none" }}>{12}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.userStats.games}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Wins</TableCell>
-              <TableCell style={{ border: "none" }}>{7}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.userStats.wins}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Defeats</TableCell>
-              <TableCell style={{ border: "none" }}>{5}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.userStats.defeats}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
