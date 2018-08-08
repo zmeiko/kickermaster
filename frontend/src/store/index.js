@@ -21,7 +21,7 @@ const Store = types
         const { games } = yield api.get(`/api/games?date=${date}`);
         self.games = games;
       }),
-      loadStats: flow(function*(date) {
+      loadStats: flow(function*(date = "") {
         const { usersStats } = yield api.get(`/api/stats?date=${date}`);
         self.usersStats = usersStats;
       }),
