@@ -29,6 +29,13 @@ const Store = types
         self.gamesWeekFilter = payload;
       }
     };
+  })
+  .views(self => {
+    return {
+      getUserById(id) {
+        return self.users.find(user => user.id === id);
+      }
+    };
   });
 
 export const store = Store.create({});
