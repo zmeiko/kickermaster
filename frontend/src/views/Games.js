@@ -1,10 +1,16 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { withRouter } from "react-router-dom";
-import List, { ListItem, ListItemText } from "material-ui/List";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  CircularProgress
+} from "@material-ui/core";
 import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
+import WeekPicker from "../components/WeekPicker";
 
 const Game = withRouter(
   class extends Component {
@@ -54,15 +60,44 @@ const Game = withRouter(
 
 const Games = observer(
   class extends Component {
-    componentWillMount() {
-      store.loadGames();
+    constructor(props) {
+      super(props);
+      this.state = {
+        isLoading: true
+      };
     }
 
+    async componentDidMount() {
+      await store.loadGames(store.gamesWeekFilter);
+      this.setState({ isLoading: false });
+    }
+
+    updateGamesList = async date => {
+      store.applyGamesWeekFilter(date.toString());
+      this.setState({ isLoading: true });
+      await store.loadGames(store.gamesWeekFilter);
+      this.setState({ isLoading: false });
+    };
+
     render() {
+      if (this.state.isLoading) {
+        const spinnerStyle = {
+          marginTop: "15px",
+          marginLeft: "auto",
+          marginRight: "auto"
+        };
+        return <CircularProgress style={spinnerStyle} />;
+      }
       return (
-        <List style={{ width: "100%" }}>
-          {store.games.map(game => <Game key={game.id} game={game} />)}
-        </List>
+        <React.Fragment>
+          <WeekPicker
+            value={store.gamesWeekFilter}
+            onChange={this.updateGamesList}
+          />
+          <List style={{ width: "100%" }}>
+            {store.games.map(game => <Game key={game.id} game={game} />)}
+          </List>
+        </React.Fragment>
       );
     }
   }

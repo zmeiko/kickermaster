@@ -27,7 +27,7 @@ sequelize db:seed:all
 # Run server
 yarn start
 
-# Check http://localhost:8080/users
+# Check http://localhost:8080/api/users
 ```
 
 ## Run web app

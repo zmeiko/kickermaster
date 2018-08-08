@@ -4,7 +4,11 @@ const statsModule = require("../app/statsModule");
 const apiStatsRouter = new Router();
 
 apiStatsRouter.get("/api/stats", async ctx => {
-  const usersStats = await statsModule.getUsersStats();
+  const { date, userId } = ctx.request.query;
+  const usersStats = await statsModule.getUsersStats({
+    weekDate: date,
+    userId
+  });
   ctx.body = { usersStats };
 });
 

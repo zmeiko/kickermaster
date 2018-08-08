@@ -8,7 +8,8 @@ const Store = types
   .model({
     users: types.optional(types.array(User), []),
     games: types.optional(types.array(Game), []),
-    usersStats: types.optional(types.array(UserStats), [])
+    usersStats: types.optional(types.array(UserStats), []),
+    gamesWeekFilter: types.optional(types.string, new Date().toString())
   })
   .actions(self => {
     return {
@@ -16,14 +17,17 @@ const Store = types
         const { users } = yield api.get("/api/users");
         self.users = users;
       }),
-      loadGames: flow(function*() {
-        const { games } = yield api.get("/api/games");
+      loadGames: flow(function*(date) {
+        const { games } = yield api.get(`/api/games?date=${date}`);
         self.games = games;
       }),
-      loadStats: flow(function*() {
-        const { usersStats } = yield api.get("/api/stats");
+      loadStats: flow(function*(date) {
+        const { usersStats } = yield api.get(`/api/stats?date=${date}`);
         self.usersStats = usersStats;
-      })
+      }),
+      applyGamesWeekFilter(payload) {
+        self.gamesWeekFilter = payload;
+      }
     };
   });
 

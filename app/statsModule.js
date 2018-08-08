@@ -9,7 +9,7 @@ const FRW_GOALS_KOEF = 2;
 const DEF_SAVES_KOEF = 2;
 const WIN_BONUS_KOEF = 1.5;
 
-async function getUsersStats(date) {
+async function getUsersStats({ weekDate, userId }) {
   const gamesQuery = `
     SELECT
       Games.id AS 'gameId',
@@ -90,12 +90,27 @@ async function getUsersStats(date) {
       AND (ourGoals = ${GOALS_TO_FINISH_GAME} OR theirGoals = ${GOALS_TO_FINISH_GAME})
   `;
 
-  const startOfWeek = moment(date)
-    .startOf("week")
-    .format("MM/DD/YYYY");
-  const endOfWeek = moment(date)
-    .endOf("week")
-    .format("MM/DD/YYYY");
+  const whereConditions = ["1 = 1"];
+
+  if (weekDate) {
+    const startOfWeek = moment(date)
+      .startOf("week")
+      .format("MM/DD/YYYY");
+    const endOfWeek = moment(date)
+      .endOf("week")
+      .format("MM/DD/YYYY");
+
+    whereConditions.push(`
+      UserGames.gameDate > STR_TO_DATE('${startOfWeek}', '%m/%d/%Y')
+        AND UserGames.gameDate <= STR_TO_DATE('${endOfWeek}', '%m/%d/%Y')
+    `);
+  }
+
+  if (userId) {
+    whereConditions.push(`
+      Users.id = ${userId}
+    `);
+  }
 
   const usersStatsQuery = `
     SELECT
@@ -105,17 +120,17 @@ async function getUsersStats(date) {
       COUNT(UserGames.userId) AS 'games',
       CASE
         WHEN SUM(UserGames.goals) IS NULL
-        THEN 0
+        THEN CAST(0 AS UNSIGNED)
         ELSE CAST(SUM(UserGames.goals) AS UNSIGNED)
       END AS 'goals',
       CASE
         WHEN SUM(UserGames.win) IS NULL
-        THEN 0
+        THEN CAST(0 AS UNSIGNED)
         ELSE CAST(SUM(UserGames.win) AS UNSIGNED)
       END AS 'wins',
       CASE
         WHEN SUM(UserGames.defeat) IS NULL
-        THEN 0
+        THEN CAST(0 AS UNSIGNED)
         ELSE CAST(SUM(UserGames.defeat) AS UNSIGNED)
       END AS 'defeats',
       CAST(
@@ -140,9 +155,7 @@ async function getUsersStats(date) {
     FROM Users
       LEFT JOIN (${usersGamesQuery}) AS UserGames
         ON Users.id = UserGames.userId
-    WHERE
-      UserGames.gameDate > STR_TO_DATE('${startOfWeek}', '%m/%d/%Y')
-        AND UserGames.gameDate <= STR_TO_DATE('${endOfWeek}', '%m/%d/%Y')
+    WHERE ${whereConditions.join(" AND ")}
     GROUP BY Users.id
   `;
 
