@@ -23,7 +23,8 @@ const Leaders = observer(
     constructor(props) {
       super(props);
       this.state = {
-        currentTab: OF_THE_WEEK
+        currentTab: OF_THE_WEEK,
+        isLoading: false
       };
     }
 

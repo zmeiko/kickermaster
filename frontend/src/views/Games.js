@@ -63,20 +63,26 @@ const Games = observer(
     constructor(props) {
       super(props);
       this.state = {
-        isLoading: true
+        isLoading: false
       };
     }
 
-    async componentDidMount() {
-      await store.loadGames(store.gamesWeekFilter);
-      this.setState({ isLoading: false });
+    async loadGamesIfNeeded(filter) {
+      this.setState({ isLoading: true });
+      try {
+        await store.loadGames(filter);
+      } finally {
+        this.setState({ isLoading: false });
+      }
     }
 
-    updateGamesList = async date => {
+    componentDidMount() {
+      this.loadGamesIfNeeded(store.gamesWeekFilter);
+    }
+
+    updateGamesList = date => {
       store.applyGamesWeekFilter(date.toString());
-      this.setState({ isLoading: true });
-      await store.loadGames(store.gamesWeekFilter);
-      this.setState({ isLoading: false });
+      this.loadGamesIfNeeded(store.gamesWeekFilter);
     };
 
     render() {
