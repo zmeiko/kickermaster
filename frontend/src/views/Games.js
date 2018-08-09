@@ -82,7 +82,7 @@ const Games = observer(
 
     updateGamesList = date => {
       store.applyGamesWeekFilter(date.toString());
-      this.loadStatsIfNeeded(store.gamesWeekFilter);
+      this.loadGamesIfNeeded(store.gamesWeekFilter);
     };
 
     render() {

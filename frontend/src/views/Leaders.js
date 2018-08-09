@@ -9,6 +9,7 @@ import {
   CircularProgress
 } from "@material-ui/core";
 import { observer } from "mobx-react";
+import { observable } from "mobx";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
 import WeekPicker from "../components/WeekPicker";
