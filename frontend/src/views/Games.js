@@ -63,7 +63,7 @@ const Games = observer(
     constructor(props) {
       super(props);
       this.state = {
-        isLoading: false
+        isLoading: true
       };
     }
 

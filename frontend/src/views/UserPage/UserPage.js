@@ -10,9 +10,16 @@ import {
   TableBody,
   TableRow
 } from "@material-ui/core";
-import { computed, observable } from "mobx";
+import { computed } from "mobx";
 
 class UserPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true
+    };
+  }
+
   @computed
   get user() {
     const { match } = this.props;
@@ -20,26 +27,27 @@ class UserPage extends Component {
     return store.getUserById(userId);
   }
 
-  @observable isLoading;
-
   async loadUsersIfNeeded() {
-    if (this.user === undefined) {
-      try {
-        this.isLoading = true;
-        await store.loadUsers();
-      } finally {
-        this.isLoading = false;
-      }
+    this.setState({ isLoading: true });
+    try {
+      await store.loadUsers();
+    } finally {
+      this.setState({ isLoading: false });
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.loadUsersIfNeeded();
   }
 
   render() {
-    if (this.isLoading) {
-      return <CircularProgress />;
+    if (this.state.isLoading) {
+      const spinnerStyle = {
+        marginTop: "15px",
+        marginLeft: "auto",
+        marginRight: "auto"
+      };
+      return <CircularProgress style={spinnerStyle} />;
     }
     return (
       <div className={styles.container}>
@@ -50,7 +58,7 @@ class UserPage extends Component {
         <Table style={{ width: "50%", margin: "25px 0 0 350px" }}>
           <TableBody>
             <TableRow>
-              <TableCell style={{ border: "none" }}>Raiting</TableCell>
+              <TableCell style={{ border: "none" }}>Rating</TableCell>
               <TableCell style={{ border: "none" }}>{2}</TableCell>
             </TableRow>
             <TableRow>
