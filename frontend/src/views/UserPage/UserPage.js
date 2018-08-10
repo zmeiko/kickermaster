@@ -10,17 +10,22 @@ import {
   TableBody,
   TableRow
 } from "@material-ui/core";
-import { computed, observable } from "mobx";
+import { computed } from "mobx";
 
 class UserPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true
+    };
+  }
+
   @computed
   get user() {
     const { match } = this.props;
     const userId = parseInt(match.params.id);
     return store.getUserById(userId);
   }
-
-  @observable isLoading;
 
   async loadUsersIfNeeded() {
     if (this.user === undefined) {
@@ -33,22 +38,27 @@ class UserPage extends Component {
   }
 
   async loadAll() {
+    this.setState({ isLoading: true });
     try {
-      this.isLoading = true;
       await this.loadUsersIfNeeded();
       await this.loadUserStats();
     } finally {
-      this.isLoading = false;
+      this.setState({ isLoading: false });
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.loadAll();
   }
 
   render() {
-    if (this.isLoading) {
-      return <CircularProgress />;
+    if (this.state.isLoading) {
+      const spinnerStyle = {
+        marginTop: "15px",
+        marginLeft: "auto",
+        marginRight: "auto"
+      };
+      return <CircularProgress style={spinnerStyle} />;
     }
     return (
       <div className={styles.container}>
