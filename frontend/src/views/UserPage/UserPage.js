@@ -27,13 +27,21 @@ class UserPage extends Component {
     return store.getUserById(userId);
   }
 
+  async loadUsersIfNeeded() {
+    if (this.user === undefined) {
+      await store.loadUsers();
+    }
+  }
+
+  async loadUserStats() {
+    await this.user.loadStats();
+  }
+
   async loadAll() {
     this.setState({ isLoading: true });
     try {
-      if (this.user === undefined) {
-        await store.loadUsers();
-      }
-      await this.user.loadStats();
+      await this.loadUsersIfNeeded();
+      await this.loadUserStats();
     } finally {
       this.setState({ isLoading: false });
     }
