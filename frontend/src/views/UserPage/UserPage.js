@@ -20,11 +20,6 @@ class UserPage extends Component {
     return store.getUserById(userId);
   }
 
-  @computed
-  get stats() {
-    return this.user.getUserStats();
-  }
-
   @observable isLoading;
 
   async loadUsersIfNeeded() {
@@ -34,16 +29,17 @@ class UserPage extends Component {
   }
 
   async loadUserStats() {
-    const { match } = this.props;
-    const userId = parseInt(match.params.id);
-    await this.user.loadStats(userId);
+    await this.user.loadStats();
   }
 
   async loadAll() {
-    this.isLoading = true;
-    await this.loadUsersIfNeeded();
-    await this.loadUserStats();
-    this.isLoading = false;
+    try {
+      this.isLoading = true;
+      await this.loadUsersIfNeeded();
+      await this.loadUserStats();
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   componentWillMount() {
@@ -65,25 +61,25 @@ class UserPage extends Component {
             <TableRow>
               <TableCell style={{ border: "none" }}>Rating</TableCell>
               <TableCell style={{ border: "none" }}>
-                {this.stats.rating}
+                {this.user.stats.rating}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Games</TableCell>
               <TableCell style={{ border: "none" }}>
-                {this.stats.games}
+                {this.user.stats.games}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Wins</TableCell>
               <TableCell style={{ border: "none" }}>
-                {this.stats.wins}
+                {this.user.stats.wins}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Defeats</TableCell>
               <TableCell style={{ border: "none" }}>
-                {this.stats.defeats}
+                {this.user.stats.defeats}
               </TableCell>
             </TableRow>
           </TableBody>

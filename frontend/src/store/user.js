@@ -9,21 +9,14 @@ const User = types
     name: types.string,
     photoUrl: types.maybe(types.string),
     GamePlayer: types.maybe(GamePlayer),
-    stats: types.optional(types.array(UserStats), [])
+    stats: types.maybe(UserStats)
   })
   .actions(self => {
     return {
-      loadStats: flow(function*(userId) {
-        const { usersStats } = yield api.get(`/api/stats?userId=${userId}`);
-        self.stats = usersStats;
+      loadStats: flow(function*() {
+        const { usersStats } = yield api.get(`/api/stats?userId=${self.id}`);
+        self.stats = usersStats[0];
       })
-    };
-  })
-  .views(self => {
-    return {
-      getUserStats() {
-        return self.stats[0];
-      }
     };
   });
 
