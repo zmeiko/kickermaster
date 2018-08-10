@@ -9,8 +9,7 @@ const Store = types
     users: types.optional(types.array(User), []),
     games: types.optional(types.array(Game), []),
     usersStats: types.optional(types.array(UserStats), []),
-    gamesWeekFilter: types.optional(types.string, new Date().toString()),
-    userStatsById: types.optional(types.array(UserStats), [])
+    gamesWeekFilter: types.optional(types.string, new Date().toString())
   })
   .actions(self => {
     return {
@@ -26,10 +25,6 @@ const Store = types
         const { usersStats } = yield api.get(`/api/stats?date=${date}`);
         self.usersStats = usersStats;
       }),
-      loadStatsByUserId: flow(function*(userId) {
-        const { usersStats } = yield api.get(`/api/stats?userId=${userId}`);
-        self.userStatsById = usersStats;
-      }),
       applyGamesWeekFilter(payload) {
         self.gamesWeekFilter = payload;
       }
@@ -39,9 +34,6 @@ const Store = types
     return {
       getUserById(id) {
         return self.users.find(user => user.id === id);
-      },
-      getUserStats() {
-        return self.userStatsById[0];
       }
     };
   });

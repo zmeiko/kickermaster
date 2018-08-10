@@ -21,8 +21,8 @@ class UserPage extends Component {
   }
 
   @computed
-  get userStats() {
-    return store.getUserStats();
+  get stats() {
+    return this.user.getUserStats();
   }
 
   @observable isLoading;
@@ -30,11 +30,8 @@ class UserPage extends Component {
   async loadUsersIfNeeded() {
     if (this.user === undefined) {
       try {
-        this.isLoading = true;
         await store.loadUsers();
-        await this.loadUserStats();
       } finally {
-        this.isLoading = false;
       }
     }
   }
@@ -42,12 +39,18 @@ class UserPage extends Component {
   loadUserStats() {
     const { match } = this.props;
     const userId = parseInt(match.params.id);
-    store.loadStatsByUserId(userId);
+    this.user.loadStats(userId);
+  }
+
+  async loadAll() {
+    this.isLoading = true;
+    await this.loadUsersIfNeeded();
+    await this.loadUserStats();
   }
 
   componentWillMount() {
-    this.loadUserStats();
-    this.loadUsersIfNeeded();
+    this.loadAll();
+    this.isLoading = false;
   }
 
   render() {
@@ -63,27 +66,27 @@ class UserPage extends Component {
         <Table style={{ width: "50%", margin: "25px 0 0 350px" }}>
           <TableBody>
             <TableRow>
-              <TableCell style={{ border: "none" }}>Raiting</TableCell>
+              <TableCell style={{ border: "none" }}>Rating</TableCell>
               <TableCell style={{ border: "none" }}>
-                {this.userStats.rating}
+                {this.stats.rating}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Games</TableCell>
               <TableCell style={{ border: "none" }}>
-                {this.userStats.games}
+                {"this.stats.games"}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Wins</TableCell>
               <TableCell style={{ border: "none" }}>
-                {this.userStats.wins}
+                {"this.stats.wins"}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Defeats</TableCell>
               <TableCell style={{ border: "none" }}>
-                {this.userStats.defeats}
+                {"this.stats.defeats"}
               </TableCell>
             </TableRow>
           </TableBody>
