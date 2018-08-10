@@ -29,28 +29,25 @@ class UserPage extends Component {
 
   async loadUsersIfNeeded() {
     if (this.user === undefined) {
-      try {
-        await store.loadUsers();
-      } finally {
-      }
+      await store.loadUsers();
     }
   }
 
-  loadUserStats() {
+  async loadUserStats() {
     const { match } = this.props;
     const userId = parseInt(match.params.id);
-    this.user.loadStats(userId);
+    await this.user.loadStats(userId);
   }
 
   async loadAll() {
     this.isLoading = true;
     await this.loadUsersIfNeeded();
     await this.loadUserStats();
+    this.isLoading = false;
   }
 
   componentWillMount() {
     this.loadAll();
-    this.isLoading = false;
   }
 
   render() {
@@ -74,19 +71,19 @@ class UserPage extends Component {
             <TableRow>
               <TableCell style={{ border: "none" }}>Games</TableCell>
               <TableCell style={{ border: "none" }}>
-                {"this.stats.games"}
+                {this.stats.games}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Wins</TableCell>
               <TableCell style={{ border: "none" }}>
-                {"this.stats.wins"}
+                {this.stats.wins}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Defeats</TableCell>
               <TableCell style={{ border: "none" }}>
-                {"this.stats.defeats"}
+                {this.stats.defeats}
               </TableCell>
             </TableRow>
           </TableBody>
