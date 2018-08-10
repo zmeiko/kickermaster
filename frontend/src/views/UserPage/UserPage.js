@@ -27,17 +27,20 @@ class UserPage extends Component {
     return store.getUserById(userId);
   }
 
-  async loadUsersIfNeeded() {
+  async loadAll() {
     this.setState({ isLoading: true });
     try {
-      await store.loadUsers();
+      if (this.user === undefined) {
+        await store.loadUsers();
+      }
+      await this.user.loadStats();
     } finally {
       this.setState({ isLoading: false });
     }
   }
 
   componentDidMount() {
-    this.loadUsersIfNeeded();
+    this.loadAll();
   }
 
   render() {
@@ -59,19 +62,27 @@ class UserPage extends Component {
           <TableBody>
             <TableRow>
               <TableCell style={{ border: "none" }}>Rating</TableCell>
-              <TableCell style={{ border: "none" }}>{2}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.user.stats.rating}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Games</TableCell>
-              <TableCell style={{ border: "none" }}>{12}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.user.stats.games}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Wins</TableCell>
-              <TableCell style={{ border: "none" }}>{7}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.user.stats.wins}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Defeats</TableCell>
-              <TableCell style={{ border: "none" }}>{5}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.user.stats.defeats}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
