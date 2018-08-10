@@ -24,17 +24,26 @@ class UserPage extends Component {
 
   async loadUsersIfNeeded() {
     if (this.user === undefined) {
-      try {
-        this.isLoading = true;
-        await store.loadUsers();
-      } finally {
-        this.isLoading = false;
-      }
+      await store.loadUsers();
+    }
+  }
+
+  async loadUserStats() {
+    await this.user.loadStats();
+  }
+
+  async loadAll() {
+    try {
+      this.isLoading = true;
+      await this.loadUsersIfNeeded();
+      await this.loadUserStats();
+    } finally {
+      this.isLoading = false;
     }
   }
 
   componentWillMount() {
-    this.loadUsersIfNeeded();
+    this.loadAll();
   }
 
   render() {
@@ -50,20 +59,28 @@ class UserPage extends Component {
         <Table style={{ width: "50%", margin: "25px 0 0 350px" }}>
           <TableBody>
             <TableRow>
-              <TableCell style={{ border: "none" }}>Raiting</TableCell>
-              <TableCell style={{ border: "none" }}>{2}</TableCell>
+              <TableCell style={{ border: "none" }}>Rating</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.user.stats.rating}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Games</TableCell>
-              <TableCell style={{ border: "none" }}>{12}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.user.stats.games}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Wins</TableCell>
-              <TableCell style={{ border: "none" }}>{7}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.user.stats.wins}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Defeats</TableCell>
-              <TableCell style={{ border: "none" }}>{5}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.user.stats.defeats}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
