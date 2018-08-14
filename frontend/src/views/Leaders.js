@@ -77,7 +77,14 @@ const Leaders = observer(
               onChange={this.updateLeadersList}
             />
           )}
-          {store.usersStats.length || this.state.currentTab === OF_ALL_TIME ? (
+          {!store.usersStats.length && this.state.currentTab === OF_THE_WEEK ? (
+            <Typography
+              variant="subheading"
+              style={{ marginTop: "15px", textAlign: "center" }}
+            >
+              There were no games on this week yet
+            </Typography>
+          ) : (
             <Table>
               <TableHead>
                 <TableRow>
@@ -229,13 +236,6 @@ const Leaders = observer(
                   ))}
               </TableBody>
             </Table>
-          ) : (
-            <Typography
-              variant="subheading"
-              style={{ marginTop: "15px", textAlign: "center" }}
-            >
-              There were no games on this week yet
-            </Typography>
           )}
         </React.Fragment>
       );
