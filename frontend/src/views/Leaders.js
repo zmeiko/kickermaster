@@ -6,9 +6,8 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  ListItem,
-  ListItemText,
-  CircularProgress
+  CircularProgress,
+  Typography
 } from "@material-ui/core";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
@@ -231,12 +230,12 @@ const Leaders = observer(
               </TableBody>
             </Table>
           ) : (
-            <ListItem>
-              <ListItemText
-                style={{ textAlign: "center" }}
-                primary="There were no games on this week yet"
-              />
-            </ListItem>
+            <Typography
+              variant="subheading"
+              style={{ marginTop: "15px", textAlign: "center" }}
+            >
+              There were no games on this week yet
+            </Typography>
           )}
         </React.Fragment>
       );
