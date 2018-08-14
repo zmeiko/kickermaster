@@ -101,7 +101,16 @@ const Games = observer(
             onChange={this.updateGamesList}
           />
           <List style={{ width: "100%" }}>
-            {store.games.map(game => <Game key={game.id} game={game} />)}
+            {store.games.length ? (
+              store.games.map(game => <Game key={game.id} game={game} />)
+            ) : (
+              <ListItem>
+                <ListItemText
+                  style={{ textAlign: "center" }}
+                  primary="There were no games on this week yet"
+                />
+              </ListItem>
+            )}
           </List>
         </React.Fragment>
       );
