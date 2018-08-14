@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { List, ListItem, ListItemText } from "@material-ui/core";
 import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
 import WeekPicker from "../components/WeekPicker";
+import { id } from "date-fns/esm/locale";
 
-const Game = withRouter(
+export const Game = withRouter(
   class extends Component {
     render() {
       const { game } = this.props;
 
       return (
-        <ListItem>
+        <ListItem button component={Link} to={`info/${game.id}`}>
           <div style={{ width: "100%" }}>
             <ListItemText style={{ textAlign: "center" }}>
               <span>
