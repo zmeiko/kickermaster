@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { AppBar, Tabs, Tab, Typography, withStyles } from "@material-ui/core";
 import ListIcon from "@material-ui/icons/List";
 import StarIcon from "@material-ui/icons/Star";
+import LoginButton from "./components/LoginButton";
 
 function TabContainer(props) {
   return (
@@ -59,6 +60,7 @@ class ScrollableTabsButtonForce extends React.Component {
             <Tab label="GAMES" icon={<ListIcon />} value="/games" />
             <Tab label="LEADERS" icon={<StarIcon />} value="/leaders" />
           </Tabs>
+          <LoginButton />
         </AppBar>
       </div>
     );
