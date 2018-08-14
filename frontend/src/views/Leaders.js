@@ -77,7 +77,7 @@ const Leaders = observer(
               onChange={this.updateLeadersList}
             />
           )}
-          {store.usersStats.length ? (
+          {store.usersStats.length || this.state.currentTab === OF_ALL_TIME ? (
             <Table>
               <TableHead>
                 <TableRow>
