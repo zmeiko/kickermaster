@@ -1,9 +1,15 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { AppBar, Tabs, Tab, Typography, withStyles } from "@material-ui/core";
+import {
+  AppBar,
+  Tabs,
+  Tab,
+  Typography,
+  withStyles,
+  Button
+} from "@material-ui/core";
 import ListIcon from "@material-ui/icons/List";
 import StarIcon from "@material-ui/icons/Star";
-import LoginButton from "./components/LoginButton";
 
 function TabContainer(props) {
   return (
@@ -21,6 +27,11 @@ const styles = theme => ({
   },
   flexContainer: {
     justifyContent: "center"
+  },
+  button: {
+    height: "40px",
+    left: "35%",
+    top: "15px"
   }
 });
 
@@ -59,8 +70,8 @@ class ScrollableTabsButtonForce extends React.Component {
           >
             <Tab label="GAMES" icon={<ListIcon />} value="/games" />
             <Tab label="LEADERS" icon={<StarIcon />} value="/leaders" />
+            <Button className={classes.button}>Login</Button>
           </Tabs>
-          <LoginButton />
         </AppBar>
       </div>
     );
