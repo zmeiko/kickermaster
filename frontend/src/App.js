@@ -8,7 +8,7 @@ import StarIcon from "@material-ui/icons/Star";
 import Games from "./views/Games";
 import UserPage from "./views/UserPage";
 import Leaders from "./views/Leaders";
-import Info from "./views/Info/Info";
+import Info from "./views/Info";
 import AppBar from "./AppBar";
 import "./App.css";
 
