@@ -5,7 +5,8 @@ import {
   List,
   ListItem,
   ListItemText,
-  CircularProgress
+  CircularProgress,
+  Typography
 } from "@material-ui/core";
 import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
@@ -96,18 +97,27 @@ const Games = observer(
         return <CircularProgress style={spinnerStyle} />;
       }
       return (
-        <React.Fragment>
+         <React.Fragment>
           <WeekPicker
             value={store.gamesWeekFilter}
             onChange={this.updateGamesList}
           />
-          <List style={{ width: "100%" }}>
-            {store.games.map(game => (
-              <ListItem button component={Link} to={`info/${game.id}`}>
-                <Game key={game.id} game={game} />
-              </ListItem>
-            ))}
-          </List>
+          {store.games.length ? (
+            <List style={{ width: "100%" }}>
+              {store.games.map(game => (
+                <ListItem button component={Link} to={`info/${game.id}`}>
+                  <Game key={game.id} game={game} />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <Typography
+              variant="subheading"
+              style={{ marginTop: "15px", textAlign: "center" }}
+            >
+              There were no games on this week yet
+            </Typography>
+          )}
         </React.Fragment>
       );
     }
