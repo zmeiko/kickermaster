@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { withRouter, Link } from "react-router-dom";
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  CircularProgress
+} from "@material-ui/core";
 import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
@@ -56,16 +61,40 @@ export const Game = withRouter(
 
 const Games = observer(
   class extends Component {
-    componentWillMount() {
-      store.loadGames(store.gamesWeekFilter);
+    constructor(props) {
+      super(props);
+      this.state = {
+        isLoading: true
+      };
     }
 
-    updateGamesList(date) {
-      store.applyGamesWeekFilter(date.toString());
-      store.loadGames(date);
+    async loadGamesIfNeeded(filter) {
+      this.setState({ isLoading: true });
+      try {
+        await store.loadGames(filter);
+      } finally {
+        this.setState({ isLoading: false });
+      }
     }
+
+    componentDidMount() {
+      this.loadGamesIfNeeded(store.gamesWeekFilter);
+    }
+
+    updateGamesList = date => {
+      store.applyGamesWeekFilter(date.toString());
+      this.loadGamesIfNeeded(store.gamesWeekFilter);
+    };
 
     render() {
+      if (this.state.isLoading) {
+        const spinnerStyle = {
+          marginTop: "15px",
+          marginLeft: "auto",
+          marginRight: "auto"
+        };
+        return <CircularProgress style={spinnerStyle} />;
+      }
       return (
         <React.Fragment>
           <WeekPicker

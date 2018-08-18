@@ -9,7 +9,7 @@ const FRW_GOALS_KOEF = 2;
 const DEF_SAVES_KOEF = 2;
 const WIN_BONUS_KOEF = 1.5;
 
-async function getUsersStats(date) {
+async function getUsersStats({ weekDate, userId }) {
   const gamesQuery = `
     SELECT
       Games.id AS 'gameId',
@@ -90,19 +90,26 @@ async function getUsersStats(date) {
       AND (ourGoals = ${GOALS_TO_FINISH_GAME} OR theirGoals = ${GOALS_TO_FINISH_GAME})
   `;
 
-  let weekFilterCondition = ``;
+  const whereConditions = ["1 = 1"];
 
-  if (date !== "undefined") {
-    const startOfWeek = moment(date)
+  if (weekDate) {
+    const startOfWeek = moment(weekDate)
       .startOf("week")
       .format("MM/DD/YYYY");
-    const endOfWeek = moment(date)
+    const endOfWeek = moment(weekDate)
       .endOf("week")
       .format("MM/DD/YYYY");
-    weekFilterCondition = `
-    WHERE
+
+    whereConditions.push(`
       UserGames.gameDate > STR_TO_DATE('${startOfWeek}', '%m/%d/%Y')
-        AND UserGames.gameDate <= STR_TO_DATE('${endOfWeek}', '%m/%d/%Y')`;
+        AND UserGames.gameDate <= STR_TO_DATE('${endOfWeek}', '%m/%d/%Y')
+    `);
+  }
+
+  if (userId) {
+    whereConditions.push(`
+      Users.id = ${userId}
+    `);
   }
 
   const usersStatsQuery = `
@@ -147,7 +154,8 @@ async function getUsersStats(date) {
       ) AS 'rating'
     FROM Users
       LEFT JOIN (${usersGamesQuery}) AS UserGames
-        ON Users.id = UserGames.userId ${weekFilterCondition}
+        ON Users.id = UserGames.userId
+    WHERE ${whereConditions.join(" AND ")}
     GROUP BY Users.id
   `;
 

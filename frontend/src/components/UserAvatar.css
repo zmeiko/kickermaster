@@ -4,6 +4,7 @@
   background-color: var(--red);
   background-size: cover;
   color: white;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;

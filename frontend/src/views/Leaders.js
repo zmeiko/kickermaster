@@ -5,7 +5,8 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  CircularProgress
 } from "@material-ui/core";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
@@ -19,29 +20,50 @@ const OF_THE_WEEK = 0;
 
 const Leaders = observer(
   class extends Component {
-    state = {
-      currentTab: OF_THE_WEEK
-    };
-
-    componentWillMount() {
-      store.loadStats(store.gamesWeekFilter);
+    constructor(props) {
+      super(props);
+      this.state = {
+        currentTab: OF_THE_WEEK,
+        isLoading: true
+      };
     }
 
-    updateLeadersList(date) {
+    async loadStatsIfNeeded(filter) {
+      this.setState({ isLoading: true });
+      try {
+        await store.loadStats(filter);
+      } finally {
+        this.setState({ isLoading: false });
+      }
+    }
+
+    componentDidMount() {
+      this.loadStatsIfNeeded(store.gamesWeekFilter);
+    }
+
+    updateLeadersList = date => {
       store.applyGamesWeekFilter(date.toString());
-      store.loadStats(date);
-    }
+      this.loadStatsIfNeeded(store.gamesWeekFilter);
+    };
 
     onSwitchTab = value => {
       this.setState({ currentTab: value });
       value === OF_ALL_TIME
-        ? store.loadStats()
-        : store.loadStats(store.gamesWeekFilter);
+        ? this.loadStatsIfNeeded()
+        : this.loadStatsIfNeeded(store.gamesWeekFilter);
     };
 
     @observable sortingProperty = "rating";
 
     render() {
+      if (this.state.isLoading) {
+        const spinnerStyle = {
+          marginTop: "15px",
+          marginLeft: "auto",
+          marginRight: "auto"
+        };
+        return <CircularProgress style={spinnerStyle} />;
+      }
       return (
         <React.Fragment>
           <LeadersBar
@@ -105,7 +127,21 @@ const Leaders = observer(
                       this.sortingProperty = "goals";
                     }}
                   >
-                    <nobr>Goals</nobr>
+                    Goals
+                  </Button>
+                </TableCell>
+                <TableCell numeric>
+                  <Button
+                    color={
+                      this.sortingProperty === "goalsPerMatch"
+                        ? "primary"
+                        : "default"
+                    }
+                    onClick={() => {
+                      this.sortingProperty = "goalsPerMatch";
+                    }}
+                  >
+                    <nobr>Goals per match</nobr>
                   </Button>
                 </TableCell>
                 <TableCell numeric>
@@ -117,7 +153,7 @@ const Leaders = observer(
                       this.sortingProperty = "rating";
                     }}
                   >
-                    <nobr>Rating</nobr>
+                    Rating
                   </Button>
                 </TableCell>
               </TableRow>
@@ -165,6 +201,14 @@ const Leaders = observer(
                       }}
                     >
                       {user.goals}
+                    </TableCell>
+                    <TableCell
+                      numeric
+                      style={{
+                        fontSize: this.sortingProperty === "goalsPerMatch" && 18
+                      }}
+                    >
+                      {user.goalsPerMatch}
                     </TableCell>
                     <TableCell
                       numeric

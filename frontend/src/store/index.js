@@ -21,7 +21,7 @@ const Store = types
         const { games } = yield api.get(`/api/games?date=${date}`);
         self.games = games;
       }),
-      loadStats: flow(function*(date) {
+      loadStats: flow(function*(date = "") {
         const { usersStats } = yield api.get(`/api/stats?date=${date}`);
         self.usersStats = usersStats;
       }),
@@ -34,6 +34,9 @@ const Store = types
     return {
       getGameById(id) {
         return self.games.find(game => game.id === id);
+      },
+      getUserById(id) {
+        return self.users.find(user => user.id === id);
       }
     };
   });

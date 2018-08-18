@@ -6,6 +6,7 @@ import StarIcon from "@material-ui/icons/Star";
 
 // import Game from "./views/Game";
 import Games from "./views/Games";
+import UserPage from "./views/UserPage";
 import Leaders from "./views/Leaders";
 import Info from "./views/Info/Info";
 import AppBar from "./AppBar";
@@ -25,6 +26,7 @@ class App extends Component {
             <Switch>
               {/* <Route exact path="/" component={Game} /> */}
               {/* <Route exact path="/game/:gameId" component={Game} /> */}
+              <Route path="/userpage/:id" component={UserPage} />
               <Route exact path="/games" component={Games} />
               <Route exact path="/leaders" component={Leaders} />
               <Route path="/info/:gameId" component={Info} />
