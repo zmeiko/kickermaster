@@ -19,7 +19,7 @@ export const Game = withRouter(
       const { game } = this.props;
 
       return (
-        <ListItem button component={Link} to={`info/${game.id}`}>
+        <ListItem>
           <div style={{ width: "100%" }}>
             <ListItemText style={{ textAlign: "center" }}>
               <span>
@@ -102,7 +102,11 @@ const Games = observer(
             onChange={this.updateGamesList}
           />
           <List style={{ width: "100%" }}>
-            {store.games.map(game => <Game key={game.id} game={game} />)}
+            {store.games.map(game => (
+              <ListItem button component={Link} to={`info/${game.id}`}>
+                <Game key={game.id} game={game} />
+              </ListItem>
+            ))}
           </List>
         </React.Fragment>
       );
