@@ -30,7 +30,7 @@ const styles = theme => ({
   },
   button: {
     height: "40px",
-    left: "35%",
+    left: "200px",
     top: "15px"
   }
 });
