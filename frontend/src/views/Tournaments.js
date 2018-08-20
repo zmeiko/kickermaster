@@ -46,8 +46,7 @@ class Tournaments extends Component {
     if (this.state.isLoading) {
       const spinnerStyle = {
         marginTop: "15px",
-        marginLeft: "auto",
-        marginRight: "auto"
+        margin: "auto"
       };
       return <CircularProgress style={spinnerStyle} />;
     }

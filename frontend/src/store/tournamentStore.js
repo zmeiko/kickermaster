@@ -9,7 +9,6 @@ const TournamentStore = types
     return {
       addTournament(tour) {
         self.tournaments.push(tour);
-        console.log(self.tournaments);
       }
     };
   });
