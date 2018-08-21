@@ -10,13 +10,3 @@
   justify-content: center;
   font-family: "GothamPro-Medium";
 }
-
-.UserAvatar:hover::after {
-  content: attr(username);
-  position: absolute;
-  background-color: var(--red);
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  padding: 5px 10px;
-}
