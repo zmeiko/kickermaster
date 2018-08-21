@@ -21,6 +21,7 @@ class UserAvatar extends React.Component {
     return user.photoUrl ? (
       <div
         className={`${className} UserAvatar`}
+        username={user.name}
         onClick={this.handleClick}
         style={{
           backgroundImage: `url(${user.photoUrl})`,
@@ -32,6 +33,7 @@ class UserAvatar extends React.Component {
     ) : (
       <div
         className={`${className} UserAvatar`}
+        username={user.name}
         onClick={this.handleClick}
         style={{ width: size, height: size }}
         {...other}
