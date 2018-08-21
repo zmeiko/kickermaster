@@ -37,7 +37,7 @@ const Game = withRouter(
                   <UserAvatar key={user.id} user={user} />
                 ))}
               </div>
-              <ListItemText style={{ textAlign: "center" }}>
+              <ListItemText style={{ padding: "0", textAlign: "center" }}>
                 <span>{game.score}</span>
               </ListItemText>
               <div

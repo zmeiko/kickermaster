@@ -60,7 +60,7 @@ class Tournaments extends Component {
     }
     return store.tournaments.length ? (
       <React.Fragment>
-        <Table>
+        <Table style={{ display: "block", overflow: "auto" }}>
           <TableHead>
             <TableRow>
               <TableCell>
