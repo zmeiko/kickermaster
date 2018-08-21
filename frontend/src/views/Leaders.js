@@ -85,7 +85,7 @@ const Leaders = observer(
               There were no games on this week yet
             </Typography>
           ) : (
-            <Table>
+            <Table style={{ display: "block", overflow: "auto" }}>
               <TableHead>
                 <TableRow>
                   <TableCell>#</TableCell>

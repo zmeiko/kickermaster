@@ -1,7 +1,12 @@
 .picker {
-  display: inline-block;
   position: fixed;
-  top: 10px;
-  left: 30px;
-  z-index: 1;
+  top: 2%;
+  left: 2%;
+}
+
+@media (max-width: 550px) {
+  .picker {
+    width: 22.5%;
+    overflow: hidden;
+  }
 }
