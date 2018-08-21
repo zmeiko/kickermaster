@@ -7,8 +7,13 @@ const TournamentStore = types
   })
   .actions(self => {
     return {
-      addTournament(tour) {
-        self.tournaments.push(tour);
+      addTournament(title) {
+        self.tournaments.push({
+          title: title,
+          date: new Date().toDateString(),
+          author: "Aleksey Kuznetsov",
+          status: "active"
+        });
       }
     };
   });

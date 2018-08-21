@@ -10,9 +10,9 @@ import {
   Typography
 } from "@material-ui/core";
 import { store } from "../store/tournamentStore";
-import { observer } from "mobx-react";
 import dateFormat from "dateformat";
 import { withRouter } from "react-router-dom";
+import TournamentAddForm from "./TournamentAddForm";
 
 @withRouter
 class Tournaments extends Component {
@@ -20,13 +20,21 @@ class Tournaments extends Component {
     super(props);
     this.state = {
       sortingProperty: "status",
-      isLoading: true
+      isLoading: true,
+      open: false
     };
   }
 
-  handleClick = () => {
-    const { history } = this.props;
-    history.push("/addtournament");
+  handleClose = () => {
+    this.setState({
+      open: false
+    });
+  };
+
+  handleOpen = () => {
+    this.setState({
+      open: true
+    });
   };
 
   async loadTournamentsIfNeeded() {
@@ -149,11 +157,17 @@ class Tournaments extends Component {
           </TableBody>
         </Table>
         <Button
-          onClick={this.handleClick}
+          onClick={this.handleOpen}
           style={{ margin: "auto", marginTop: "15px" }}
         >
           Add tournament
         </Button>
+        {this.state.open && (
+          <TournamentAddForm
+            handleClose={this.handleClose}
+            open={this.state.open}
+          />
+        )}
       </React.Fragment>
     ) : (
       <React.Fragment>
@@ -164,14 +178,20 @@ class Tournaments extends Component {
           There were no tournaments yet
         </Typography>
         <Button
-          onClick={this.handleClick}
+          onClick={this.handleOpen}
           style={{ margin: "auto", marginTop: "15px" }}
         >
           Add tournament
         </Button>
+        {this.state.open && (
+          <TournamentAddForm
+            handleClose={this.handleClose}
+            open={this.state.open}
+          />
+        )}
       </React.Fragment>
     );
   }
 }
 
-export default observer(Tournaments);
+export default Tournaments;
