@@ -62,11 +62,11 @@ class UserPage extends Component {
     }
     return (
       <div className={styles.container}>
-        <div className={styles.sidebar} key={this.user.id}>
-          <UserAvatar user={this.user} size={200} />
-          <div className={styles.usertitleName}>{this.user.name}</div>
+        <div key={this.user.id}>
+          <UserAvatar className={styles.avatar} user={this.user} size={200} />
+          <div className={styles.username}>{this.user.name}</div>
         </div>
-        <Table style={{ width: "50%", margin: "25px 0 0 350px" }}>
+        <Table style={{ display: "inline-flex", width: "auto" }}>
           <TableBody>
             <TableRow>
               <TableCell style={{ border: "none" }}>Rating</TableCell>
