@@ -5,7 +5,8 @@ import {
   List,
   ListItem,
   ListItemText,
-  CircularProgress
+  CircularProgress,
+  Typography
 } from "@material-ui/core";
 import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
@@ -67,16 +68,22 @@ const Games = observer(
       };
     }
 
-    async componentDidMount() {
-      await store.loadGames(store.gamesWeekFilter);
-      this.setState({ isLoading: false });
+    async loadGamesIfNeeded(filter) {
+      this.setState({ isLoading: true });
+      try {
+        await store.loadGames(filter);
+      } finally {
+        this.setState({ isLoading: false });
+      }
     }
 
-    updateGamesList = async date => {
+    componentDidMount() {
+      this.loadGamesIfNeeded(store.gamesWeekFilter);
+    }
+
+    updateGamesList = date => {
       store.applyGamesWeekFilter(date.toString());
-      this.setState({ isLoading: true });
-      await store.loadGames(store.gamesWeekFilter);
-      this.setState({ isLoading: false });
+      this.loadGamesIfNeeded(store.gamesWeekFilter);
     };
 
     render() {
@@ -94,9 +101,18 @@ const Games = observer(
             value={store.gamesWeekFilter}
             onChange={this.updateGamesList}
           />
-          <List style={{ width: "100%" }}>
-            {store.games.map(game => <Game key={game.id} game={game} />)}
-          </List>
+          {store.games.length ? (
+            <List style={{ width: "100%" }}>
+              {store.games.map(game => <Game key={game.id} game={game} />)}
+            </List>
+          ) : (
+            <Typography
+              variant="subheading"
+              style={{ marginTop: "15px", textAlign: "center" }}
+            >
+              There were no games on this week yet
+            </Typography>
+          )}
         </React.Fragment>
       );
     }
