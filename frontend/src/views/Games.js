@@ -44,7 +44,7 @@ const Game = withRouter(
                     key={user.id}
                     placement="bottom-end"
                   >
-                    <UserAvatar key={user.id} user={user} />
+                    <UserAvatar user={user} />
                   </Tooltip>
                 ))}
               </div>
@@ -64,7 +64,7 @@ const Game = withRouter(
                     key={user.id}
                     placement="bottom-start"
                   >
-                    <UserAvatar key={user.id} user={user} />
+                    <UserAvatar user={user} />
                   </Tooltip>
                 ))}
               </div>
