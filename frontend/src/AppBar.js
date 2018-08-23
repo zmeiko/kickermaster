@@ -13,6 +13,8 @@ import ListIcon from "@material-ui/icons/List";
 import StarIcon from "@material-ui/icons/Star";
 import EventIcon from "@material-ui/icons/Event";
 
+const API_HOST = process.env.REACT_APP_API_HOST;
+
 function TabContainer(props) {
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -77,7 +79,7 @@ class ScrollableTabsButtonForce extends React.Component {
                 value="/tournaments"
               />
             </Tabs>
-            <Button href="http://localhost:8080/auth/google">Login</Button>
+            <Button href={`${API_HOST}/auth/google`}>Login</Button>
           </Toolbar>
         </AppBar>
       </div>
