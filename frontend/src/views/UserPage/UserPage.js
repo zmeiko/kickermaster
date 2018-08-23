@@ -53,12 +53,7 @@ class UserPage extends Component {
 
   render() {
     if (this.state.isLoading) {
-      const spinnerStyle = {
-        marginTop: "15px",
-        marginLeft: "auto",
-        marginRight: "auto"
-      };
-      return <CircularProgress style={spinnerStyle} />;
+      return <CircularProgress style={{ margin: "15px auto" }} />;
     }
     return (
       <div className={styles.container}>

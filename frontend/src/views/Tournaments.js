@@ -52,122 +52,109 @@ class Tournaments extends Component {
 
   render() {
     if (this.state.isLoading) {
-      const spinnerStyle = {
-        marginTop: "15px",
-        margin: "auto"
-      };
-      return <CircularProgress style={spinnerStyle} />;
+      return <CircularProgress style={{ margin: "15px auto" }} />;
     }
     return store.tournaments.length ? (
       <React.Fragment>
-        <Table
-          style={{
-            display: "block",
-            overflow: "auto",
-            width: "auto",
-            maxWidth: "100%",
-            margin: "auto"
-          }}
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <Button
-                  color={
-                    this.state.sortingProperty === "title"
-                      ? "primary"
-                      : "default"
-                  }
-                  onClick={() => {
-                    this.setState({ sortingProperty: "title" });
-                  }}
-                >
-                  Title
-                </Button>
-              </TableCell>
-              <TableCell>
-                <Button
-                  color={
-                    this.state.sortingProperty === "date"
-                      ? "primary"
-                      : "default"
-                  }
-                  onClick={() => {
-                    this.setState({ sortingProperty: "date" });
-                  }}
-                >
-                  Date
-                </Button>
-              </TableCell>
-              <TableCell>
-                <Button
-                  color={
-                    this.state.sortingProperty === "author"
-                      ? "primary"
-                      : "default"
-                  }
-                  onClick={() => {
-                    this.setState({ sortingProperty: "author" });
-                  }}
-                >
-                  Author
-                </Button>
-              </TableCell>
-              <TableCell>
-                <Button
-                  color={
-                    this.state.sortingProperty === "status"
-                      ? "primary"
-                      : "default"
-                  }
-                  onClick={() => {
-                    this.setState({ sortingProperty: "status" });
-                  }}
-                >
-                  Status
-                </Button>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {store.tournaments.map((tour, index) => (
-              <TableRow key={index}>
-                <TableCell
-                  style={{
-                    fontSize: this.state.sortingProperty === "title" && 18
-                  }}
-                >
-                  {tour.title}
+        <div className={"TableWrapper"} style={{ overflowX: "auto" }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <Button
+                    color={
+                      this.state.sortingProperty === "title"
+                        ? "primary"
+                        : "default"
+                    }
+                    onClick={() => {
+                      this.setState({ sortingProperty: "title" });
+                    }}
+                  >
+                    Title
+                  </Button>
                 </TableCell>
-                <TableCell
-                  style={{
-                    fontSize: this.state.sortingProperty === "date" && 18
-                  }}
-                >
-                  {dateFormat(tour.date, "dddd, mmmm dS, yyyy, hh:MM")}
+                <TableCell>
+                  <Button
+                    color={
+                      this.state.sortingProperty === "date"
+                        ? "primary"
+                        : "default"
+                    }
+                    onClick={() => {
+                      this.setState({ sortingProperty: "date" });
+                    }}
+                  >
+                    Date
+                  </Button>
                 </TableCell>
-                <TableCell
-                  style={{
-                    fontSize: this.state.sortingProperty === "author" && 18
-                  }}
-                >
-                  {tour.author}
+                <TableCell>
+                  <Button
+                    color={
+                      this.state.sortingProperty === "author"
+                        ? "primary"
+                        : "default"
+                    }
+                    onClick={() => {
+                      this.setState({ sortingProperty: "author" });
+                    }}
+                  >
+                    Author
+                  </Button>
                 </TableCell>
-                <TableCell
-                  style={{
-                    fontSize: this.state.sortingProperty === "status" && 18
-                  }}
-                >
-                  {tour.status}
+                <TableCell>
+                  <Button
+                    color={
+                      this.state.sortingProperty === "status"
+                        ? "primary"
+                        : "default"
+                    }
+                    onClick={() => {
+                      this.setState({ sortingProperty: "status" });
+                    }}
+                  >
+                    Status
+                  </Button>
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <Button
-          onClick={this.handleOpen}
-          style={{ margin: "auto", marginTop: "15px" }}
-        >
+            </TableHead>
+            <TableBody>
+              {store.tournaments.map((tour, index) => (
+                <TableRow key={index}>
+                  <TableCell
+                    style={{
+                      fontSize: this.state.sortingProperty === "title" && 18
+                    }}
+                  >
+                    {tour.title}
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      fontSize: this.state.sortingProperty === "date" && 18
+                    }}
+                  >
+                    {dateFormat(tour.date, "dddd, mmmm dS, yyyy, hh:MM")}
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      fontSize: this.state.sortingProperty === "author" && 18
+                    }}
+                  >
+                    {tour.author}
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      fontSize: this.state.sortingProperty === "status" && 18
+                    }}
+                  >
+                    {tour.status}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+        <Button onClick={this.handleOpen} style={{ margin: "15px auto" }}>
           Add tournament
         </Button>
         {this.state.open && (
@@ -185,10 +172,7 @@ class Tournaments extends Component {
         >
           There were no tournaments yet
         </Typography>
-        <Button
-          onClick={this.handleOpen}
-          style={{ margin: "auto", marginTop: "15px" }}
-        >
+        <Button onClick={this.handleOpen} style={{ margin: "15px auto" }}>
           Add tournament
         </Button>
         {this.state.open && (

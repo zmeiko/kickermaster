@@ -88,12 +88,7 @@ const Games = observer(
 
     render() {
       if (this.state.isLoading) {
-        const spinnerStyle = {
-          marginTop: "15px",
-          marginLeft: "auto",
-          marginRight: "auto"
-        };
-        return <CircularProgress style={spinnerStyle} />;
+        return <CircularProgress style={{ margin: "15px auto" }} />;
       }
       return (
         <React.Fragment>
