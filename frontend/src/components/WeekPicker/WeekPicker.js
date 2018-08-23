@@ -32,7 +32,7 @@ class CustomElements extends PureComponent {
     this.props.onChange(value);
   };
 
-  handleSubWeekClick = () => {
+  openPrevWeek = () => {
     const { selectedDate } = this.state;
     const date = getPrevWeek(selectedDate);
     this.setState({
@@ -41,7 +41,7 @@ class CustomElements extends PureComponent {
     this.handleWeekChange(date);
   };
 
-  handleAddWeekClick = () => {
+  openNextWeek = () => {
     const { selectedDate } = this.state;
     const date = getNextWeek(selectedDate);
     this.setState({
@@ -91,7 +91,7 @@ class CustomElements extends PureComponent {
 
     return (
       <div className={pickerStyles.picker}>
-        <IconButton onClick={this.handleSubWeekClick}>
+        <IconButton onClick={this.openPrevWeek}>
           <ArrowBack />
         </IconButton>
         <DatePicker
@@ -104,7 +104,7 @@ class CustomElements extends PureComponent {
           disableFuture
           todayLabel="current week"
         />
-        <IconButton onClick={this.handleAddWeekClick}>
+        <IconButton onClick={this.openNextWeek}>
           <ArrowForward />
         </IconButton>
       </div>
