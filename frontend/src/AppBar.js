@@ -1,24 +1,9 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import {
-  AppBar,
-  Tabs,
-  Tab,
-  Typography,
-  withStyles,
-  Button
-} from "@material-ui/core";
+import { AppBar, Tabs, Tab, withStyles } from "@material-ui/core";
 import ListIcon from "@material-ui/icons/List";
 import StarIcon from "@material-ui/icons/Star";
 import EventIcon from "@material-ui/icons/Event";
-
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
 
 const styles = theme => ({
   root: {
@@ -57,7 +42,6 @@ class ScrollableTabsButtonForce extends React.Component {
             value={value}
             onChange={this.handleChange}
             scrollable
-            scrollButtons="on"
             indicatorColor="primary"
             textColor="primary"
             classes={{

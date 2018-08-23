@@ -56,7 +56,7 @@ const Game = withRouter(
                   </Tooltip>
                 ))}
               </div>
-              <ListItemText style={{ width: 100, textAlign: "center" }}>
+              <ListItemText style={{ padding: "0", textAlign: "center" }}>
                 <span>{game.score}</span>
               </ListItemText>
               <div
@@ -115,12 +115,7 @@ const Games = observer(
 
     render() {
       if (this.state.isLoading) {
-        const spinnerStyle = {
-          marginTop: "15px",
-          marginLeft: "auto",
-          marginRight: "auto"
-        };
-        return <CircularProgress style={spinnerStyle} />;
+        return <CircularProgress style={{ margin: "15px auto" }} />;
       }
       return (
         <React.Fragment>
