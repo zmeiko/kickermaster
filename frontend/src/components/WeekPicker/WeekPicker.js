@@ -13,8 +13,8 @@ import {
   startOfWeek,
   endOfWeek,
   isWithinInterval,
-  addWeek,
-  subWeek
+  getNextWeek,
+  getPrevWeek
 } from "../../utils/dateFnsWrappers";
 
 class CustomElements extends PureComponent {
@@ -34,7 +34,7 @@ class CustomElements extends PureComponent {
 
   handleSubWeekClick = () => {
     const { selectedDate } = this.state;
-    const date = subWeek(selectedDate);
+    const date = getPrevWeek(selectedDate);
     this.setState({
       selectedDate: date
     });
@@ -43,7 +43,7 @@ class CustomElements extends PureComponent {
 
   handleAddWeekClick = () => {
     const { selectedDate } = this.state;
-    const date = addWeek(selectedDate);
+    const date = getNextWeek(selectedDate);
     this.setState({
       selectedDate: date
     });

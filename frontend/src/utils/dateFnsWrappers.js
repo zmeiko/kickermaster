@@ -26,10 +26,10 @@ const endOfWeek = date => {
 const isWithinInterval = (date, interval) => {
   return isWithinIntervalClean(date, interval);
 };
-const addWeek = date => {
+const getNextWeek = date => {
   return addWeeks(date, 1);
 };
-const subWeek = date => {
+const getPrevWeek = date => {
   return subWeeks(date, 1);
 };
 
@@ -39,6 +39,6 @@ export {
   startOfWeek,
   endOfWeek,
   isWithinInterval,
-  addWeek,
-  subWeek
+  getNextWeek,
+  getPrevWeek
 };
