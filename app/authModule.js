@@ -51,6 +51,14 @@ function initPassportStrategies() {
   );
 }
 
+function authenticatedOnly(ctx, next) {
+  if (ctx.isAuthenticated()) {
+    return next();
+  }
+  ctx.status = 401;
+}
+
 module.exports = {
-  initPassportStrategies
+  initPassportStrategies,
+  authenticatedOnly
 };
