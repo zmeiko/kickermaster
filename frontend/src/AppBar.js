@@ -6,7 +6,8 @@ import {
   Tab,
   Typography,
   withStyles,
-  Button
+  Button,
+  Toolbar
 } from "@material-ui/core";
 import ListIcon from "@material-ui/icons/List";
 import StarIcon from "@material-ui/icons/Star";
@@ -28,10 +29,8 @@ const styles = theme => ({
   flexContainer: {
     justifyContent: "center"
   },
-  button: {
-    height: "40px",
-    left: "200px",
-    top: "15px"
+  tabs: {
+    flexGrow: 1
   }
 });
 
@@ -39,7 +38,6 @@ const styles = theme => ({
 class ScrollableTabsButtonForce extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       value: this.props.location.pathname
     };
@@ -57,21 +55,24 @@ class ScrollableTabsButtonForce extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position="static" color="default">
-          <Tabs
-            value={value}
-            onChange={this.handleChange}
-            scrollable
-            scrollButtons="on"
-            indicatorColor="primary"
-            textColor="primary"
-            classes={{
-              flexContainer: classes.flexContainer
-            }}
-          >
-            <Tab label="GAMES" icon={<ListIcon />} value="/games" />
-            <Tab label="LEADERS" icon={<StarIcon />} value="/leaders" />
-            <Button className={classes.button}>Login</Button>
-          </Tabs>
+          <Toolbar>
+            <Tabs
+              value={value}
+              onChange={this.handleChange}
+              scrollable
+              scrollButtons="on"
+              indicatorColor="primary"
+              textColor="primary"
+              classes={{
+                flexContainer: classes.flexContainer,
+                root: classes.tabs
+              }}
+            >
+              <Tab label="GAMES" icon={<ListIcon />} value="/games" />
+              <Tab label="LEADERS" icon={<StarIcon />} value="/leaders" />
+            </Tabs>
+            <Button href="http://localhost:8080/auth/google">Login</Button>
+          </Toolbar>
         </AppBar>
       </div>
     );
