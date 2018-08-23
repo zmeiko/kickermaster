@@ -39,7 +39,11 @@ const Game = withRouter(
                 }}
               >
                 {game.redUsers.map(user => (
-                  <Tooltip title={user.name} placement="bottom-end">
+                  <Tooltip
+                    title={user.name}
+                    key={user.id}
+                    placement="bottom-end"
+                  >
                     <UserAvatar key={user.id} user={user} />
                   </Tooltip>
                 ))}
@@ -55,7 +59,11 @@ const Game = withRouter(
                 }}
               >
                 {game.blueUsers.map(user => (
-                  <Tooltip title={user.name} placement="bottom-start">
+                  <Tooltip
+                    title={user.name}
+                    key={user.id}
+                    placement="bottom-start"
+                  >
                     <UserAvatar key={user.id} user={user} />
                   </Tooltip>
                 ))}
