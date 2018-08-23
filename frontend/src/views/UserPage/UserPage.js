@@ -61,7 +61,7 @@ class UserPage extends Component {
           <UserAvatar className={styles.avatar} user={this.user} size={200} />
           <div className={styles.username}>{this.user.name}</div>
         </div>
-        <Table style={{ display: "inline-flex", width: "auto" }}>
+        <Table style={{ margin: "auto", width: "auto" }}>
           <TableBody>
             <TableRow>
               <TableCell style={{ border: "none" }}>Rating</TableCell>

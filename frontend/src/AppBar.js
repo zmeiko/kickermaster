@@ -49,12 +49,12 @@ class ScrollableTabsButtonForce extends React.Component {
             }}
           >
             <Tab label="GAMES" icon={<ListIcon />} value="/games" />
+            <Tab label="LEADERS" icon={<StarIcon />} value="/leaders" />
             <Tab
               label="TOURNAMENTS"
               icon={<EventIcon />}
               value="/tournaments"
             />
-            <Tab label="LEADERS" icon={<StarIcon />} value="/leaders" />
           </Tabs>
         </AppBar>
       </div>

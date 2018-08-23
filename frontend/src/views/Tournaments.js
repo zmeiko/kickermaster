@@ -56,7 +56,7 @@ class Tournaments extends Component {
     }
     return store.tournaments.length ? (
       <React.Fragment>
-        <div className={"TableWrapper"} style={{ overflowX: "auto" }}>
+        <div style={{ overflowX: "auto" }}>
           <Table>
             <TableHead>
               <TableRow>

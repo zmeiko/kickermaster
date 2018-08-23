@@ -80,7 +80,7 @@ const Leaders = observer(
               There were no games on this week yet
             </Typography>
           ) : (
-            <div className={"TableWrapper"} style={{ overflowX: "auto" }}>
+            <div style={{ overflowX: "auto" }}>
               <Table>
                 <TableHead>
                   <TableRow>
