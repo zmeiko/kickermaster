@@ -53,6 +53,7 @@ const Game = withRouter(
                       userId: user.id
                     })} goals per match`}
                     placement="bottom-end"
+                    key={user.id}
                   >
                     <UserAvatar user={user} />
                   </Tooltip>
@@ -75,6 +76,7 @@ const Game = withRouter(
                       userId: user.id
                     })} goals per match`}
                     placement="bottom-start"
+                    key={user.id}
                   >
                     <UserAvatar user={user} />
                   </Tooltip>
