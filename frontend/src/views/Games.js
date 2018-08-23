@@ -6,7 +6,8 @@ import {
   ListItem,
   ListItemText,
   CircularProgress,
-  Typography
+  Typography,
+  Tooltip
 } from "@material-ui/core";
 import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
@@ -20,7 +21,7 @@ const Game = withRouter(
 
       return (
         <ListItem>
-          <div style={{ width: "100%" }}>
+          <div style={{ width: "100%", margin: "15px auto" }}>
             <ListItemText style={{ textAlign: "center" }}>
               <span>
                 {dateFormat(
@@ -31,10 +32,16 @@ const Game = withRouter(
             </ListItemText>
             <div style={{ display: "flex" }}>
               <div
-                style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  justifyContent: "flex-end"
+                }}
               >
                 {game.redUsers.map(user => (
-                  <UserAvatar key={user.id} user={user} />
+                  <Tooltip title={user.name} placement="bottom-end">
+                    <UserAvatar key={user.id} user={user} />
+                  </Tooltip>
                 ))}
               </div>
               <ListItemText style={{ width: 100, textAlign: "center" }}>
@@ -48,7 +55,9 @@ const Game = withRouter(
                 }}
               >
                 {game.blueUsers.map(user => (
-                  <UserAvatar key={user.id} user={user} />
+                  <Tooltip title={user.name} placement="bottom-start">
+                    <UserAvatar key={user.id} user={user} />
+                  </Tooltip>
                 ))}
               </div>
             </div>
