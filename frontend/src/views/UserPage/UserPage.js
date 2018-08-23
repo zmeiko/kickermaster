@@ -53,20 +53,15 @@ class UserPage extends Component {
 
   render() {
     if (this.state.isLoading) {
-      const spinnerStyle = {
-        marginTop: "15px",
-        marginLeft: "auto",
-        marginRight: "auto"
-      };
-      return <CircularProgress style={spinnerStyle} />;
+      return <CircularProgress style={{ margin: "15px auto" }} />;
     }
     return (
       <div className={styles.container}>
-        <div className={styles.sidebar} key={this.user.id}>
-          <UserAvatar user={this.user} size={200} />
-          <div className={styles.usertitleName}>{this.user.name}</div>
+        <div key={this.user.id}>
+          <UserAvatar className={styles.avatar} user={this.user} size={200} />
+          <div className={styles.username}>{this.user.name}</div>
         </div>
-        <Table style={{ width: "50%", margin: "25px 0 0 350px" }}>
+        <Table style={{ margin: "auto", width: "auto" }}>
           <TableBody>
             <TableRow>
               <TableCell style={{ border: "none" }}>Rating</TableCell>

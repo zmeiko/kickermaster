@@ -58,12 +58,7 @@ const Leaders = observer(
 
     render() {
       if (this.state.isLoading) {
-        const spinnerStyle = {
-          marginTop: "15px",
-          marginLeft: "auto",
-          marginRight: "auto"
-        };
-        return <CircularProgress style={spinnerStyle} />;
+        return <CircularProgress style={{ margin: "15px auto" }} />;
       }
       return (
         <React.Fragment>
@@ -85,157 +80,166 @@ const Leaders = observer(
               There were no games on this week yet
             </Typography>
           ) : (
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>#</TableCell>
-                  <TableCell />
-                  <TableCell style={{ width: "100%" }} />
-                  <TableCell numeric>
-                    <Button
-                      color={
-                        this.sortingProperty === "games" ? "primary" : "default"
-                      }
-                      onClick={() => {
-                        this.sortingProperty = "games";
-                      }}
-                    >
-                      Games
-                    </Button>
-                  </TableCell>
-                  <TableCell numeric>
-                    <Button
-                      color={
-                        this.sortingProperty === "wins" ? "primary" : "default"
-                      }
-                      onClick={() => {
-                        this.sortingProperty = "wins";
-                      }}
-                    >
-                      Wins
-                    </Button>
-                  </TableCell>
-                  <TableCell numeric>
-                    <Button
-                      color={
-                        this.sortingProperty === "defeats"
-                          ? "primary"
-                          : "default"
-                      }
-                      onClick={() => {
-                        this.sortingProperty = "defeats";
-                      }}
-                    >
-                      Defeats
-                    </Button>
-                  </TableCell>
-                  <TableCell numeric>
-                    <Button
-                      color={
-                        this.sortingProperty === "goals" ? "primary" : "default"
-                      }
-                      onClick={() => {
-                        this.sortingProperty = "goals";
-                      }}
-                    >
-                      Goals
-                    </Button>
-                  </TableCell>
-                  <TableCell numeric>
-                    <Button
-                      color={
-                        this.sortingProperty === "goalsPerMatch"
-                          ? "primary"
-                          : "default"
-                      }
-                      onClick={() => {
-                        this.sortingProperty = "goalsPerMatch";
-                      }}
-                    >
-                      <nobr>Goals per match</nobr>
-                    </Button>
-                  </TableCell>
-                  <TableCell numeric>
-                    <Button
-                      color={
-                        this.sortingProperty === "rating"
-                          ? "primary"
-                          : "default"
-                      }
-                      onClick={() => {
-                        this.sortingProperty = "rating";
-                      }}
-                    >
-                      Rating
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {store.usersStats
-                  .sort(
-                    (a, b) => b[this.sortingProperty] - a[this.sortingProperty]
-                  )
-                  .map((user, index) => (
-                    <TableRow key={user.id}>
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell>
-                        <UserAvatar user={user} />
-                      </TableCell>
-                      <TableCell>{user.name}</TableCell>
-                      <TableCell
-                        numeric
-                        style={{
-                          fontSize: this.sortingProperty === "games" && 18
+            <div style={{ overflowX: "auto" }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>#</TableCell>
+                    <TableCell />
+                    <TableCell style={{ width: "100%" }} />
+                    <TableCell numeric>
+                      <Button
+                        color={
+                          this.sortingProperty === "games"
+                            ? "primary"
+                            : "default"
+                        }
+                        onClick={() => {
+                          this.sortingProperty = "games";
                         }}
                       >
-                        {user.games}
-                      </TableCell>
-                      <TableCell
-                        numeric
-                        style={{
-                          fontSize: this.sortingProperty === "wins" && 18
+                        Games
+                      </Button>
+                    </TableCell>
+                    <TableCell numeric>
+                      <Button
+                        color={
+                          this.sortingProperty === "wins"
+                            ? "primary"
+                            : "default"
+                        }
+                        onClick={() => {
+                          this.sortingProperty = "wins";
                         }}
                       >
-                        {user.wins} ({user.winsPercent}%)
-                      </TableCell>
-                      <TableCell
-                        numeric
-                        style={{
-                          fontSize: this.sortingProperty === "defeats" && 18
+                        Wins
+                      </Button>
+                    </TableCell>
+                    <TableCell numeric>
+                      <Button
+                        color={
+                          this.sortingProperty === "defeats"
+                            ? "primary"
+                            : "default"
+                        }
+                        onClick={() => {
+                          this.sortingProperty = "defeats";
                         }}
                       >
-                        {user.defeats} ({user.defeatsPercent}%)
-                      </TableCell>
-                      <TableCell
-                        numeric
-                        style={{
-                          fontSize: this.sortingProperty === "goals" && 18
+                        Defeats
+                      </Button>
+                    </TableCell>
+                    <TableCell numeric>
+                      <Button
+                        color={
+                          this.sortingProperty === "goals"
+                            ? "primary"
+                            : "default"
+                        }
+                        onClick={() => {
+                          this.sortingProperty = "goals";
                         }}
                       >
-                        {user.goals}
-                      </TableCell>
-                      <TableCell
-                        numeric
-                        style={{
-                          fontSize:
-                            this.sortingProperty === "goalsPerMatch" && 18
+                        Goals
+                      </Button>
+                    </TableCell>
+                    <TableCell numeric>
+                      <Button
+                        color={
+                          this.sortingProperty === "goalsPerMatch"
+                            ? "primary"
+                            : "default"
+                        }
+                        onClick={() => {
+                          this.sortingProperty = "goalsPerMatch";
                         }}
                       >
-                        {user.goalsPerMatch}
-                      </TableCell>
-                      <TableCell
-                        numeric
-                        style={{
-                          fontSize: this.sortingProperty === "rating" && 18
+                        <nobr>Goals per match</nobr>
+                      </Button>
+                    </TableCell>
+                    <TableCell numeric>
+                      <Button
+                        color={
+                          this.sortingProperty === "rating"
+                            ? "primary"
+                            : "default"
+                        }
+                        onClick={() => {
+                          this.sortingProperty = "rating";
                         }}
                       >
-                        {user.rating}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+                        Rating
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {store.usersStats
+                    .sort(
+                      (a, b) =>
+                        b[this.sortingProperty] - a[this.sortingProperty]
+                    )
+                    .map((user, index) => (
+                      <TableRow key={user.id}>
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell>
+                          <UserAvatar user={user} />
+                        </TableCell>
+                        <TableCell>{user.name}</TableCell>
+                        <TableCell
+                          numeric
+                          style={{
+                            fontSize: this.sortingProperty === "games" && 18
+                          }}
+                        >
+                          {user.games}
+                        </TableCell>
+                        <TableCell
+                          numeric
+                          style={{
+                            fontSize: this.sortingProperty === "wins" && 18
+                          }}
+                        >
+                          {user.wins} ({user.winsPercent}%)
+                        </TableCell>
+                        <TableCell
+                          numeric
+                          style={{
+                            fontSize: this.sortingProperty === "defeats" && 18
+                          }}
+                        >
+                          {user.defeats} ({user.defeatsPercent}%)
+                        </TableCell>
+                        <TableCell
+                          numeric
+                          style={{
+                            fontSize: this.sortingProperty === "goals" && 18
+                          }}
+                        >
+                          {user.goals}
+                        </TableCell>
+                        <TableCell
+                          numeric
+                          style={{
+                            fontSize:
+                              this.sortingProperty === "goalsPerMatch" && 18
+                          }}
+                        >
+                          {user.goalsPerMatch}
+                        </TableCell>
+                        <TableCell
+                          numeric
+                          style={{
+                            fontSize: this.sortingProperty === "rating" && 18
+                          }}
+                        >
+                          {user.rating}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </div>
           )}
         </React.Fragment>
       );

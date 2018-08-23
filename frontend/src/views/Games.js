@@ -39,12 +39,16 @@ const Game = withRouter(
                 }}
               >
                 {game.redUsers.map(user => (
-                  <Tooltip title={user.name} placement="bottom-end">
-                    <UserAvatar key={user.id} user={user} />
+                  <Tooltip
+                    title={user.name}
+                    key={user.id}
+                    placement="bottom-end"
+                  >
+                    <UserAvatar user={user} />
                   </Tooltip>
                 ))}
               </div>
-              <ListItemText style={{ width: 100, textAlign: "center" }}>
+              <ListItemText style={{ padding: "0", textAlign: "center" }}>
                 <span>{game.score}</span>
               </ListItemText>
               <div
@@ -55,8 +59,12 @@ const Game = withRouter(
                 }}
               >
                 {game.blueUsers.map(user => (
-                  <Tooltip title={user.name} placement="bottom-start">
-                    <UserAvatar key={user.id} user={user} />
+                  <Tooltip
+                    title={user.name}
+                    key={user.id}
+                    placement="bottom-start"
+                  >
+                    <UserAvatar user={user} />
                   </Tooltip>
                 ))}
               </div>
@@ -97,12 +105,7 @@ const Games = observer(
 
     render() {
       if (this.state.isLoading) {
-        const spinnerStyle = {
-          marginTop: "15px",
-          marginLeft: "auto",
-          marginRight: "auto"
-        };
-        return <CircularProgress style={spinnerStyle} />;
+        return <CircularProgress style={{ margin: "15px auto" }} />;
       }
       return (
         <React.Fragment>
