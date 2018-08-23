@@ -16,6 +16,7 @@ const authRouter = require("./routers/authRouter");
 const apiUsersRouter = require("./routers/apiUsersRouter");
 const apiGamesRouter = require("./routers/apiGamesRouter");
 const apiStatsRouter = require("./routers/apiStatsRouter");
+const apiProfileRouter = require("./routers/apiProfileRouter");
 
 const server = new Koa();
 
@@ -30,6 +31,7 @@ server.use(authRouter.routes());
 server.use(apiUsersRouter.routes());
 server.use(apiGamesRouter.routes());
 server.use(apiStatsRouter.routes());
+server.use(apiProfileRouter.routes());
 
 server.use(serve(path.join(__dirname, "frontend/build")));
 

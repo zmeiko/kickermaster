@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import ListIcon from "@material-ui/icons/List";
 import StarIcon from "@material-ui/icons/Star";
+import EventIcon from "@material-ui/icons/Event";
 
 function TabContainer(props) {
   return (
@@ -70,6 +71,11 @@ class ScrollableTabsButtonForce extends React.Component {
             >
               <Tab label="GAMES" icon={<ListIcon />} value="/games" />
               <Tab label="LEADERS" icon={<StarIcon />} value="/leaders" />
+              <Tab
+                label="TOURNAMENTS"
+                icon={<EventIcon />}
+                value="/tournaments"
+              />
             </Tabs>
             <Button href="http://localhost:8080/auth/google">Login</Button>
           </Toolbar>

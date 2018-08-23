@@ -10,9 +10,16 @@ import {
   TableBody,
   TableRow
 } from "@material-ui/core";
-import { computed, observable } from "mobx";
+import { computed } from "mobx";
 
 class UserPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true
+    };
+  }
+
   @computed
   get user() {
     const { match } = this.props;
@@ -20,26 +27,38 @@ class UserPage extends Component {
     return store.getUserById(userId);
   }
 
-  @observable isLoading;
-
   async loadUsersIfNeeded() {
     if (this.user === undefined) {
-      try {
-        this.isLoading = true;
-        await store.loadUsers();
-      } finally {
-        this.isLoading = false;
-      }
+      await store.loadUsers();
     }
   }
 
-  componentWillMount() {
-    this.loadUsersIfNeeded();
+  async loadUserStats() {
+    await this.user.loadStats();
+  }
+
+  async loadAll() {
+    this.setState({ isLoading: true });
+    try {
+      await this.loadUsersIfNeeded();
+      await this.loadUserStats();
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  }
+
+  componentDidMount() {
+    this.loadAll();
   }
 
   render() {
-    if (this.isLoading) {
-      return <CircularProgress />;
+    if (this.state.isLoading) {
+      const spinnerStyle = {
+        marginTop: "15px",
+        marginLeft: "auto",
+        marginRight: "auto"
+      };
+      return <CircularProgress style={spinnerStyle} />;
     }
     return (
       <div className={styles.container}>
@@ -50,20 +69,28 @@ class UserPage extends Component {
         <Table style={{ width: "50%", margin: "25px 0 0 350px" }}>
           <TableBody>
             <TableRow>
-              <TableCell style={{ border: "none" }}>Raiting</TableCell>
-              <TableCell style={{ border: "none" }}>{2}</TableCell>
+              <TableCell style={{ border: "none" }}>Rating</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.user.stats.rating}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Games</TableCell>
-              <TableCell style={{ border: "none" }}>{12}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.user.stats.games}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Wins</TableCell>
-              <TableCell style={{ border: "none" }}>{7}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.user.stats.wins}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ border: "none" }}>Defeats</TableCell>
-              <TableCell style={{ border: "none" }}>{5}</TableCell>
+              <TableCell style={{ border: "none" }}>
+                {this.user.stats.defeats}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

@@ -5,7 +5,9 @@ import {
   List,
   ListItem,
   ListItemText,
-  CircularProgress
+  CircularProgress,
+  Typography,
+  Tooltip
 } from "@material-ui/core";
 import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
@@ -19,7 +21,7 @@ const Game = withRouter(
 
       return (
         <ListItem>
-          <div style={{ width: "100%" }}>
+          <div style={{ width: "100%", margin: "15px auto" }}>
             <ListItemText style={{ textAlign: "center" }}>
               <span>
                 {dateFormat(
@@ -30,10 +32,16 @@ const Game = withRouter(
             </ListItemText>
             <div style={{ display: "flex" }}>
               <div
-                style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  justifyContent: "flex-end"
+                }}
               >
                 {game.redUsers.map(user => (
-                  <UserAvatar key={user.id} user={user} />
+                  <Tooltip title={user.name} placement="bottom-end">
+                    <UserAvatar key={user.id} user={user} />
+                  </Tooltip>
                 ))}
               </div>
               <ListItemText style={{ width: 100, textAlign: "center" }}>
@@ -47,7 +55,9 @@ const Game = withRouter(
                 }}
               >
                 {game.blueUsers.map(user => (
-                  <UserAvatar key={user.id} user={user} />
+                  <Tooltip title={user.name} placement="bottom-start">
+                    <UserAvatar key={user.id} user={user} />
+                  </Tooltip>
                 ))}
               </div>
             </div>
@@ -67,16 +77,22 @@ const Games = observer(
       };
     }
 
-    async componentDidMount() {
-      await store.loadGames(store.gamesWeekFilter);
-      this.setState({ isLoading: false });
+    async loadGamesIfNeeded(filter) {
+      this.setState({ isLoading: true });
+      try {
+        await store.loadGames(filter);
+      } finally {
+        this.setState({ isLoading: false });
+      }
     }
 
-    updateGamesList = async date => {
+    componentDidMount() {
+      this.loadGamesIfNeeded(store.gamesWeekFilter);
+    }
+
+    updateGamesList = date => {
       store.applyGamesWeekFilter(date.toString());
-      this.setState({ isLoading: true });
-      await store.loadGames(store.gamesWeekFilter);
-      this.setState({ isLoading: false });
+      this.loadGamesIfNeeded(store.gamesWeekFilter);
     };
 
     render() {
@@ -94,9 +110,18 @@ const Games = observer(
             value={store.gamesWeekFilter}
             onChange={this.updateGamesList}
           />
-          <List style={{ width: "100%" }}>
-            {store.games.map(game => <Game key={game.id} game={game} />)}
-          </List>
+          {store.games.length ? (
+            <List style={{ width: "100%" }}>
+              {store.games.map(game => <Game key={game.id} game={game} />)}
+            </List>
+          ) : (
+            <Typography
+              variant="subheading"
+              style={{ marginTop: "15px", textAlign: "center" }}
+            >
+              There were no games on this week yet
+            </Typography>
+          )}
         </React.Fragment>
       );
     }
