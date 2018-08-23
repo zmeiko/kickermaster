@@ -19,7 +19,9 @@ const Game = withRouter(
     getUserScore = ({ gameId, userId }) => {
       const { game } = this.props;
       if (game.id === gameId) {
-        return game.Goals.filter(goal => goal.UserId === userId).length;
+        return game.Goals.filter(
+          goal => goal.UserId === userId && goal.ownGoal === false
+        ).length;
       }
     };
 
@@ -52,7 +54,7 @@ const Game = withRouter(
                     })} goals per match`}
                     placement="bottom-end"
                   >
-                    <UserAvatar key={user.id} user={user} />
+                    <UserAvatar user={user} />
                   </Tooltip>
                 ))}
               </div>
@@ -74,7 +76,7 @@ const Game = withRouter(
                     })} goals per match`}
                     placement="bottom-start"
                   >
-                    <UserAvatar key={user.id} user={user} />
+                    <UserAvatar user={user} />
                   </Tooltip>
                 ))}
               </div>
