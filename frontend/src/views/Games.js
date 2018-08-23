@@ -16,7 +16,7 @@ import WeekPicker from "../components/WeekPicker";
 
 const Game = withRouter(
   class extends Component {
-    getUserScore = (gameId, userId) => {
+    getUserScore = ({ gameId, userId }) => {
       const { game } = this.props;
       if (game.id === gameId) {
         return game.Goals.filter(goal => goal.UserId === userId).length;
@@ -46,10 +46,10 @@ const Game = withRouter(
               >
                 {game.redUsers.map(user => (
                   <Tooltip
-                    title={`${user.name} - ${this.getUserScore(
-                      game.id,
-                      user.id
-                    )} goals per match`}
+                    title={`${user.name} - ${this.getUserScore({
+                      gameId: game.id,
+                      userId: user.id
+                    })} goals per match`}
                     placement="bottom-end"
                   >
                     <UserAvatar key={user.id} user={user} />
@@ -68,10 +68,10 @@ const Game = withRouter(
               >
                 {game.blueUsers.map(user => (
                   <Tooltip
-                    title={`${user.name} - ${this.getUserScore(
-                      game.id,
-                      user.id
-                    )} goals per match`}
+                    title={`${user.name} - ${this.getUserScore({
+                      gameId: game.id,
+                      userId: user.id
+                    })} goals per match`}
                     placement="bottom-start"
                   >
                     <UserAvatar key={user.id} user={user} />
