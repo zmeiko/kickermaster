@@ -17,6 +17,13 @@ const Game = types
           user.GamePlayer.team === team && user.GamePlayer.position === position
       );
     },
+    getUserScore({ gameId, userId }) {
+      if (self.id === gameId) {
+        return self.Goals.filter(
+          goal => goal.UserId === userId && goal.ownGoal === false
+        ).length;
+      }
+    },
     get redUsers() {
       return self.Users.filter(user => user.GamePlayer.team === TEAM_RED);
     },
