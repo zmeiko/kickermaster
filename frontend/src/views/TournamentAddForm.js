@@ -20,7 +20,7 @@ class TournamentForm extends Component {
 
   handleClick = () => {
     const { handleClose } = this.props;
-    store.addTournament(this.state.inputValue);
+    store.addTournament({ title: this.state.inputValue });
     handleClose();
   };
 

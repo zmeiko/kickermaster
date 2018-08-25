@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { observer } from "mobx-react";
 import {
   Button,
   Table,
@@ -15,6 +16,7 @@ import { withRouter } from "react-router-dom";
 import TournamentAddForm from "./TournamentAddForm";
 
 @withRouter
+@observer
 class Tournaments extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +42,7 @@ class Tournaments extends Component {
   async loadTournamentsIfNeeded() {
     try {
       this.setState({ isLoading: true });
-      //load tournaments from store
+      await store.getTournaments();
     } finally {
       this.setState({ isLoading: false });
     }
@@ -91,12 +93,12 @@ class Tournaments extends Component {
                 <TableCell>
                   <Button
                     color={
-                      this.state.sortingProperty === "author"
+                      this.state.sortingProperty === "user"
                         ? "primary"
                         : "default"
                     }
                     onClick={() => {
-                      this.setState({ sortingProperty: "author" });
+                      this.setState({ sortingProperty: "user" });
                     }}
                   >
                     Author
@@ -137,10 +139,10 @@ class Tournaments extends Component {
                   </TableCell>
                   <TableCell
                     style={{
-                      fontSize: this.state.sortingProperty === "author" && 18
+                      fontSize: this.state.sortingProperty === "user" && 18
                     }}
                   >
-                    {tour.author}
+                    {tour.User.name}
                   </TableCell>
                   <TableCell
                     style={{
