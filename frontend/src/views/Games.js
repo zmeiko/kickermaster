@@ -39,10 +39,8 @@ const Game = withRouter(
               >
                 {game.redUsers.map(user => (
                   <Tooltip
-                    title={`${user.name} - ${game.getUserScore({
-                      gameId: game.id,
-                      userId: user.id
-                    })} goals per match`}
+                    title={`${user.name} - ${game.getUserScore(user.id)}
+                     goals per match`}
                     placement="bottom-end"
                     key={user.id}
                   >
@@ -62,10 +60,9 @@ const Game = withRouter(
               >
                 {game.blueUsers.map(user => (
                   <Tooltip
-                    title={`${user.name} - ${game.getUserScore({
-                      gameId: game.id,
-                      userId: user.id
-                    })} goals per match`}
+                    title={`${user.name} - ${game.getUserScore(
+                      user.id
+                    )} goals per match`}
                     placement="bottom-start"
                     key={user.id}
                   >
