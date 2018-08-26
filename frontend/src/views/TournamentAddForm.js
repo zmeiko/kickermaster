@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
-import { store } from "../store/tournamentStore";
+import { tournamentStore } from "../store/tournamentStore";
 import {
   Button,
   Dialog,
@@ -19,8 +19,11 @@ class TournamentForm extends Component {
   }
 
   handleClick = () => {
-    const { handleClose } = this.props;
-    store.addTournament(this.state.inputValue);
+    const { handleClose, author } = this.props;
+    tournamentStore.addTournament({
+      title: this.state.inputValue,
+      author: author
+    });
     handleClose();
   };
 

@@ -8,6 +8,7 @@ import StarIcon from "@material-ui/icons/Star";
 import Games from "./views/Games";
 import Tournaments from "./views/Tournaments";
 import UserPage from "./views/UserPage";
+import TournamentPage from "./views/TournamentPage";
 import Leaders from "./views/Leaders";
 import AppBar from "./AppBar";
 import "./App.css";
@@ -30,6 +31,11 @@ class App extends Component {
               <Route exact path="/games" component={Games} />
               <Route exact path="/leaders" component={Leaders} />
               <Route exact path="/tournaments" component={Tournaments} />
+              <Route
+                exact
+                path="/tournamentpage/:id"
+                component={TournamentPage}
+              />
               <Redirect to="/leaders" />
             </Switch>
           </div>

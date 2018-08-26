@@ -9,7 +9,8 @@ import {
   CircularProgress,
   Typography
 } from "@material-ui/core";
-import { store } from "../store/tournamentStore";
+import { tournamentStore } from "../store/tournamentStore";
+import { store } from "../store";
 import dateFormat from "dateformat";
 import { withRouter } from "react-router-dom";
 import TournamentAddForm from "./TournamentAddForm";
@@ -21,7 +22,8 @@ class Tournaments extends Component {
     this.state = {
       sortingProperty: "status",
       isLoading: true,
-      open: false
+      open: false,
+      loggedInUserName: ""
     };
   }
 
@@ -37,24 +39,37 @@ class Tournaments extends Component {
     });
   };
 
-  async loadTournamentsIfNeeded() {
+  handleClick = id => {
+    const { history } = this.props;
+    history.push(`/tournamentpage/${id}`);
+  };
+
+  async loadTournamentsIfNeeded() {}
+
+  async loadLoggedInUser() {
+    await store.loadLoggedInUser();
+  }
+
+  async loadAll() {
+    this.setState({ isLoading: true });
     try {
-      this.setState({ isLoading: true });
-      //load tournaments from store
+      await this.loadTournamentsIfNeeded();
+      await this.loadLoggedInUser();
+      this.setState({ loggedInUserName: store.loggedInUser.name });
     } finally {
       this.setState({ isLoading: false });
     }
   }
 
   componentDidMount() {
-    this.loadTournamentsIfNeeded();
+    this.loadAll();
   }
 
   render() {
     if (this.state.isLoading) {
       return <CircularProgress style={{ margin: "15px auto" }} />;
     }
-    return store.tournaments.length ? (
+    return tournamentStore.tournaments.length ? (
       <React.Fragment>
         <div style={{ overflowX: "auto" }}>
           <Table>
@@ -119,35 +134,44 @@ class Tournaments extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {store.tournaments.map((tour, index) => (
+              {tournamentStore.tournaments.map((tournament, index) => (
                 <TableRow key={index}>
                   <TableCell
                     style={{
                       fontSize: this.state.sortingProperty === "title" && 18
                     }}
                   >
-                    {tour.title}
+                    {tournament.title}
                   </TableCell>
                   <TableCell
                     style={{
                       fontSize: this.state.sortingProperty === "date" && 18
                     }}
                   >
-                    {dateFormat(tour.date, "dddd, mmmm dS, yyyy, hh:MM")}
+                    {dateFormat(tournament.date, "dddd, mmmm dS, yyyy, hh:MM")}
                   </TableCell>
                   <TableCell
                     style={{
                       fontSize: this.state.sortingProperty === "author" && 18
                     }}
                   >
-                    {tour.author}
+                    {tournament.author}
                   </TableCell>
                   <TableCell
                     style={{
                       fontSize: this.state.sortingProperty === "status" && 18
                     }}
                   >
-                    {tour.status}
+                    {tournament.status}
+                  </TableCell>
+                  <TableCell style={{ border: "0" }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => this.handleClick(index)}
+                    >
+                      Details
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -161,6 +185,7 @@ class Tournaments extends Component {
           <TournamentAddForm
             handleClose={this.handleClose}
             open={this.state.open}
+            author={this.state.loggedInUserName}
           />
         )}
       </React.Fragment>
@@ -179,6 +204,7 @@ class Tournaments extends Component {
           <TournamentAddForm
             handleClose={this.handleClose}
             open={this.state.open}
+            author={this.state.loggedInUserName}
           />
         )}
       </React.Fragment>

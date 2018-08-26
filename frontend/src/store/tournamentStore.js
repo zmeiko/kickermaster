@@ -6,16 +6,25 @@ const TournamentStore = types
     tournaments: types.optional(types.array(Tournament), [])
   })
   .actions(self => {
+    let index = 0; //temporary solution
     return {
-      addTournament(title) {
+      addTournament(tournament) {
         self.tournaments.push({
-          title: title,
+          id: index++,
+          title: tournament.title,
           date: new Date().toDateString(),
-          author: "Aleksey Kuznetsov",
+          author: tournament.author,
           status: "active"
         });
       }
     };
+  })
+  .views(self => {
+    return {
+      getTournamentById(id) {
+        return self.tournaments.find(tournament => tournament.id === id);
+      }
+    };
   });
 
-export const store = TournamentStore.create({});
+export const tournamentStore = TournamentStore.create({});
