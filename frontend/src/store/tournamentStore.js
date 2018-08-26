@@ -21,11 +21,11 @@ const TournamentStore = types
       getTournaments: flow(function*() {
         const { tournaments } = yield api.get("/api/tournaments");
         self.tournaments = tournaments;
-      }),
-      addTournament: flow(function*({ title }) {
+      })
+      /*addTournament: flow(function*({ title }) {
         const { tournament } = yield api.post("/api/tournaments", { title });
         self.tournaments.unshift(tournament);
-      })
+      })*/
     };
   })
   .views(self => {
