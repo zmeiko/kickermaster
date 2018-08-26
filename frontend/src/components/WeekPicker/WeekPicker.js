@@ -4,6 +4,7 @@ import classNames from "classnames";
 
 import { DatePicker } from "material-ui-pickers";
 import { IconButton, withStyles } from "@material-ui/core";
+import { ArrowBack, ArrowForward } from "@material-ui/icons";
 
 import pickerStyles from "./WeekPicker.module.css";
 import {
@@ -11,7 +12,9 @@ import {
   isSameDay,
   startOfWeek,
   endOfWeek,
-  isWithinInterval
+  isWithinInterval,
+  getNextWeek,
+  getPrevWeek
 } from "../../utils/dateFnsWrappers";
 
 class CustomElements extends PureComponent {
@@ -27,6 +30,24 @@ class CustomElements extends PureComponent {
     const value = startOfWeek(date);
     this.setState({ selectedDate: value });
     this.props.onChange(value);
+  };
+
+  openPrevWeek = () => {
+    const { selectedDate } = this.state;
+    const date = getPrevWeek(selectedDate);
+    this.setState({
+      selectedDate: date
+    });
+    this.handleWeekChange(date);
+  };
+
+  openNextWeek = () => {
+    const { selectedDate } = this.state;
+    const date = getNextWeek(selectedDate);
+    this.setState({
+      selectedDate: date
+    });
+    this.handleWeekChange(date);
   };
 
   formatWeekSelectLabel = date => {
@@ -70,6 +91,9 @@ class CustomElements extends PureComponent {
 
     return (
       <div className={pickerStyles.picker}>
+        <IconButton onClick={this.openPrevWeek}>
+          <ArrowBack />
+        </IconButton>
         <DatePicker
           label="Choose week"
           value={selectedDate}
@@ -80,6 +104,9 @@ class CustomElements extends PureComponent {
           disableFuture
           todayLabel="current week"
         />
+        <IconButton onClick={this.openNextWeek}>
+          <ArrowForward />
+        </IconButton>
       </div>
     );
   }
