@@ -18,7 +18,6 @@ const Game = withRouter(
   class extends Component {
     render() {
       const { game } = this.props;
-
       return (
         <ListItem>
           <div style={{ width: "100%", margin: "15px auto" }}>
@@ -40,9 +39,10 @@ const Game = withRouter(
               >
                 {game.redUsers.map(user => (
                   <Tooltip
-                    title={user.name}
-                    key={user.id}
+                    title={`${user.name} - ${game.getUserScore(user.id)}
+                     goals per match`}
                     placement="bottom-end"
+                    key={user.id}
                   >
                     <UserAvatar user={user} />
                   </Tooltip>
@@ -60,9 +60,11 @@ const Game = withRouter(
               >
                 {game.blueUsers.map(user => (
                   <Tooltip
-                    title={user.name}
-                    key={user.id}
+                    title={`${user.name} - ${game.getUserScore(
+                      user.id
+                    )} goals per match`}
                     placement="bottom-start"
+                    key={user.id}
                   >
                     <UserAvatar user={user} />
                   </Tooltip>
