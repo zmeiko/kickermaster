@@ -11,7 +11,6 @@ import {
   Typography
 } from "@material-ui/core";
 import { tournamentStore } from "../store/tournamentStore";
-import { store } from "../store";
 import dateFormat from "dateformat";
 import { withRouter } from "react-router-dom";
 import TournamentAddForm from "./TournamentAddForm";
@@ -41,30 +40,25 @@ class Tournaments extends Component {
     });
   };
 
-  handleClick = id => {
+  handleClick = tournament => {
     const { history } = this.props;
-    history.push(`/tournamentpage/${id}`);
+    history.push({
+      pathname: `/tournamentpage/${tournament.id}`,
+      state: { tournament: tournament }
+    });
   };
 
-  async loadTournamentsIfNeeded() {}
-
-  async loadLoggedInUser() {
-    await store.loadLoggedInUser();
-  }
-
-  async loadAll() {
+  async loadTournamentsIfNeeded() {
     this.setState({ isLoading: true });
     try {
-      await this.loadTournamentsIfNeeded();
-      await this.loadLoggedInUser();
-      this.setState({ loggedInUserName: store.loggedInUser.name });
+      await tournamentStore.getTournaments();
     } finally {
       this.setState({ isLoading: false });
     }
   }
 
   componentDidMount() {
-    this.loadAll();
+    this.loadTournamentsIfNeeded();
   }
 
   render() {
@@ -157,7 +151,7 @@ class Tournaments extends Component {
                       fontSize: this.state.sortingProperty === "user" && 18
                     }}
                   >
-                    {tournament.author}
+                    {tournament.User.name}
                   </TableCell>
                   <TableCell
                     style={{
@@ -170,7 +164,7 @@ class Tournaments extends Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => this.handleClick(index)}
+                      onClick={() => this.handleClick(tournament)}
                     >
                       Details
                     </Button>

@@ -10,7 +10,6 @@ import {
   TableRow,
   CircularProgress
 } from "@material-ui/core";
-import { tournamentStore } from "../../store/tournamentStore";
 import { store } from "../../store";
 import { observer } from "mobx-react";
 import { computed } from "mobx";
@@ -37,14 +36,9 @@ class TournamentPage extends Component {
 
   @computed
   get tournament() {
-    const { match } = this.props;
-    const tournamentId = parseInt(match.params.id);
-    return tournamentStore.getTournamentById(tournamentId);
+    const { location } = this.props;
+    return location.state.tournament;
   }
-
-  getUser = id => {
-    return store.getUserById(id);
-  };
 
   handleOpen = () => {
     this.setState({
@@ -58,22 +52,16 @@ class TournamentPage extends Component {
     });
   };
 
+  getUser = id => {
+    return store.getUserById(id);
+  };
+
   async loadUsersIfNeeded() {
-    await store.loadUsers();
-  }
-
-  async loadLoggedInUser() {
-    await store.loadLoggedInUser();
-  }
-
-  async loadAll() {
     this.setState({
       isLoading: true
     });
     try {
-      await this.loadUsersIfNeeded();
-      await this.loadLoggedInUser();
-      this.setState({ loggedInUser: store.loggedInUser });
+      await store.loadUsers();
     } finally {
       this.setState({
         isLoading: false
@@ -82,7 +70,7 @@ class TournamentPage extends Component {
   }
 
   componentDidMount() {
-    this.loadAll();
+    this.loadUsersIfNeeded();
   }
 
   render() {
@@ -131,7 +119,7 @@ class TournamentPage extends Component {
         </Button>
         {this.state.open && (
           <TournamentTeamAddForm
-            firstPlayer={this.state.loggedInUser}
+            firstPlayer={this.tournament.User}
             tournament={this.tournament}
             open={this.state.open}
             handleClose={this.handleClose}
@@ -156,7 +144,7 @@ class TournamentPage extends Component {
         </Button>
         {this.state.open && (
           <TournamentTeamAddForm
-            firstPlayer={this.state.loggedInUser}
+            firstPlayer={this.tournament.User}
             tournament={this.tournament}
             open={this.state.open}
             handleClose={this.handleClose}

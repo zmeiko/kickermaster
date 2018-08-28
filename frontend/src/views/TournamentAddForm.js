@@ -19,11 +19,8 @@ class TournamentForm extends Component {
   }
 
   handleClick = () => {
-    const { handleClose, author } = this.props;
-    tournamentStore.addTournament({
-      title: this.state.inputValue,
-      author: author
-    });
+    const { handleClose } = this.props;
+    tournamentStore.addTournament({ title: this.state.inputValue });
     handleClose();
   };
 

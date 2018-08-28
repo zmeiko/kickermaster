@@ -1,14 +1,16 @@
 import { types } from "mobx-state-tree";
+import User from "./user";
 import Team from "./tournamentTeam";
 
 const Tournament = types
   .model({
-    id: types.number,
+    id: types.maybe(types.number),
     title: types.string,
-    author: types.string,
-    date: types.string,
-    status: types.string,
-    teams: types.optional(types.array(Team), [])
+    status: types.maybe(types.string),
+    createdAt: types.string,
+    teams: types.optional(types.array(Team), []),
+
+    User: User
   })
   .actions(self => {
     return {
