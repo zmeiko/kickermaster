@@ -40,12 +40,9 @@ class Tournaments extends Component {
     });
   };
 
-  handleClick = tournament => {
+  handleClick = id => {
     const { history } = this.props;
-    history.push({
-      pathname: `/tournamentpage/${tournament.id}`,
-      state: { tournament: tournament }
-    });
+    history.push(`/tournamentpage/${id}`);
   };
 
   async loadTournamentsIfNeeded() {
@@ -164,7 +161,7 @@ class Tournaments extends Component {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() => this.handleClick(tournament)}
+                      onClick={() => this.handleClick(tournament.id)}
                     >
                       Details
                     </Button>

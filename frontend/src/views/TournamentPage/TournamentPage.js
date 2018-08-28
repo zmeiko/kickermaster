@@ -11,6 +11,7 @@ import {
   CircularProgress
 } from "@material-ui/core";
 import { store } from "../../store";
+import { tournamentStore } from "../../store/tournamentStore";
 import { observer } from "mobx-react";
 import { computed } from "mobx";
 import UserAvatar from "../../components/UserAvatar";
@@ -36,8 +37,9 @@ class TournamentPage extends Component {
 
   @computed
   get tournament() {
-    const { location } = this.props;
-    return location.state.tournament;
+    const { match } = this.props;
+    const tournamentId = parseInt(match.params.id);
+    return tournamentStore.getTournamentById(tournamentId);
   }
 
   handleOpen = () => {
