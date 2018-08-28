@@ -178,7 +178,6 @@ class Tournaments extends Component {
           <TournamentAddForm
             handleClose={this.handleClose}
             open={this.state.open}
-            author={this.state.loggedInUserName}
           />
         )}
       </React.Fragment>
@@ -197,7 +196,6 @@ class Tournaments extends Component {
           <TournamentAddForm
             handleClose={this.handleClose}
             open={this.state.open}
-            author={this.state.loggedInUserName}
           />
         )}
       </React.Fragment>

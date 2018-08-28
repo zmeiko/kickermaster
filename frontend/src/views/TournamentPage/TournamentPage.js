@@ -59,20 +59,27 @@ class TournamentPage extends Component {
   };
 
   async loadUsersIfNeeded() {
+    await store.loadUsers();
+  }
+
+  async loadTournamentsIfNeeded() {
+    await tournamentStore.getTournaments();
+  }
+
+  async loadAll() {
     this.setState({
       isLoading: true
     });
     try {
-      await store.loadUsers();
+      await this.loadUsersIfNeeded();
+      await this.loadTournamentsIfNeeded();
     } finally {
-      this.setState({
-        isLoading: false
-      });
+      this.setState({ isLoading: false });
     }
   }
 
   componentDidMount() {
-    this.loadUsersIfNeeded();
+    this.loadAll();
   }
 
   render() {
