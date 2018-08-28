@@ -30,8 +30,7 @@ class TournamentPage extends Component {
     super(props);
     this.state = {
       open: false,
-      isLoading: true,
-      loggedInUser: {}
+      isLoading: true
     };
   }
 
@@ -58,12 +57,14 @@ class TournamentPage extends Component {
     return store.getUserById(id);
   };
 
-  async loadUsersIfNeeded() {
-    await store.loadUsers();
+  loadUsersIfNeeded() {
+    if (!store.users.length) store.loadUsers();
   }
 
   async loadTournamentsIfNeeded() {
-    await tournamentStore.getTournaments();
+    if (this.tournament === undefined) {
+      await tournamentStore.getTournaments();
+    }
   }
 
   async loadAll() {
@@ -71,8 +72,8 @@ class TournamentPage extends Component {
       isLoading: true
     });
     try {
-      await this.loadUsersIfNeeded();
       await this.loadTournamentsIfNeeded();
+      await this.loadUsersIfNeeded();
     } finally {
       this.setState({ isLoading: false });
     }
