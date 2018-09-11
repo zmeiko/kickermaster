@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
   );
   Game.associate = function({ User, GamePlayer, Goal }) {
     Game.belongsToMany(User, { through: GamePlayer });
-    Game.hasMany(Goal);
+    Game.Goals = Game.hasMany(Goal);
+    Game.GamePlayers = Game.hasMany(GamePlayer);
   };
   return Game;
 };
