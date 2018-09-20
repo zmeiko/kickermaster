@@ -53,6 +53,15 @@ class Tournaments extends Component {
   }
 
   render() {
+    return (
+      <Typography
+        variant="subheading"
+        style={{ marginTop: "15px", textAlign: "center" }}
+      >
+        Coming soon
+      </Typography>
+    );
+
     if (this.state.isLoading) {
       return <CircularProgress style={{ margin: "15px auto" }} />;
     }
