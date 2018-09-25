@@ -1,6 +1,6 @@
 import { types } from "mobx-state-tree";
 
-const UserStats = types
+const UserStat = types
   .model({
     id: types.number,
     name: types.string,
@@ -32,4 +32,4 @@ const UserStats = types
     }
   }));
 
-export default UserStats;
+export default UserStat;

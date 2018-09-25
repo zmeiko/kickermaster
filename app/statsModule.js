@@ -9,7 +9,28 @@ const FRW_GOALS_KOEF = 2;
 const DEF_SAVES_KOEF = 2;
 const WIN_BONUS_KOEF = 1.5;
 
-async function getUsersStats({ weekDate, userId }) {
+async function getUsersStats(params) {
+  const [all, forwards, defenders] = await Promise.all([
+    db.sequelize.query(getUsersStatsQuery(getUserGamesQuery(), params), {
+      model: db.UserStats
+    }),
+    db.sequelize.query(
+      getUsersStatsQuery(getUserGamesQuery(POSITION_FORWARD), params),
+      { model: db.UserStats }
+    ),
+    db.sequelize.query(
+      getUsersStatsQuery(getUserGamesQuery(POSITION_DEFENDER), params),
+      { model: db.UserStats }
+    )
+  ]);
+  return { all, forwards, defenders };
+}
+
+module.exports = {
+  getUsersStats
+};
+
+function getUserGamesQuery(position) {
   const gamesQuery = `
     SELECT
       Games.id AS 'gameId',
@@ -36,7 +57,13 @@ async function getUsersStats({ weekDate, userId }) {
     GROUP BY Games.id
   `;
 
-  const usersGamesQuery = `
+  const whereConditions = ["1 = 1"];
+
+  if (position !== undefined) {
+    whereConditions.push(`GamePlayers.position = ${position}`);
+  }
+
+  return `
     SELECT
       Users.id AS 'userId',
       Games.id AS 'gameId',
@@ -80,6 +107,7 @@ async function getUsersStats({ weekDate, userId }) {
           AND Goals.userId = Users.id
       LEFT JOIN (${gamesQuery}) AS GameScores
         ON Games.id = GameScores.gameId
+    WHERE ${whereConditions.join(" AND ")}
     GROUP BY
       Users.id,
       Games.id,
@@ -89,7 +117,9 @@ async function getUsersStats({ weekDate, userId }) {
     HAVING GamePlayers.position IS NOT NULL
       AND (ourGoals = ${GOALS_TO_FINISH_GAME} OR theirGoals = ${GOALS_TO_FINISH_GAME})
   `;
+}
 
+function getUsersStatsQuery(usersGamesQuery, { weekDate, userId }) {
   const whereConditions = ["1 = 1"];
 
   if (weekDate) {
@@ -112,7 +142,7 @@ async function getUsersStats({ weekDate, userId }) {
     `);
   }
 
-  const usersStatsQuery = `
+  return `
     SELECT
       Users.id,
       Users.name,
@@ -158,10 +188,4 @@ async function getUsersStats({ weekDate, userId }) {
     WHERE ${whereConditions.join(" AND ")}
     GROUP BY Users.id
   `;
-
-  return db.sequelize.query(usersStatsQuery, { model: db.UserStats });
 }
-
-module.exports = {
-  getUsersStats
-};

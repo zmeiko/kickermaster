@@ -1,7 +1,7 @@
 import { types, flow } from "mobx-state-tree";
 import api from "../api";
 import GamePlayer from "./gamePlayer";
-import UserStats from "./userStats";
+import UserStat from "./userStat";
 
 const User = types
   .model({
@@ -9,7 +9,7 @@ const User = types
     name: types.string,
     photoUrl: types.maybe(types.string),
     GamePlayer: types.maybe(GamePlayer),
-    stats: types.maybe(UserStats)
+    stats: types.maybe(UserStat)
   })
   .actions(self => {
     return {
