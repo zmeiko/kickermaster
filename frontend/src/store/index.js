@@ -3,9 +3,12 @@ import api from "../api";
 import User from "./user";
 import UserStats from "./userStats";
 import Game from "./game";
+import AuthStore from "./authStore";
 
 const Store = types
   .model({
+    authStore: AuthStore,
+
     users: types.optional(types.array(User), []),
     games: types.optional(types.array(Game), []),
     usersStats: types.optional(types.array(UserStats), []),
@@ -38,4 +41,6 @@ const Store = types
     };
   });
 
-export const store = Store.create({});
+export const store = Store.create({
+  authStore: {}
+});

@@ -1,5 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import { observer } from "mobx-react";
+import { computed } from "mobx";
 import {
   AppBar,
   Tabs,
@@ -12,6 +14,9 @@ import {
 import ListIcon from "@material-ui/icons/List";
 import StarIcon from "@material-ui/icons/Star";
 import EventIcon from "@material-ui/icons/Event";
+
+import UserAvatar from "./components/UserAvatar";
+import { store } from "./store";
 
 const API_HOST = process.env.REACT_APP_API_HOST;
 
@@ -38,12 +43,18 @@ const styles = theme => ({
 });
 
 @withRouter
+@observer
 class ScrollableTabsButtonForce extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: this.props.location.pathname
     };
+  }
+
+  @computed
+  get profile() {
+    return store.authStore.profile;
   }
 
   handleChange = (event, value) => {
@@ -79,7 +90,11 @@ class ScrollableTabsButtonForce extends React.Component {
                 value="/tournaments"
               />
             </Tabs>
-            <Button href={`${API_HOST}/auth/google`}>Login</Button>
+            {this.profile ? (
+              <UserAvatar user={this.profile} size={32} />
+            ) : (
+              <Button href={`${API_HOST}/auth/google`}>Login</Button>
+            )}
           </Toolbar>
         </AppBar>
       </div>
