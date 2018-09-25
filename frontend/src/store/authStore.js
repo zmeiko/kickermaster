@@ -1,7 +1,5 @@
 import { types, flow } from "mobx-state-tree";
 import api from "../api";
-import GamePlayer from "./gamePlayer";
-import UserStats from "./userStats";
 
 const Profile = types.model({
   id: types.number,
