@@ -30,7 +30,12 @@ function initPassportStrategies() {
           const params = {
             email,
             photoUrl: profile.image && profile.image.url,
-            name: profile.displayName
+            name:
+              profile.displayName ||
+              (profile.name &&
+                [profile.name.givenName, profile.name.familyName]
+                  .filter(str => str)
+                  .join(" "))
           };
 
           let user = await db.User.findOne({ where: { email } });
