@@ -137,6 +137,32 @@ const Leaders = observer(
               <TableCell numeric>
                 <Button
                   color={
+                    this.sortingProperty === "keep" ? "primary" : "default"
+                  }
+                  onClick={() => {
+                    this.sortingProperty = "keep";
+                  }}
+                >
+                  Keep
+                </Button>
+              </TableCell>
+              <TableCell numeric>
+                <Button
+                  color={
+                    this.sortingProperty === "keepPerMatch"
+                      ? "primary"
+                      : "default"
+                  }
+                  onClick={() => {
+                    this.sortingProperty = "keepPerMatch";
+                  }}
+                >
+                  <nobr>Keep per match</nobr>
+                </Button>
+              </TableCell>
+              <TableCell numeric>
+                <Button
+                  color={
                     this.sortingProperty === "rating" ? "primary" : "default"
                   }
                   onClick={() => {
@@ -197,6 +223,22 @@ const Leaders = observer(
                     }}
                   >
                     {user.goalsPerMatch}
+                  </TableCell>
+                  <TableCell
+                    numeric
+                    style={{
+                      fontSize: this.sortingProperty === "keep" && 18
+                    }}
+                  >
+                    {user.keep}
+                  </TableCell>
+                  <TableCell
+                    numeric
+                    style={{
+                      fontSize: this.sortingProperty === "keepPerMatch" && 18
+                    }}
+                  >
+                    {user.keepPerMatch}
                   </TableCell>
                   <TableCell
                     numeric

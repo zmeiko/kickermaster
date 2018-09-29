@@ -88,6 +88,11 @@ function getUserGamesQuery(position) {
         ELSE GameScores.goalsTeam0
       END as 'theirGoals',
       CASE
+        WHEN GamePlayers.team = 0
+        THEN (${GOALS_TO_FINISH_GAME} - GameScores.goalsTeam1)
+        ELSE (${GOALS_TO_FINISH_GAME} - GameScores.goalsTeam0)
+      END as 'keep',
+      CASE
         WHEN GamePlayers.team = 0 AND GameScores.goalsTeam0 > GameScores.goalsTeam1 THEN 1
         WHEN GamePlayers.team = 1 AND GameScores.goalsTeam1 > GameScores.goalsTeam0 THEN 1
         ELSE 0
@@ -154,6 +159,11 @@ function getUsersStatsQuery(usersGamesQuery, { weekDate, userId }) {
         ELSE CAST(SUM(UserGames.goals) AS UNSIGNED)
       END AS 'goals',
       CASE
+        WHEN SUM(UserGames.keep) IS NULL
+        THEN CAST(0 AS UNSIGNED)
+        ELSE CAST(SUM(UserGames.keep) AS UNSIGNED)
+      END AS 'keep',
+      CASE
         WHEN SUM(UserGames.win) IS NULL
         THEN CAST(0 AS UNSIGNED)
         ELSE CAST(SUM(UserGames.win) AS UNSIGNED)
@@ -168,8 +178,8 @@ function getUsersStatsQuery(usersGamesQuery, { weekDate, userId }) {
           (
             CASE
               WHEN UserGames.position = ${POSITION_FORWARD}
-              THEN UserGames.goals * ${FRW_GOALS_KOEF} + (${GOALS_TO_FINISH_GAME} - UserGames.theirGoals)
-              ELSE (${GOALS_TO_FINISH_GAME} - UserGames.theirGoals) * ${DEF_SAVES_KOEF} + UserGames.goals
+              THEN UserGames.goals * ${FRW_GOALS_KOEF} + UserGames.keep
+              ELSE UserGames.keep * ${DEF_SAVES_KOEF} + UserGames.goals
             END
           )
           *
