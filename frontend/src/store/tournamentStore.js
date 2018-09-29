@@ -17,6 +17,13 @@ const TournamentStore = types
         self.tournaments.unshift(tournament);
       })
     };
+  })
+  .views(self => {
+    return {
+      getTournamentById(id) {
+        return self.tournaments.find(tournament => tournament.id === id);
+      }
+    };
   });
 
-export const store = TournamentStore.create({});
+export const tournamentStore = TournamentStore.create({});

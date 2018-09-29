@@ -10,7 +10,7 @@ import {
   CircularProgress,
   Typography
 } from "@material-ui/core";
-import { store } from "../store/tournamentStore";
+import { tournamentStore } from "../store/tournamentStore";
 import dateFormat from "dateformat";
 import { withRouter } from "react-router-dom";
 import TournamentAddForm from "./TournamentAddForm";
@@ -23,7 +23,8 @@ class Tournaments extends Component {
     this.state = {
       sortingProperty: "status",
       isLoading: true,
-      open: false
+      open: false,
+      loggedInUserName: ""
     };
   }
 
@@ -39,10 +40,15 @@ class Tournaments extends Component {
     });
   };
 
+  handleClick = id => {
+    const { history } = this.props;
+    history.push(`/tournamentpage/${id}`);
+  };
+
   async loadTournamentsIfNeeded() {
+    this.setState({ isLoading: true });
     try {
-      this.setState({ isLoading: true });
-      await store.getTournaments();
+      await tournamentStore.getTournaments();
     } finally {
       this.setState({ isLoading: false });
     }
@@ -65,7 +71,7 @@ class Tournaments extends Component {
     if (this.state.isLoading) {
       return <CircularProgress style={{ margin: "15px auto" }} />;
     }
-    return store.tournaments.length ? (
+    return tournamentStore.tournaments.length ? (
       <React.Fragment>
         <div style={{ overflowX: "auto" }}>
           <Table>
@@ -130,35 +136,44 @@ class Tournaments extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {store.tournaments.map((tour, index) => (
+              {tournamentStore.tournaments.map((tournament, index) => (
                 <TableRow key={index}>
                   <TableCell
                     style={{
                       fontSize: this.state.sortingProperty === "title" && 18
                     }}
                   >
-                    {tour.title}
+                    {tournament.title}
                   </TableCell>
                   <TableCell
                     style={{
                       fontSize: this.state.sortingProperty === "date" && 18
                     }}
                   >
-                    {dateFormat(tour.date, "dddd, mmmm dS, yyyy, hh:MM")}
+                    {dateFormat(tournament.date, "dddd, mmmm dS, yyyy, hh:MM")}
                   </TableCell>
                   <TableCell
                     style={{
                       fontSize: this.state.sortingProperty === "user" && 18
                     }}
                   >
-                    {tour.User.name}
+                    {tournament.User.name}
                   </TableCell>
                   <TableCell
                     style={{
                       fontSize: this.state.sortingProperty === "status" && 18
                     }}
                   >
-                    {tour.status}
+                    {tournament.status}
+                  </TableCell>
+                  <TableCell style={{ border: "0" }}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => this.handleClick(tournament.id)}
+                    >
+                      Details
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
