@@ -9,6 +9,7 @@ import Games from "./views/Games";
 import Tournaments from "./views/Tournaments";
 import UserPage from "./views/UserPage";
 import Leaders from "./views/Leaders";
+import Info from "./views/Info";
 import AppBar from "./AppBar";
 import "./App.css";
 
@@ -29,6 +30,7 @@ class App extends Component {
               <Route path="/userpage/:id" component={UserPage} />
               <Route exact path="/games" component={Games} />
               <Route exact path="/leaders" component={Leaders} />
+              <Route path="/info/:gameId" component={Info} />
               <Route exact path="/tournaments" component={Tournaments} />
               <Redirect to="/leaders" />
             </Switch>

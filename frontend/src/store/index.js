@@ -41,6 +41,9 @@ const Store = types
   })
   .views(self => {
     return {
+      getGameById(id) {
+        return self.games.find(game => game.id === id);
+      },
       getUserById(id) {
         return self.users.find(user => user.id === id);
       }

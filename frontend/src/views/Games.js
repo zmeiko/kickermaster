@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import {
   List,
   ListItem,
@@ -13,8 +13,9 @@ import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
 import { store } from "../store";
 import WeekPicker from "../components/WeekPicker";
+import { id } from "date-fns/esm/locale";
 
-const Game = withRouter(
+export const Game = withRouter(
   class extends Component {
     render() {
       const { game } = this.props;
@@ -110,14 +111,18 @@ const Games = observer(
         return <CircularProgress style={{ margin: "15px auto" }} />;
       }
       return (
-        <React.Fragment>
+         <React.Fragment>
           <WeekPicker
             value={store.gamesWeekFilter}
             onChange={this.updateGamesList}
           />
           {store.games.length ? (
             <List style={{ width: "100%" }}>
-              {store.games.map(game => <Game key={game.id} game={game} />)}
+              {store.games.map(game => (
+                <ListItem button component={Link} to={`info/${game.id}`}>
+                  <Game key={game.id} game={game} />
+                </ListItem>
+              ))}
             </List>
           ) : (
             <Typography
