@@ -176,6 +176,7 @@ const Leaders = observer(
           </TableHead>
           <TableBody>
             {stats
+              .filter(user => !!user.games)
               .sort((a, b) => b[this.sortingProperty] - a[this.sortingProperty])
               .map((user, index) => (
                 <TableRow key={user.id}>
