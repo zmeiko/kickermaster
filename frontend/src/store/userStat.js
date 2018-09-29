@@ -8,6 +8,7 @@ const UserStat = types
     wins: types.number,
     defeats: types.number,
     goals: types.number,
+    keep: types.number,
     games: types.number,
     rating: types.maybe(types.number)
   })
@@ -27,6 +28,12 @@ const UserStat = types
     get goalsPerMatch() {
       if (self.games > 0) {
         return (self.goals / self.games).toFixed(2);
+      }
+      return 0;
+    },
+    get keepPerMatch() {
+      if (self.games > 0) {
+        return (self.keep / self.games).toFixed(2);
       }
       return 0;
     }
