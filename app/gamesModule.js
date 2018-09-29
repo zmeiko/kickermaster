@@ -1,8 +1,10 @@
 const moment = require("moment");
 const db = require("../models");
 
-async function addGame(params) {
-  const game = await db.Game.create(params);
+async function addGame(payload) {
+  const game = await db.Game.create(payload, {
+    include: [db.Game.GamePlayers, db.Game.Goals]
+  });
   return game;
 }
 

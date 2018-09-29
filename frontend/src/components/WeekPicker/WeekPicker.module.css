@@ -1,7 +1,3 @@
 .picker {
-  display: inline-block;
-  position: fixed;
-  top: 10px;
-  left: 30px;
-  z-index: 1;
+  margin: 15px auto;
 }

@@ -21,9 +21,7 @@ function initPassportStrategies() {
       {
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: `${process.env.HOST}:${
-          process.env.PORT
-        }/auth/google/callback`
+        callbackURL: `${process.env.GOOGLE_CALLBACK_HOST}/auth/google/callback`
       },
       async function(accessToken, refreshToken, profile, done) {
         try {
@@ -32,7 +30,12 @@ function initPassportStrategies() {
           const params = {
             email,
             photoUrl: profile.image && profile.image.url,
-            name: profile.displayName
+            name:
+              profile.displayName ||
+              (profile.name &&
+                [profile.name.givenName, profile.name.familyName]
+                  .filter(str => str)
+                  .join(" "))
           };
 
           let user = await db.User.findOne({ where: { email } });
@@ -51,6 +54,14 @@ function initPassportStrategies() {
   );
 }
 
+function authenticatedOnly(ctx, next) {
+  if (ctx.isAuthenticated()) {
+    return next();
+  }
+  ctx.status = 401;
+}
+
 module.exports = {
-  initPassportStrategies
+  initPassportStrategies,
+  authenticatedOnly
 };

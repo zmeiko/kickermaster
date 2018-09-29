@@ -9,7 +9,28 @@ const FRW_GOALS_KOEF = 2;
 const DEF_SAVES_KOEF = 2;
 const WIN_BONUS_KOEF = 1.5;
 
-async function getUsersStats({ weekDate, userId }) {
+async function getUsersStats(params) {
+  const [all, forwards, defenders] = await Promise.all([
+    db.sequelize.query(getUsersStatsQuery(getUserGamesQuery(), params), {
+      model: db.UserStats
+    }),
+    db.sequelize.query(
+      getUsersStatsQuery(getUserGamesQuery(POSITION_FORWARD), params),
+      { model: db.UserStats }
+    ),
+    db.sequelize.query(
+      getUsersStatsQuery(getUserGamesQuery(POSITION_DEFENDER), params),
+      { model: db.UserStats }
+    )
+  ]);
+  return { all, forwards, defenders };
+}
+
+module.exports = {
+  getUsersStats
+};
+
+function getUserGamesQuery(position) {
   const gamesQuery = `
     SELECT
       Games.id AS 'gameId',
@@ -36,7 +57,13 @@ async function getUsersStats({ weekDate, userId }) {
     GROUP BY Games.id
   `;
 
-  const usersGamesQuery = `
+  const whereConditions = ["1 = 1"];
+
+  if (position !== undefined) {
+    whereConditions.push(`GamePlayers.position = ${position}`);
+  }
+
+  return `
     SELECT
       Users.id AS 'userId',
       Games.id AS 'gameId',
@@ -61,6 +88,11 @@ async function getUsersStats({ weekDate, userId }) {
         ELSE GameScores.goalsTeam0
       END as 'theirGoals',
       CASE
+        WHEN GamePlayers.team = 0
+        THEN (${GOALS_TO_FINISH_GAME} - GameScores.goalsTeam1)
+        ELSE (${GOALS_TO_FINISH_GAME} - GameScores.goalsTeam0)
+      END as 'keep',
+      CASE
         WHEN GamePlayers.team = 0 AND GameScores.goalsTeam0 > GameScores.goalsTeam1 THEN 1
         WHEN GamePlayers.team = 1 AND GameScores.goalsTeam1 > GameScores.goalsTeam0 THEN 1
         ELSE 0
@@ -80,6 +112,7 @@ async function getUsersStats({ weekDate, userId }) {
           AND Goals.userId = Users.id
       LEFT JOIN (${gamesQuery}) AS GameScores
         ON Games.id = GameScores.gameId
+    WHERE ${whereConditions.join(" AND ")}
     GROUP BY
       Users.id,
       Games.id,
@@ -89,7 +122,9 @@ async function getUsersStats({ weekDate, userId }) {
     HAVING GamePlayers.position IS NOT NULL
       AND (ourGoals = ${GOALS_TO_FINISH_GAME} OR theirGoals = ${GOALS_TO_FINISH_GAME})
   `;
+}
 
+function getUsersStatsQuery(usersGamesQuery, { weekDate, userId }) {
   const whereConditions = ["1 = 1"];
 
   if (weekDate) {
@@ -112,7 +147,7 @@ async function getUsersStats({ weekDate, userId }) {
     `);
   }
 
-  const usersStatsQuery = `
+  return `
     SELECT
       Users.id,
       Users.name,
@@ -123,6 +158,11 @@ async function getUsersStats({ weekDate, userId }) {
         THEN CAST(0 AS UNSIGNED)
         ELSE CAST(SUM(UserGames.goals) AS UNSIGNED)
       END AS 'goals',
+      CASE
+        WHEN SUM(UserGames.keep) IS NULL
+        THEN CAST(0 AS UNSIGNED)
+        ELSE CAST(SUM(UserGames.keep) AS UNSIGNED)
+      END AS 'keep',
       CASE
         WHEN SUM(UserGames.win) IS NULL
         THEN CAST(0 AS UNSIGNED)
@@ -138,8 +178,8 @@ async function getUsersStats({ weekDate, userId }) {
           (
             CASE
               WHEN UserGames.position = ${POSITION_FORWARD}
-              THEN UserGames.goals * ${FRW_GOALS_KOEF} + (${GOALS_TO_FINISH_GAME} - UserGames.theirGoals)
-              ELSE (${GOALS_TO_FINISH_GAME} - UserGames.theirGoals) * ${DEF_SAVES_KOEF} + UserGames.goals
+              THEN UserGames.goals * ${FRW_GOALS_KOEF} + UserGames.keep
+              ELSE UserGames.keep * ${DEF_SAVES_KOEF} + UserGames.goals
             END
           )
           *
@@ -158,10 +198,4 @@ async function getUsersStats({ weekDate, userId }) {
     WHERE ${whereConditions.join(" AND ")}
     GROUP BY Users.id
   `;
-
-  return db.sequelize.query(usersStatsQuery, { model: db.UserStats });
 }
-
-module.exports = {
-  getUsersStats
-};

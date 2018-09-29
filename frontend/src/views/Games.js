@@ -6,7 +6,8 @@ import {
   ListItem,
   ListItemText,
   CircularProgress,
-  Typography
+  Typography,
+  Tooltip
 } from "@material-ui/core";
 import dateFormat from "dateformat";
 import UserAvatar from "../components/UserAvatar";
@@ -18,10 +19,9 @@ export const Game = withRouter(
   class extends Component {
     render() {
       const { game } = this.props;
-
       return (
         <ListItem>
-          <div style={{ width: "100%" }}>
+          <div style={{ width: "100%", margin: "15px auto" }}>
             <ListItemText style={{ textAlign: "center" }}>
               <span>
                 {dateFormat(
@@ -32,13 +32,24 @@ export const Game = withRouter(
             </ListItemText>
             <div style={{ display: "flex" }}>
               <div
-                style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  justifyContent: "flex-end"
+                }}
               >
                 {game.redUsers.map(user => (
-                  <UserAvatar key={user.id} user={user} />
+                  <Tooltip
+                    title={`${user.name} - ${game.getUserScore(user.id)}
+                     goals per match`}
+                    placement="bottom-end"
+                    key={user.id}
+                  >
+                    <UserAvatar user={user} />
+                  </Tooltip>
                 ))}
               </div>
-              <ListItemText style={{ width: 100, textAlign: "center" }}>
+              <ListItemText style={{ padding: "0", textAlign: "center" }}>
                 <span>{game.score}</span>
               </ListItemText>
               <div
@@ -49,7 +60,15 @@ export const Game = withRouter(
                 }}
               >
                 {game.blueUsers.map(user => (
-                  <UserAvatar key={user.id} user={user} />
+                  <Tooltip
+                    title={`${user.name} - ${game.getUserScore(
+                      user.id
+                    )} goals per match`}
+                    placement="bottom-start"
+                    key={user.id}
+                  >
+                    <UserAvatar user={user} />
+                  </Tooltip>
                 ))}
               </div>
             </div>
@@ -89,12 +108,7 @@ const Games = observer(
 
     render() {
       if (this.state.isLoading) {
-        const spinnerStyle = {
-          marginTop: "15px",
-          marginLeft: "auto",
-          marginRight: "auto"
-        };
-        return <CircularProgress style={spinnerStyle} />;
+        return <CircularProgress style={{ margin: "15px auto" }} />;
       }
       return (
          <React.Fragment>

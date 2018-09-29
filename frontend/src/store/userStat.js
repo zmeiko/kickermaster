@@ -1,6 +1,6 @@
 import { types } from "mobx-state-tree";
 
-const UserStats = types
+const UserStat = types
   .model({
     id: types.number,
     name: types.string,
@@ -8,6 +8,7 @@ const UserStats = types
     wins: types.number,
     defeats: types.number,
     goals: types.number,
+    keep: types.number,
     games: types.number,
     rating: types.maybe(types.number)
   })
@@ -29,7 +30,13 @@ const UserStats = types
         return (self.goals / self.games).toFixed(2);
       }
       return 0;
+    },
+    get keepPerMatch() {
+      if (self.games > 0) {
+        return (self.keep / self.games).toFixed(2);
+      }
+      return 0;
     }
   }));
 
-export default UserStats;
+export default UserStat;
