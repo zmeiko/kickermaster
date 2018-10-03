@@ -8,7 +8,8 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     dialect: "mysql",
-    seederStorage: "sequelize"
+    seederStorage: "sequelize",
+    dialectOptions: { charset: "utf8" }
   },
   production: {
     username: process.env.DB_USERNAME,
@@ -16,6 +17,7 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     dialect: "mysql",
-    seederStorage: "sequelize"
+    seederStorage: "sequelize",
+    dialectOptions: { charset: "utf8" }
   }
 };
