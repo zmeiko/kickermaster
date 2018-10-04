@@ -197,5 +197,6 @@ function getUsersStatsQuery(usersGamesQuery, { weekDate, userId }) {
         ON Users.id = UserGames.userId
     WHERE ${whereConditions.join(" AND ")}
     GROUP BY Users.id
+    HAVING games > 0
   `;
 }
