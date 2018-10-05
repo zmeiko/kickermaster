@@ -1,0 +1,157 @@
+<!doctype <!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Kicker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="index.css" />
+</head>
+
+<body>
+  <div class="vs-container">
+    <div class="vs-fake-background">
+      <div></div>
+      <div></div>
+    </div>
+
+    <svg class="vs-background" xmlns="http://www.w3.org/2000/svg" width="100%" height="100" viewBox="0 0 320 100">
+      <g fill="none" fill-rule="evenodd">
+        <path fill="#235CFF" d="M-29 0h384v100H-29z" />
+        <path fill="#FFF" d="M-24.5 0H184l-43.613 100H-24.5z" />
+        <path fill="#FF234A" d="M-29 0h209.5l-43.719 100H-29z" />
+      </g>
+    </svg>
+
+    <img class="vs-avatar --human" src="./img-human-big@2x.png" />
+    <img class="vs-avatar --robot" src="./img-robot-big@2x.png" />
+
+    <svg class="vs" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+      <g fill="none" fill-rule="evenodd" stroke="#FFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+        <path fill="#235CFF" d="M9.939 15.58l.27.754.277.187-.378-.941h-.17zm.996.701l.254-.701h-.228l-.378.94.352-.239zM10.57 8.46l1.503-4.16h6.666l-5.752 14.28H8.08L2.348 4.3h6.73l1.492 4.16z" />
+        <path fill="#FF234A" d="M15.653 20.027c-.918-.774-1.367-1.817-1.367-3.303v-.032c0-3.019 2.43-5.084 5.836-5.084 2.199 0 4.03.6 5.547 1.818l1.101.884-2.147 3.034c1.264.829 1.911 1.992 1.911 3.668v.032c0 3.17-2.503 5.148-6.028 5.148-2.377 0-4.59-.77-6.242-2.233l-1.093-.967 2.482-2.965z" />
+      </g>
+    </svg>
+
+    <div class="results">
+      <div class="results-team --human">
+        <div class="results-team-label">
+          HUMAN<br>WINS
+        </div>
+        <div id="wins-human" class="results-team-value">~</div>
+      </div>
+      <div class="results-team --robot">
+        <div class="results-team-label">
+          ROBOT<br>WINS
+        </div>
+        <div id="wins-robot" class="results-team-value">~</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <table class="table-stats">
+      <thead>
+        <tr>
+          <td class="table-stats-number">#</td>
+          <td class="table-stats-name">NAME</td>
+          <td class="table-stats-wins">WINS</td>
+          <td class="table-stats-goals">GOALS</td>
+          <td class="table-stats-rating">RATING</td>
+        </tr>
+      </thead>
+      <tbody id="table-stats-body">
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // var API_HOST = "https://kicker404.mercdev.com";
+    var API_HOST = "http://localhost:8082";
+
+    var xhrUserStats = new XMLHttpRequest();
+
+    xhrUserStats.open('GET', API_HOST + '/api/stats');
+    xhrUserStats.send();
+
+    xhrUserStats.onreadystatechange = function () {
+      if (xhrUserStats.readyState != 4) return;
+
+      if (xhrUserStats.status != 200) {
+      } else {
+        var body = document.getElementById('table-stats-body');
+        var data = JSON.parse(xhrUserStats.responseText).usersStats.all;
+
+        data.sort(function (a, b) {
+          return b.rating - a.rating;
+        });
+
+        for (var i = 0; i < data.length; i++) {
+          var position = document.createElement('td');
+          position.innerText = i + 1;
+
+          var name = document.createElement('td');
+          name.classList.add('table-stats-name');
+          name.innerText = data[i].name;
+
+          var wins = document.createElement('td');
+          var winsCount = document.createElement('nobr');
+          var winsBr = document.createElement('br');
+          var winsPercent = document.createElement('span');
+          winsCount.innerText = data[i].wins + " / " + data[i].games;
+          winsPercent.innerText = Math.round((data[i].wins / data[i].games) * 100) + "%";
+          wins.appendChild(winsCount);
+          wins.appendChild(winsBr);
+          wins.appendChild(winsPercent);
+
+          var goals = document.createElement('td');
+          var goalsCount = document.createElement('span');
+          var goalsBr = document.createElement('br');
+          var goalsAvg = document.createElement('nobr');
+          goalsCount.innerText = data[i].goals;
+          goalsAvg.innerText = (data[i].goals / data[i].games).toFixed(2) + " avg.";
+          goals.appendChild(goalsCount);
+          goals.appendChild(goalsBr);
+          goals.appendChild(goalsAvg);
+
+          var rating = document.createElement('td');
+          rating.innerText = data[i].rating.toFixed(2);
+
+          var row = document.createElement('tr');
+          row.appendChild(position);
+          row.appendChild(name);
+          row.appendChild(wins);
+          row.appendChild(goals);
+          row.appendChild(rating);
+
+          body.appendChild(row);
+        }
+      }
+    }
+  </script>
+
+  <script>
+    var xhrTeamStats = new XMLHttpRequest();
+
+    xhrTeamStats.open('GET', API_HOST + '/api/stats/teams');
+    xhrTeamStats.send();
+
+    xhrTeamStats.onreadystatechange = function () {
+      if (xhrTeamStats.readyState != 4) return;
+
+      if (xhrTeamStats.status != 200) {
+      } else {
+        var winsHuman = document.getElementById('wins-human');
+        var winsRobot = document.getElementById('wins-robot');
+
+        var data = JSON.parse(xhrTeamStats.responseText).teamsStats[0];
+
+        winsHuman.innerText = data.wins0;
+        winsRobot.innerText = data.wins1;
+      }
+    }
+  </script>
+</body>
+
+</html>

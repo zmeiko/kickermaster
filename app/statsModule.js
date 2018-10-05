@@ -26,8 +26,55 @@ async function getUsersStats(params) {
   return { all, forwards, defenders };
 }
 
+function getTeamsStats() {
+  const gamesQuery = `
+    SELECT
+      Games.id AS 'gameId',
+      SUM(
+        CASE
+          WHEN GamePlayers.team = 0 AND Goals.ownGoal = 0 THEN 1
+          WHEN GamePlayers.team = 1 AND Goals.ownGoal = 1 THEN 1
+          ELSE 0
+        END
+      ) AS 'goalsTeam0',
+      SUM(
+        CASE
+          WHEN GamePlayers.team = 1 AND Goals.ownGoal = 0 THEN 1
+          WHEN GamePlayers.team = 0 AND Goals.ownGoal = 1 THEN 1
+          ELSE 0
+        END
+      ) AS 'goalsTeam1'
+    FROM Games
+      LEFT JOIN Goals
+        ON Games.id = Goals.gameId
+      LEFT JOIN GamePlayers
+        ON Goals.gameId = GamePlayers.gameId
+          AND Goals.userId = GamePlayers.userId
+    GROUP BY Games.id
+  `;
+
+  const teamsStatsQuery = `
+    SELECT
+      SUM(
+        CASE
+          WHEN goalsTeam0 = ${GOALS_TO_FINISH_GAME} THEN 1
+          ELSE 0
+        END
+      ) AS 'wins0',
+      SUM(
+        CASE
+          WHEN goalsTeam1 = ${GOALS_TO_FINISH_GAME} THEN 1
+          ELSE 0
+        END
+      ) AS 'wins1'
+    FROM (${gamesQuery}) AS GameScores`;
+
+  return db.sequelize.query(teamsStatsQuery, { model: db.TeamsStats });
+}
+
 module.exports = {
-  getUsersStats
+  getUsersStats,
+  getTeamsStats
 };
 
 function getUserGamesQuery(position) {

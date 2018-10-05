@@ -1,0 +1,150 @@
+@font-face {
+  font-family: "GothamPro-Black";
+  src: url("GothamPro-Black.woff") format("woff");
+}
+
+@font-face {
+  font-family: "GothamPro-Medium";
+  src: url("GothamPro-Medium.woff") format("woff");
+}
+
+html {
+  background: #191919;
+}
+
+body {
+  margin: 0;
+}
+
+.vs-container {
+  position: relative;
+}
+
+.vs-fake-background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+}
+.vs-fake-background div {
+  flex: 1;
+}
+.vs-fake-background div:first-child {
+  background: #ff234a;
+}
+.vs-fake-background div:last-child {
+  background: #235cff;
+}
+
+.vs-background {
+  position: relative;
+}
+
+.vs {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.vs-avatar {
+  width: 42px;
+  height: 90px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.vs-avatar.--human {
+  left: 0;
+}
+
+.vs-avatar.--robot {
+  right: 0;
+}
+
+.results {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+}
+
+.results-team {
+  flex-grow: 1;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.results-team-label {
+  font-family: GothamPro-Black;
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: center;
+  color: #ffffff;
+}
+
+.results-team-value {
+  font-family: GothamPro-Black;
+  font-size: 33px;
+  line-height: 1.2;
+  text-align: center;
+  color: #ffffff;
+}
+
+.main {
+  padding: 5px;
+}
+
+.table-stats {
+  border: 0;
+  border-spacing: 10px;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.table-stats thead td {
+  opacity: 0.4;
+  font-family: GothamPro-Medium;
+  font-size: 10px;
+  letter-spacing: 1.3px;
+  text-align: center;
+  color: #ffffff;
+  padding: 10px 0;
+}
+
+.table-stats tbody td {
+  font-family: GothamPro-Medium;
+  font-size: 12px;
+  line-height: 1.17;
+  color: #ffffff;
+  text-align: center;
+}
+
+.table-stats .table-stats-number {
+  width: 20px;
+}
+
+.table-stats .table-stats-name {
+  text-align: left;
+  word-wrap: break-word;
+}
+
+.table-stats .table-stats-wins {
+  width: 45px;
+}
+
+.table-stats .table-stats-goals {
+  width: 55px;
+}
+
+.table-stats .table-stats-rating {
+  width: 50px;
+}

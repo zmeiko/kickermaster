@@ -12,4 +12,9 @@ apiStatsRouter.get("/api/stats", async ctx => {
   ctx.body = { usersStats };
 });
 
+apiStatsRouter.get("/api/stats/teams", async ctx => {
+  const teamsStats = await statsModule.getTeamsStats();
+  ctx.body = { teamsStats };
+});
+
 module.exports = apiStatsRouter;
