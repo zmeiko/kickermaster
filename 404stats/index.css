@@ -27,9 +27,11 @@ body {
   right: 0;
   bottom: 0;
 
+  display: -webkit-box;
   display: flex;
 }
 .vs-fake-background div {
+  -webkit-box-flex: 1;
   flex: 1;
 }
 .vs-fake-background div:first-child {
@@ -47,7 +49,8 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: -15px;
+  margin-left: -15px;
 }
 
 .vs-avatar {
@@ -55,14 +58,14 @@ body {
   height: 90px;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  margin-top: -45px;
 }
 
-.vs-avatar.--human {
+.vs-avatar.human {
   left: 0;
 }
 
-.vs-avatar.--robot {
+.vs-avatar.robot {
   right: 0;
 }
 
@@ -73,11 +76,14 @@ body {
   right: 0;
   bottom: 0;
 
+  display: -webkit-box;
   display: flex;
+  -webkit-box-align: center;
   align-items: center;
 }
 
 .results-team {
+  -webkit-box-flex: 1;
   flex-grow: 1;
   flex-shrink: 0;
   text-align: center;
@@ -129,7 +135,7 @@ body {
 }
 
 .table-stats .table-stats-number {
-  width: 20px;
+  width: 26px;
 }
 
 .table-stats .table-stats-name {
@@ -147,4 +153,18 @@ body {
 
 .table-stats .table-stats-rating {
   width: 50px;
+}
+
+.loading {
+  opacity: 0.4;
+  font-family: GothamPro-Medium;
+  font-size: 10px;
+  letter-spacing: 1.3px;
+  text-align: center;
+  color: #ffffff;
+  padding: 20px 0;
+}
+
+.loading.hidden {
+  display: none;
 }

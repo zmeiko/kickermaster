@@ -24,8 +24,8 @@
       </g>
     </svg>
 
-    <img class="vs-avatar --human" src="./img-human-big@2x.png" />
-    <img class="vs-avatar --robot" src="./img-robot-big@2x.png" />
+    <img class="vs-avatar human" src="./img-human-big@2x.png" />
+    <img class="vs-avatar robot" src="./img-robot-big@2x.png" />
 
     <svg class="vs" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
       <g fill="none" fill-rule="evenodd" stroke="#FFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
@@ -35,13 +35,13 @@
     </svg>
 
     <div class="results">
-      <div class="results-team --human">
+      <div class="results-team human">
         <div class="results-team-label">
           HUMAN<br>WINS
         </div>
         <div id="wins-human" class="results-team-value">~</div>
       </div>
-      <div class="results-team --robot">
+      <div class="results-team robot">
         <div class="results-team-label">
           ROBOT<br>WINS
         </div>
@@ -64,6 +64,7 @@
       <tbody id="table-stats-body">
       </tbody>
     </table>
+    <div id="loading" class="loading">LOADING...</div>
   </div>
 
   <script>
@@ -79,6 +80,9 @@
 
       if (xhrUserStats.status != 200) {
       } else {
+        var loading = document.getElementById('loading');
+        loading.classList.add("hidden");
+
         var body = document.getElementById('table-stats-body');
         var data = JSON.parse(xhrUserStats.responseText).usersStats.all;
 
