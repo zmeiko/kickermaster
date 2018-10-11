@@ -24,6 +24,8 @@ module.exports = { nodeInterface, nodeField, nodesField } = nodeDefinitions(
         return context.db.Game.findById(id).then(assignType("Game"));
       case "Goal":
         return context.db.Goal.findById(id).then(assignType("Goal"));
+      case "User":
+        return context.db.Goal.findById(id).then(assignType("User"));
       default:
         return null;
     }
@@ -33,6 +35,8 @@ module.exports = { nodeInterface, nodeField, nodesField } = nodeDefinitions(
       case "Game":
         return require("./game/GameType").default;
       case "Goal":
+        return require("./goal/GoalType").default;
+      case "User":
         return require("./goal/GoalType").default;
       default:
         return null;

@@ -4,6 +4,7 @@ const gameQueries = require("./game/queries");
 const gameMutations = require("./game/mutations");
 
 const goalQueries = require("./goal/queries");
+const usersQueries = require("./user/queries");
 
 const { nodeField, nodesField } = require("./node");
 
@@ -14,7 +15,8 @@ module.exports = new GraphQLSchema({
       node: nodeField,
       nodes: nodesField,
       ...gameQueries,
-      ...goalQueries
+      ...goalQueries,
+      ...usersQueries
     }
   }),
   mutation: new GraphQLObjectType({
