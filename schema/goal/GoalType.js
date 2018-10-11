@@ -2,32 +2,25 @@ const {
   GraphQLObjectType,
   GraphQLList,
   GraphQLNonNull,
-  GraphQLInt,
+  GraphQLBoolean,
   GraphQLString
 } = require("graphql");
 const { globalIdField } = require("graphql-relay");
 const { nodeInterface } = require("../node");
 
-const GoalType = require("../goal/GoalType");
-
 module.exports = new GraphQLObjectType({
-  name: "Game",
+  name: "Goal",
   interfaces: [nodeInterface],
 
   fields: () => ({
     id: globalIdField(),
-    ball: {
-      type: GraphQLString
+    ownGoal: {
+      type: GraphQLBoolean
     },
-    status: {
-      type: GraphQLString
+    Game: {
+      type: new GraphQLNonNull(require("../game/GameType")),
+      resolve: goal => goal.getGame()
     },
-
-    Goals: {
-      type: new GraphQLList(GoalType),
-      resolve: game => game.getGoals()
-    },
-
     createdAt: {
       type: new GraphQLNonNull(GraphQLString)
     },
