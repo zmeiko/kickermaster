@@ -12,12 +12,14 @@ const passport = require("koa-passport");
 const cors = require("koa-cors");
 const serve = require("koa-static");
 
+const db = require("./models");
 const authRouter = require("./routers/authRouter");
 const apiUsersRouter = require("./routers/apiUsersRouter");
 const apiGamesRouter = require("./routers/apiGamesRouter");
 const apiStatsRouter = require("./routers/apiStatsRouter");
 const apiProfileRouter = require("./routers/apiProfileRouter");
 const apiTournamentsRouter = require("./routers/apiTournamentsRouter");
+const graphqlRouter = require("./routers/graphqlRoutes");
 
 const server = new Koa();
 
@@ -34,7 +36,16 @@ server.use(apiGamesRouter.routes());
 server.use(apiStatsRouter.routes());
 server.use(apiProfileRouter.routes());
 server.use(apiTournamentsRouter.routes());
+server.use(graphqlRouter.routes());
 
 server.use(serve(path.join(__dirname, "frontend/build")));
 
-server.listen(process.env.PORT);
+db.sequelize
+  .authenticate()
+  .then(() => {
+    server.listen(process.env.PORT);
+    console.log("Connection has been established successfully.");
+  })
+  .catch(err => {
+    console.error("Unable to connect to the database:", err);
+  });
