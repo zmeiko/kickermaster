@@ -21,7 +21,7 @@ services:
     - 8080:8080
     depends_on:
     - mysql
-  node:
+  api:
     restart: always
     image: "node:8"
     working_dir: /home/node/app
@@ -38,4 +38,19 @@ services:
     - 3000:3000
     depends_on:
     - mysql
+    command: "yarn start:docker"
+  frontend:
+    restart: always
+    image: "node:8"
+    working_dir: /home/node/app
+    environment:
+      PORT: "3001"
+      REACT_APP_API_HOST: "http://localhost:3000"
+      NODE_ENV: "development"
+    volumes:
+    - ./frontend:/home/node/app
+    depends_on:
+    - api
+    ports:
+    - 3001:3001
     command: "yarn start:docker"
