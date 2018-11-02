@@ -1,0 +1,60 @@
+type Game implements Node {
+  """The ID of an object"""
+  id: ID!
+  ball: String
+  status: String
+  users: [User]
+  goals: [Goal]
+  players: [GamePlayer]
+  createdAt: String
+  updatedAt: String
+}
+
+type GamePlayer implements Node {
+  """The ID of an object"""
+  id: ID!
+  team: Int
+  position: Int
+  game: Game
+  user: User
+  createdAt: String
+  updatedAt: String
+}
+
+type Goal implements Node {
+  """The ID of an object"""
+  id: ID!
+  ownGoal: Boolean
+  game: Game
+  user: User
+  createdAt: String
+  updatedAt: String
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+type Query {
+  allGames: [Game]
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type User implements Node {
+  """The ID of an object"""
+  id: ID!
+  name: String
+  photoUrl: String
+  email: String
+  games: [Game]
+  goals: [Goal]
+  createdAt: String
+  updatedAt: String
+}
