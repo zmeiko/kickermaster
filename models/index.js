@@ -17,6 +17,8 @@ var sequelize = new Sequelize(
   config
 );
 
+const { createContext, EXPECTED_OPTIONS_KEY } = require("dataloader-sequelize");
+
 fs
   .readdirSync(__dirname)
   .filter(file => {
@@ -34,6 +36,9 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
+
+// optimization count of query to database
+createContext(sequelize);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

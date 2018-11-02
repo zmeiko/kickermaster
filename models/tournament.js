@@ -4,14 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     "Tournament",
     {
       title: DataTypes.STRING,
-      status: DataTypes.STRING,
-      userId: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: "User",
-          key: "id"
-        }
-      }
+      status: DataTypes.STRING
     },
     {}
   );

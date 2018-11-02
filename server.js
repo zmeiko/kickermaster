@@ -12,6 +12,7 @@ const passport = require("koa-passport");
 const cors = require("koa-cors");
 const serve = require("koa-static");
 
+const graphqlRouter = require("./routers/graphql");
 const authRouter = require("./routers/authRouter");
 const apiUsersRouter = require("./routers/apiUsersRouter");
 const apiGamesRouter = require("./routers/apiGamesRouter");
@@ -34,6 +35,7 @@ server.use(apiGamesRouter.routes());
 server.use(apiStatsRouter.routes());
 server.use(apiProfileRouter.routes());
 server.use(apiTournamentsRouter.routes());
+server.use(graphqlRouter.routes());
 
 server.use(serve(path.join(__dirname, "frontend/build")));
 
