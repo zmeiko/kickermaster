@@ -15,24 +15,33 @@
     "react-dom": "^16.2.0",
     "react-relay": "^1.7.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.1",
     "relay-runtime": "^1.7.0"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "webpack-dev-server --config webpack.dev.js",
     "start:docker": "yarn start",
-    "build": "react-app-rewired build",
+    "build": "webpack  --config webpack.prod.js",
     "relay":
       "relay-compiler --src ./src --schema ../routers/graphql/schema.graphql"
   },
   "devDependencies": {
-    "babel-plugin-relay": "^1.7.0",
-    "graphql": "^14.0.2",
-    "node-sass": "^4.9.0",
-    "react-app-rewire-css-modules": "codebandits/react-app-rewire-css-modules",
-    "react-app-rewire-mobx": "^1.0.8",
-    "react-app-rewired": "^1.5.2",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-decorators": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.4",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^1.0.1",
+    "dotenv-webpack": "^1.5.7",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
     "relay-compiler": "^1.7.0",
-    "sass-loader": "^7.0.1"
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.24.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4"
   }
 }

@@ -90,7 +90,7 @@ class CustomElements extends PureComponent {
     const { selectedDate } = this.state;
 
     return (
-      <div className={pickerStyles.picker}>
+      <div style={{ margin: "15px auto" }}>
         <IconButton onClick={this.openPrevWeek}>
           <ArrowBack />
         </IconButton>
