@@ -1,3 +1,16 @@
+input AddGameInput {
+  ball: String
+  status: String
+  players: [PlayerInput]
+  goals: [GoalInput]
+  clientMutationId: String
+}
+
+type AddGamePayload {
+  game: Game
+  clientMutationId: String
+}
+
 type Game implements Node {
   """The ID of an object"""
   id: ID!
@@ -31,20 +44,35 @@ type Goal implements Node {
   updatedAt: String
 }
 
+input GoalInput {
+  ownGoal: Boolean
+  UserId: ID
+}
+
+type Mutation {
+  GraphQLAddGameMutation(input: AddGameInput!): AddGamePayload
+}
+
 """An object with an ID"""
 interface Node {
   """The id of the object."""
   id: ID!
 }
 
-type Query {
-  allGames: [Game]
+input PlayerInput {
+  team: Int
+  UserId: ID
+}
 
+type Query {
   """Fetches an object given its ID"""
   node(
     """The ID of an object"""
     id: ID!
   ): Node
+  allGames: [Game]
+  me: User
+  users: [User]
 }
 
 type User implements Node {

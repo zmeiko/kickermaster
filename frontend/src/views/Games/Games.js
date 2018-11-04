@@ -1,50 +1,33 @@
-import React, { Component } from "react";
-import { observer } from "mobx-react";
-import { CircularProgress, List, Typography } from "@material-ui/core";
-import { store } from "../../store";
-import WeekPicker from "../../components/WeekPicker";
-import Games from "../../components/Games";
+import GamesList from "../../components/GamesList";
+import React from "react";
+import { graphql, QueryRenderer } from "react-relay";
 
-export default observer(
-  class extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        isLoading: true
-      };
-    }
+import environment from "../../relay/environment";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
-    async loadGamesIfNeeded(filter) {
-      this.setState({ isLoading: true });
-      try {
-        await store.loadGames(filter);
-      } finally {
-        this.setState({ isLoading: false });
-      }
-    }
-
-    componentDidMount() {
-      this.loadGamesIfNeeded(store.gamesWeekFilter);
-    }
-
-    updateGamesList = date => {
-      store.applyGamesWeekFilter(date.toString());
-      this.loadGamesIfNeeded(store.gamesWeekFilter);
-    };
-
-    render() {
-      if (this.state.isLoading) {
-        return <CircularProgress style={{ margin: "15px auto" }} />;
-      }
-      return (
-        <React.Fragment>
-          <WeekPicker
-            value={store.gamesWeekFilter}
-            onChange={this.updateGamesList}
-          />
-          <Games games={store.games} />
-        </React.Fragment>
-      );
-    }
+export default class Games extends React.Component {
+  render() {
+    return (
+      <QueryRenderer
+        environment={environment}
+        query={graphql`
+          query GamesQuery {
+            allGames {
+              id
+            }
+          }
+        `}
+        variables={{}}
+        render={({ error, props }) => {
+          if (error) {
+            return <div>Error!</div>;
+          }
+          if (!props) {
+            return <CircularProgress style={{ margin: "15px auto" }} />;
+          }
+          return <GamesList games={props.data.games} />;
+        }}
+      />
+    );
   }
-);
+}

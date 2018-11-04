@@ -3,6 +3,7 @@ import { List, Typography } from "@material-ui/core";
 import GameItem from "../GameItem";
 
 export default ({ games }) => {
+  console.log("wag");
   if (!games.length) {
     return (
       <Typography
