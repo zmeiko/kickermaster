@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { CircularProgress, List, Typography } from "@material-ui/core";
 import { store } from "../../store";
 import WeekPicker from "../../components/WeekPicker";
-import GameItem from "./components/GameItem";
+import Games from "../../components/Games";
 
 const Games = observer(
   class extends Component {
@@ -42,18 +42,7 @@ const Games = observer(
             value={store.gamesWeekFilter}
             onChange={this.updateGamesList}
           />
-          {store.games.length ? (
-            <List style={{ width: "100%" }}>
-              {store.games.map(game => <GameItem key={game.id} game={game} />)}
-            </List>
-          ) : (
-            <Typography
-              variant="subheading"
-              style={{ marginTop: "15px", textAlign: "center" }}
-            >
-              There were no games on this week yet
-            </Typography>
-          )}
+          <Games games={store.games} />
         </React.Fragment>
       );
     }
