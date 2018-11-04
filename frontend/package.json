@@ -18,6 +18,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
+    "start:docker": "yarn start",
     "build": "react-app-rewired build"
   },
   "devDependencies": {
