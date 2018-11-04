@@ -30,7 +30,7 @@ class App extends Component {
               <Route exact path="/games" component={Games} />
               <Route exact path="/leaders" component={Leaders} />
               <Route exact path="/tournaments" component={Tournaments} />
-              <Redirect to="/leaders" />
+              <Redirect to="/games" />
             </Switch>
           </div>
         </HashRouter>

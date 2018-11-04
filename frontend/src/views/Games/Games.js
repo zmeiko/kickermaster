@@ -5,7 +5,7 @@ import { store } from "../../store";
 import WeekPicker from "../../components/WeekPicker";
 import Games from "../../components/Games";
 
-const Games = observer(
+export default observer(
   class extends Component {
     constructor(props) {
       super(props);
@@ -48,5 +48,3 @@ const Games = observer(
     }
   }
 );
-
-export default Games;
