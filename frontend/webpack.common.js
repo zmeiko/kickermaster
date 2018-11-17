@@ -40,7 +40,17 @@ module.exports = {
                 {
                   loose: true
                 }
-              ]
+              ],
+              [
+                "module-resolver",
+                {
+                  root: ["./src"],
+                  alias: {
+                    "@components": "./src/components"
+                  }
+                }
+              ],
+              "relay"
             ]
           }
         }

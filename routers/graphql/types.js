@@ -3,11 +3,15 @@ const {
   GraphQLList,
   GraphQLBoolean,
   GraphQLObjectType,
-  GraphQLString
+  GraphQLString,
+  GraphQLEnumType
 } = require("graphql");
 
 const {
+  connectionDefinitions,
+  connectionFromPromisedArray,
   fromGlobalId,
+  connectionArgs,
   globalIdField,
   nodeDefinitions
 } = require("graphql-relay");
@@ -71,6 +75,14 @@ const UserType = new GraphQLObjectType({
   interfaces: [nodeInterface]
 });
 
+const CommandColor = new GraphQLEnumType({
+  name: "CommandColor",
+  values: {
+    RED: { value: 0 },
+    BLUE: { value: 1 }
+  }
+});
+
 const GameType = new GraphQLObjectType({
   name: "Game",
   fields: () => ({
@@ -91,7 +103,24 @@ const GameType = new GraphQLObjectType({
     },
     players: {
       type: new GraphQLList(GamePlayerType),
-      resolve: game => game.getGamePlayers()
+      args: {
+        colorCommand: {
+          type: CommandColor,
+          defaultValue: null
+        }
+      },
+      resolve: (game, args) => {
+        const { colorCommand } = args;
+        if (colorCommand != null) {
+          return game.getGamePlayers({
+            where: {
+              team: colorCommand
+            }
+          });
+        } else {
+          return game.getGamePlayers();
+        }
+      }
     },
     createdAt: {
       type: GraphQLString
@@ -101,6 +130,14 @@ const GameType = new GraphQLObjectType({
     }
   }),
   interfaces: [nodeInterface]
+});
+
+const {
+  connectionType: GamesConnection,
+  edgeType: GameEdge
+} = connectionDefinitions({
+  name: "GameTypeConnection",
+  nodeType: GameType
 });
 
 const GoalType = new GraphQLObjectType({
@@ -156,9 +193,29 @@ const GamePlayerType = new GraphQLObjectType({
   interfaces: [nodeInterface]
 });
 
+const ViewerType = new GraphQLObjectType({
+  name: "Viewer",
+  fields: () => ({
+    user: {
+      type: UserType,
+      resolve: (root, args, { db: { User }, userId }) =>
+        userId && User.findById(userId)
+    },
+    games: {
+      type: GamesConnection,
+      args: connectionArgs,
+      resolve: (root, args, { db: { Game } }) =>
+        connectionFromPromisedArray(Game.findAll(), args)
+    }
+  })
+});
+
 module.exports = {
+  ViewerType,
   nodeInterface,
   nodeField,
+  GamesConnection,
+  GameEdge,
   GamePlayerType,
   GameType,
   GoalType,

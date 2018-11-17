@@ -37,6 +37,8 @@
     "passport-google-auth": "^1.0.2",
     "passport-local": "^1.0.0",
     "passport-token-auth": "^0.1.2",
+    "react-router": "^4.3.1",
+    "react-router-relay": "^0.14.0",
     "sequelize": "^4.37.4",
     "sequelize-cli": "^4.0.0",
     "websocket": "^1.0.25"

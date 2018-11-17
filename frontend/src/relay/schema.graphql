@@ -1,0 +1,131 @@
+input AddGameInput {
+  ball: String
+  status: String
+  players: [PlayerInput]
+  goals: [GoalInput]
+  clientMutationId: String
+}
+
+type AddGamePayload {
+  game: Game
+  clientMutationId: String
+}
+
+enum CommandColor {
+  RED
+  BLUE
+}
+
+type Game implements Node {
+  """The ID of an object"""
+  id: ID!
+  ball: String
+  status: String
+  users: [User]
+  goals: [Goal]
+  players(colorCommand: CommandColor = null): [GamePlayer]
+  createdAt: String
+  updatedAt: String
+}
+
+"""A connection to a list of items."""
+type GameConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [GameEdge]
+}
+
+"""An edge in a connection."""
+type GameEdge {
+  """The item at the end of the edge"""
+  node: Game
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
+type GamePlayer implements Node {
+  """The ID of an object"""
+  id: ID!
+  team: Int
+  position: Int
+  game: Game
+  user: User
+  createdAt: String
+  updatedAt: String
+}
+
+type Goal implements Node {
+  """The ID of an object"""
+  id: ID!
+  ownGoal: Boolean
+  game: Game
+  user: User
+  createdAt: String
+  updatedAt: String
+}
+
+input GoalInput {
+  ownGoal: Boolean
+  UserId: ID
+}
+
+type Mutation {
+  GraphQLAddGameMutation(input: AddGameInput!): AddGamePayload
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+input PlayerInput {
+  team: Int
+  UserId: ID
+}
+
+type Query {
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+  games(after: String, first: Int, before: String, last: Int): GameConnection
+  viewer: Viewer
+  users: [User]
+}
+
+type User implements Node {
+  """The ID of an object"""
+  id: ID!
+  name: String
+  photoUrl: String
+  email: String
+  games: [Game]
+  goals: [Goal]
+  createdAt: String
+  updatedAt: String
+}
+
+type Viewer {
+  user: User
+  games(after: String, first: Int, before: String, last: Int): GameConnection
+}

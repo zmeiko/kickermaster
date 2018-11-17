@@ -41,7 +41,9 @@ services:
     command: "yarn start:docker"
   frontend:
     restart: always
-    image: "node:8"
+    build:
+      context: ./frontend
+      dockerfile: dev.dockerfile
     working_dir: /home/node/app
     environment:
       PORT: "3001"
@@ -49,6 +51,7 @@ services:
       NODE_ENV: "development"
     volumes:
     - ./frontend:/home/node/app
+    - frontend_node_modules:/home/node/app/node_modules
     depends_on:
     - api
     ports:
@@ -57,3 +60,4 @@ services:
 
 volumes:
   data-mysql:
+  frontend_node_modules:

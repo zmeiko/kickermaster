@@ -1,8 +1,8 @@
-import GamesList from "../../components/GamesList";
+import GamesList from "relay/components/GameList/GameList";
 import React from "react";
 import { graphql, QueryRenderer } from "react-relay";
 
-import environment from "../../relay/environment";
+import environment from "relay/environment";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 export default class Games extends React.Component {
@@ -12,8 +12,8 @@ export default class Games extends React.Component {
         environment={environment}
         query={graphql`
           query GamesQuery {
-            allGames {
-              id
+            viewer {
+              ...GameList_viewer
             }
           }
         `}
@@ -25,7 +25,7 @@ export default class Games extends React.Component {
           if (!props) {
             return <CircularProgress style={{ margin: "15px auto" }} />;
           }
-          return <GamesList games={props.data.games} />;
+          return <GamesList viewer={props.viewer} />;
         }}
       />
     );

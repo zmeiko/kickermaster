@@ -1,10 +1,10 @@
 const { GraphQLList, GraphQLID } = require("graphql");
-const { UserType } = require("../types");
+const { UserType, ViewerType } = require("../types");
 
 module.exports = {
-  me: {
-    type: UserType,
-    resolve: (root, args, { db: { User }, userId }) => User.findById(userId)
+  viewer: {
+    type: ViewerType,
+    resolve: () => ({})
   },
   users: {
     type: new GraphQLList(UserType),

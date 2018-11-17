@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
-// import AddIcon from "@material-ui/icons/Add";
-import ListIcon from "@material-ui/icons/List";
-import StarIcon from "@material-ui/icons/Star";
+import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
 
-// import Game from "./views/Game";
-import Games from "./views/Games";
+import Games from "./relay/screens/Games";
 import Tournaments from "./views/Tournaments";
 import UserPage from "./views/UserPage";
 import Leaders from "./views/Leaders";
@@ -24,8 +20,6 @@ class App extends Component {
           <div className="App">
             <AppBar />
             <Switch>
-              {/* <Route exact path="/" component={Game} /> */}
-              {/* <Route exact path="/game/:gameId" component={Game} /> */}
               <Route path="/userpage/:id" component={UserPage} />
               <Route exact path="/games" component={Games} />
               <Route exact path="/leaders" component={Leaders} />

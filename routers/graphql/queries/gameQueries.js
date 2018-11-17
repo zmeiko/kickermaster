@@ -1,9 +1,15 @@
 const { GraphQLList, GraphQLID } = require("graphql");
-const { GameType } = require("../types");
+const {
+  connectionFromPromisedArray,
+  connectionArgs
+} = require("graphql-relay");
+const { GamesConnection } = require("../types");
 
 module.exports = {
-  allGames: {
-    type: new GraphQLList(GameType),
-    resolve: (root, args, { db: { Game } }) => Game.findAll()
+  games: {
+    type: GamesConnection,
+    args: connectionArgs,
+    resolve: (root, args, { db: { Game } }) =>
+      connectionFromPromisedArray(Game.findAll(), args)
   }
 };

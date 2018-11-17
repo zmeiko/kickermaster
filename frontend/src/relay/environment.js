@@ -3,7 +3,7 @@ import { Environment, Network, RecordSource, Store } from "relay-runtime";
 const API_HOST = process.env.REACT_APP_API_HOST;
 
 function fetchQuery(operation, variables) {
-  return fetch(`${API_HOST}/graphql`, {
+  return fetch(`${API_HOST}/api/graphql`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

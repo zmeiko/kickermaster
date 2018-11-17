@@ -5,7 +5,5 @@ const isAuthenticated = rule()(async (parent, args, { isAuthenticated }) => {
 });
 
 module.exports = shield({
-  Query: {
-    me: isAuthenticated
-  }
+  Query: {}
 });

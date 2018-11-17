@@ -19,10 +19,9 @@
   },
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
-    "start:docker": "yarn start",
+    "start:docker": "yarn && yarn start",
     "build": "webpack  --config webpack.prod.js",
-    "relay":
-      "relay-compiler --src ./src --schema ../routers/graphql/schema.graphql"
+    "relay": "relay-compiler --src ./src --schema src/relay/schema.graphql"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -31,10 +30,13 @@
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-plugin-relay": "^1.7.0",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.1",
     "dotenv-webpack": "^1.5.7",
     "file-loader": "^2.0.0",
+    "graphql": "^14.0.2",
     "html-webpack-plugin": "^3.2.0",
     "relay-compiler": "^1.7.0",
     "style-loader": "^0.23.1",
