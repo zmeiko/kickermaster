@@ -4,7 +4,7 @@ import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
 import Games from "./relay/screens/Games";
 import Tournaments from "./views/Tournaments";
 import UserPage from "./views/UserPage";
-import Leaders from "./views/Leaders";
+import Leaders from "./relay/screens/Leaders";
 import AppBar from "./AppBar";
 import "./App.css";
 
@@ -24,7 +24,7 @@ class App extends Component {
               <Route exact path="/games" component={Games} />
               <Route exact path="/leaders" component={Leaders} />
               <Route exact path="/tournaments" component={Tournaments} />
-              <Redirect to="/games" />
+              <Redirect to="/leaders" />
             </Switch>
           </div>
         </HashRouter>

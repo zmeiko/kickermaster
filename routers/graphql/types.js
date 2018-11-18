@@ -81,6 +81,7 @@ const UserStatisticType = new GraphQLObjectType({
     rating: {
       type: GraphQLInt
     },
+    //todo move to VIRTUAL field
     winsPercent: {
       type: GraphQLInt,
       resolve: statistic => {
