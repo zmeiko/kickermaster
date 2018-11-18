@@ -219,7 +219,7 @@ const {
   connectionType: GamesConnection,
   edgeType: GameEdge
 } = connectionDefinitions({
-  name: "GameTypeConnection",
+  name: "GameType",
   nodeType: GameType
 });
 
@@ -227,7 +227,7 @@ const {
   connectionType: UsersConnection,
   edgeType: UserEdge
 } = connectionDefinitions({
-  name: "UserTypeConnection",
+  name: "UserType",
   nodeType: UserType
 });
 

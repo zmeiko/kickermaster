@@ -28,24 +28,6 @@ type Game implements Node {
   updatedAt: String
 }
 
-"""A connection to a list of items."""
-type GameConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [GameEdge]
-}
-
-"""An edge in a connection."""
-type GameEdge {
-  """The item at the end of the edge"""
-  node: Game
-
-  """A cursor for use in pagination"""
-  cursor: String!
-}
-
 type GamePlayer implements Node {
   """The ID of an object"""
   id: ID!
@@ -55,6 +37,24 @@ type GamePlayer implements Node {
   user: User
   createdAt: String
   updatedAt: String
+}
+
+"""A connection to a list of items."""
+type GameTypeConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [GameTypeEdge]
+}
+
+"""An edge in a connection."""
+type GameTypeEdge {
+  """The item at the end of the edge"""
+  node: Game
+
+  """A cursor for use in pagination"""
+  cursor: String!
 }
 
 type Goal implements Node {
@@ -108,7 +108,7 @@ type Query {
     """The ID of an object"""
     id: ID!
   ): Node
-  games(after: String, first: Int, before: String, last: Int): GameConnection
+  games(after: String, first: Int, before: String, last: Int): GameTypeConnection
   viewer: Viewer
   users: [User]
 }
@@ -121,11 +121,44 @@ type User implements Node {
   email: String
   games: [Game]
   goals: [Goal]
+  statistic(from: String, to: String): UserStatistic
   createdAt: String
   updatedAt: String
 }
 
+type UserStatistic {
+  goals: Int
+  games: Int
+  keep: Int
+  wins: Int
+  defeats: Int
+  rating: Int
+  winsPercent: Int
+  defeatsPercent: Int
+  goalsPerMatch: Float
+  keepPerMatch: Float
+}
+
+"""A connection to a list of items."""
+type UserTypeConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserTypeEdge]
+}
+
+"""An edge in a connection."""
+type UserTypeEdge {
+  """The item at the end of the edge"""
+  node: User
+
+  """A cursor for use in pagination"""
+  cursor: String!
+}
+
 type Viewer {
   user: User
-  games(after: String, first: Int, before: String, last: Int): GameConnection
+  games(from: String, to: String, after: String, first: Int, before: String, last: Int): GameTypeConnection
+  users(orderBy: String, from: String, to: String, after: String, first: Int, before: String, last: Int): UserTypeConnection
 }
