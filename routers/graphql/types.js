@@ -4,7 +4,8 @@ const {
   GraphQLBoolean,
   GraphQLObjectType,
   GraphQLString,
-  GraphQLEnumType
+  GraphQLEnumType,
+  GraphQLFloat
 } = require("graphql");
 
 const {
@@ -15,6 +16,20 @@ const {
   globalIdField,
   nodeDefinitions
 } = require("graphql-relay");
+
+const users = require("../../app/usersModule");
+
+const rangeArguments = {
+  from: { type: GraphQLString },
+  to: { type: GraphQLString }
+};
+
+function toDate(timestamp) {
+  if (timestamp) {
+    return new Date(Number.parseInt(timestamp));
+  }
+  return null;
+}
 
 const { nodeField, nodeInterface } = nodeDefinitions(
   // A method that maps from a global id to an object
@@ -44,6 +59,67 @@ const { nodeField, nodeInterface } = nodeDefinitions(
   }
 );
 
+const UserStatisticType = new GraphQLObjectType({
+  name: "UserStatistic",
+  fields: () => ({
+    goals: {
+      type: GraphQLInt
+    },
+    games: {
+      type: GraphQLInt
+    },
+    keep: {
+      type: GraphQLInt,
+      resolve: statistic => statistic.keep || 0
+    },
+    wins: {
+      type: GraphQLInt
+    },
+    defeats: {
+      type: GraphQLInt
+    },
+    rating: {
+      type: GraphQLInt
+    },
+    winsPercent: {
+      type: GraphQLInt,
+      resolve: statistic => {
+        if (statistic.games > 0) {
+          return Math.round(statistic.wins / statistic.games * 100);
+        }
+        return 0;
+      }
+    },
+    defeatsPercent: {
+      type: GraphQLInt,
+      resolve: statistic => {
+        if (statistic.games > 0) {
+          return Math.round(statistic.defeats / statistic.games * 100);
+        }
+        return 0;
+      }
+    },
+    goalsPerMatch: {
+      type: GraphQLFloat,
+      resolve: statistic => {
+        if (statistic.games > 0) {
+          return (statistic.goals / statistic.games).toFixed(2);
+        }
+        return 0;
+      }
+    },
+    keepPerMatch: {
+      type: GraphQLFloat,
+      resolve: statistic => {
+        if (statistic.keep && statistic.games > 0) {
+          return (statistic.keep / statistic.games).toFixed(2);
+        }
+        return 0;
+      }
+    }
+  })
+});
+
 const UserType = new GraphQLObjectType({
   name: "User",
   fields: () => ({
@@ -64,6 +140,12 @@ const UserType = new GraphQLObjectType({
     goals: {
       type: new GraphQLList(GoalType),
       resolve: user => user.getGoals()
+    },
+    statistic: {
+      type: UserStatisticType,
+      args: rangeArguments,
+      resolve: (user, { from, to }) =>
+        user.getStatistic({ from: toDate(from), to: toDate(to) })
     },
     createdAt: {
       type: GraphQLString
@@ -140,6 +222,14 @@ const {
   nodeType: GameType
 });
 
+const {
+  connectionType: UsersConnection,
+  edgeType: UserEdge
+} = connectionDefinitions({
+  name: "UserTypeConnection",
+  nodeType: UserType
+});
+
 const GoalType = new GraphQLObjectType({
   name: "Goal",
   fields: () => ({
@@ -203,9 +293,43 @@ const ViewerType = new GraphQLObjectType({
     },
     games: {
       type: GamesConnection,
-      args: connectionArgs,
-      resolve: (root, args, { db: { Game } }) =>
-        connectionFromPromisedArray(Game.findAll(), args)
+      args: Object.assign({}, rangeArguments, connectionArgs),
+      resolve: (
+        root,
+        { from, to, ...args },
+        { db: { Game, sequelize: { Op } } }
+      ) => {
+        const where = {};
+        if (from && to) {
+          where["createdAt"] = {
+            [Op.and]: {
+              [Op.gte]: new Date(Number.parseInt(from)),
+              [Op.lte]: new Date(Number.parseInt(to))
+            }
+          };
+        }
+        return connectionFromPromisedArray(Game.findAll({ where }), args);
+      }
+    },
+    users: {
+      type: UsersConnection,
+      args: Object.assign(
+        {
+          orderBy: { type: GraphQLString }
+        },
+        rangeArguments,
+        connectionArgs
+      ),
+      resolve: async (
+        root,
+        { orderBy, from, to, ...args },
+        { db: { User } }
+      ) => {
+        return connectionFromPromisedArray(
+          users.getUsers({ from, to, orderBy }),
+          args
+        );
+      }
     }
   })
 });
