@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Team.associate = function({ User }) {
-    Team.belongsTo(User, { as: "player1Id" });
-    Team.belongsTo(User, { as: "player2Id" });
+    Team.belongsTo(User, { as: "player1" });
+    Team.belongsTo(User, { as: "player2" });
   };
   return Team;
 };
