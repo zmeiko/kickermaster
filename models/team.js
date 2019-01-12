@@ -7,9 +7,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  Team.associate = function({ User }) {
+  Team.associate = function({ User, Tournament, TournamentTeam }) {
     Team.belongsTo(User, { as: "player1" });
     Team.belongsTo(User, { as: "player2" });
+    Team.belongsToMany(Tournament, { through: TournamentTeam });
   };
   return Team;
 };
