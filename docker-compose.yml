@@ -1,0 +1,63 @@
+version: '2.1'
+
+services:
+  mysql:
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD : cegthgfhjkm
+      MYSQL_DATABASE: "kicker_development"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+    image: 'mysql:latest'
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    volumes:
+    - database:/var/lib/mysql
+    ports:
+    - 3306:3306
+  adminer:
+    restart: always
+    image: 'adminer:latest'
+    ports:
+    - 8080:8080
+    depends_on:
+    - mysql
+  api:
+    restart: always
+    image: "node:8"
+    working_dir: /home/node/app
+    environment:
+      PORT: "3000"
+      NODE_ENV: "development"
+      DB_USERNAME: "user"
+      DB_PASSWORD: "password"
+      DB_NAME: "kicker_development"
+      DB_HOST: "mysql"
+    volumes:
+    - ./:/home/node/app
+    ports:
+    - 3000:3000
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command: "yarn start:docker"
+  frontend:
+    restart: always
+    image: "node:8"
+    working_dir: /home/node/app
+    environment:
+      PORT: "3001"
+      REACT_APP_API_HOST: "http://localhost:3000"
+      NODE_ENV: "development"
+    volumes:
+    - ./frontend:/home/node/app
+    depends_on:
+    - api
+    ports:
+    - 3001:3001
+    command: "yarn start:docker"
+volumes:
+  database:
