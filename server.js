@@ -1,9 +1,9 @@
 const path = require("path");
-require("dotenv").config({ path: path.join(__dirname, ".env") });
-
 const moment = require("moment");
 require("moment/locale/ru");
 moment.locale("ru");
+
+const PORT = process.env.PORT || 3000;
 
 const Koa = require("koa");
 const bodyParser = require("koa-bodyparser");
@@ -11,6 +11,8 @@ const session = require("koa-session");
 const passport = require("koa-passport");
 const cors = require("koa-cors");
 const serve = require("koa-static");
+
+const db = require("./models");
 
 const authRouter = require("./routers/authRouter");
 const apiUsersRouter = require("./routers/apiUsersRouter");
@@ -35,6 +37,12 @@ server.use(apiStatsRouter.routes());
 server.use(apiProfileRouter.routes());
 server.use(apiTournamentsRouter.routes());
 
-server.use(serve(path.join(__dirname, "frontend/build")));
-
-server.listen(process.env.PORT);
+db.sequelize
+  .authenticate()
+  .then(() => {
+    server.listen(PORT);
+    console.log("Connection has been established successfully.");
+  })
+  .catch(err => {
+    console.error("Unable to connect to the database:", err);
+  });
