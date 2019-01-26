@@ -20,6 +20,7 @@ const apiGamesRouter = require("./routers/apiGamesRouter");
 const apiStatsRouter = require("./routers/apiStatsRouter");
 const apiProfileRouter = require("./routers/apiProfileRouter");
 const apiTournamentsRouter = require("./routers/apiTournamentsRouter");
+const apiHealthCheckRouter = require("./routers/apiHealthCheckRouter");
 
 const server = new Koa();
 
@@ -36,6 +37,7 @@ server.use(apiGamesRouter.routes());
 server.use(apiStatsRouter.routes());
 server.use(apiProfileRouter.routes());
 server.use(apiTournamentsRouter.routes());
+server.use(apiHealthCheckRouter.routes());
 
 db.sequelize
   .authenticate()
