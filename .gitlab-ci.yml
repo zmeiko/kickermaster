@@ -19,10 +19,13 @@ variables:
 services:
  - docker:dind
 
-before_script:
- - docker info
-
-build:
- stage: build
+deploy:
+ variables:
+  DB_PASSWORD: $STAGING_DB_PASSWORD
+  DB_HOST: $STAGING_DB_HOST
+ stage: deploy
+ before_script:
+ - wget https://s3-us-west-2.amazonaws.com/files.coldbrewcloud.com/cli/linux/amd64/latest/coldbrew.tar.gz && tar xvzf coldbrew.tar.gz && rm coldbrew.tar.gz
  script:
-   - docker build -t mercdev/kicker .
+   - ./coldbrew deploy -E NODE_ENV=staging -E DB_USERNAME=staging_user -E DB_PASSWORD=$DB_PASSWORD -E DB_NAME=staging -E DB_HOST=$DB_HOST -E PORT=8080 -E GOOGLE_CLIENT_ID=xxx -E GOOGLE_CLIENT_SECRET=xxx -E GOOGLE_CALLBACK_HOST=xxx
+

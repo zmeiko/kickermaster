@@ -10,4 +10,5 @@ coldbrew.conf
 .env
 .gitignore
 Dockerfile
+coldbrew
 
