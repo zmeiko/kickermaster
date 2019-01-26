@@ -35,11 +35,11 @@ module.exports = {
       }
     ]);
     let usersId = await queryInterface.sequelize.query(
-      "SELECT users.id FROM users",
+      "SELECT Users.id FROM Users",
       { type: queryInterface.sequelize.QueryTypes.SELECT }
     );
     let gamesId = await queryInterface.sequelize.query(
-      "SELECT games.id FROM games",
+      "SELECT Games.id FROM Games",
       { type: queryInterface.sequelize.QueryTypes.SELECT }
     );
 
