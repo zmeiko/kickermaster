@@ -17,9 +17,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-server-koa": "^2.3.2",
     "crypto-js": "^3.1.9-1",
+    "dataloader-sequelize": "^1.7.8",
     "dotenv": "^5.0.1",
-    "getenv": "^0.7.0",
+    "graphql": "^14.1.1",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-cors": "0.0.16",
@@ -32,8 +34,7 @@
     "passport-google-auth": "^1.0.2",
     "passport-local": "^1.0.0",
     "passport-token-auth": "^0.1.2",
-    "pg": "^7.8.0",
-    "sequelize": "^4.37.4",
+    "sequelize": "^4.42.0",
     "sequelize-cli": "^4.0.0",
     "websocket": "^1.0.25"
   },

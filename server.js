@@ -1,4 +1,4 @@
-const path = require("path");
+const { ApolloServer } = require("apollo-server-koa");
 const moment = require("moment");
 require("moment/locale/ru");
 moment.locale("ru");
@@ -10,7 +10,9 @@ const bodyParser = require("koa-bodyparser");
 const session = require("koa-session");
 const passport = require("koa-passport");
 const cors = require("koa-cors");
-const serve = require("koa-static");
+
+const typeDefs = require("./app/graphql/schema");
+const resolvers = require("./app/graphql/resolvers");
 
 const db = require("./models");
 
@@ -40,6 +42,15 @@ server.use(apiProfileRouter.routes());
 server.use(apiTournamentsRouter.routes());
 server.use(apiTeamsRouter.routes());
 server.use(apiHealthCheckRouter.routes());
+
+const apollo = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: () => ({
+    database: db
+  })
+});
+apollo.applyMiddleware({ app: server });
 
 db.sequelize
   .authenticate()

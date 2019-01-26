@@ -12,5 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     GamePlayer.belongsTo(User);
     GamePlayer.belongsTo(Game);
   };
+
   return GamePlayer;
 };

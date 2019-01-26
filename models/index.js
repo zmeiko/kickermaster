@@ -3,6 +3,8 @@
 var fs = require("fs");
 var path = require("path");
 var Sequelize = require("sequelize");
+const { createContext, EXPECTED_OPTIONS_KEY } = require("dataloader-sequelize");
+
 var configs = require("../sequelizeConfig.js");
 
 var env = process.env.NODE_ENV || "development";
@@ -25,7 +27,7 @@ fs
     );
   })
   .forEach(file => {
-    var model = sequelize["import"](path.join(__dirname, file));
+    var model = sequelize.import(path.join(__dirname, file));
     db[model.name] = model;
   });
 
@@ -34,6 +36,8 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
+
+createContext(sequelize);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
