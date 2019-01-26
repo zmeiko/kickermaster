@@ -11,6 +11,15 @@ module.exports = {
     seederStorage: "sequelize",
     dialectOptions: { charset: "utf8" }
   },
+  staging: {
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    dialect: "mysql",
+    seederStorage: "sequelize",
+    dialectOptions: { charset: "utf8" }
+  },
   production: {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
