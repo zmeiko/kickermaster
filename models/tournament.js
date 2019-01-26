@@ -15,8 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  Tournament.associate = function({ User }) {
+  Tournament.associate = function({ User, Team, TournamentTeam }) {
     Tournament.belongsTo(User);
+    Tournament.belongsToMany(Team, {
+      through: TournamentTeam
+    });
   };
   return Tournament;
 };

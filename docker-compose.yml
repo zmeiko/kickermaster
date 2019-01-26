@@ -1,4 +1,4 @@
-version: '3.1'
+version: '2.1'
 
 services:
   mysql:
@@ -10,8 +10,12 @@ services:
       MYSQL_USER: "user"
       MYSQL_PASSWORD: "password"
     image: 'mysql:latest'
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
     volumes:
-    - /mnt/mysql:/var/lib/mysql
+    - database:/var/lib/mysql
     ports:
     - 3306:3306
   adminer:
@@ -37,7 +41,8 @@ services:
     ports:
     - 3000:3000
     depends_on:
-    - mysql
+      mysql:
+        condition: service_healthy
     command: "yarn start:docker"
   frontend:
     restart: always
@@ -54,3 +59,5 @@ services:
     ports:
     - 3001:3001
     command: "yarn start:docker"
+volumes:
+  database:

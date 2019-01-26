@@ -2,10 +2,12 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    queryInterface.addColumn("Users", "token", { type: Sequelize.STRING });
+    return queryInterface.addColumn("Users", "token", {
+      type: Sequelize.STRING
+    });
   },
 
   down: (queryInterface, Sequelize) => {
-    queryInterface.removeColumn("Users", "token");
+    return queryInterface.removeColumn("Users", "token");
   }
 };
