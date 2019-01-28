@@ -1,47 +1,31 @@
 {
-  "name": "kickermaster",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon server.js",
-    "start:docker":
-      "yarn install && sequelize db:migrate && sequelize db:seed:all && yarn start",
-    "precommit": "lint-staged",
-    "prettier": "prettier",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "lint-staged": {
-    "*.{js,json,css,md}": ["prettier --write", "git add"]
-  },
-  "author": "",
-  "license": "ISC",
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "apollo-server-koa": "^2.3.2",
-    "crypto-js": "^3.1.9-1",
-    "dataloader-sequelize": "^1.7.8",
-    "dotenv": "^5.0.1",
-    "graphql": "^14.1.1",
-    "koa": "^2.5.0",
-    "koa-bodyparser": "^4.2.0",
-    "koa-cors": "0.0.16",
-    "koa-passport": "^4.0.1",
-    "koa-router": "^7.4.0",
-    "koa-session": "^5.8.1",
-    "koa-static": "^4.0.2",
-    "moment": "^2.22.2",
-    "mysql2": "^1.5.3",
-    "passport-google-auth": "^1.0.2",
-    "passport-local": "^1.0.0",
-    "passport-token-auth": "^0.1.2",
-    "sequelize": "^4.42.0",
-    "sequelize-cli": "^4.0.0",
-    "websocket": "^1.0.25"
+    "@material-ui/core": "^1.4.1",
+    "@material-ui/icons": "^2.0.1",
+    "date-fns": "2.0.0-alpha.7",
+    "dateformat": "^3.0.3",
+    "material-ui-pickers": "^1.0.0-rc.11",
+    "mobx": "^4.1.1",
+    "mobx-react": "^5.0.0",
+    "mobx-state-tree": "^2.0.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.1"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "start:docker": "yarn install && react-app-rewired start",
+    "build": "react-app-rewired build"
   },
   "devDependencies": {
-    "husky": "^0.14.3",
-    "lint-staged": "^7.0.4",
-    "nodemon": "^1.18.4",
-    "prettier": "1.11.1"
+    "node-sass": "^4.9.0",
+    "react-app-rewire-css-modules": "codebandits/react-app-rewire-css-modules",
+    "react-app-rewire-mobx": "^1.0.8",
+    "react-app-rewired": "^1.5.2",
+    "sass-loader": "^7.0.1"
   }
 }
