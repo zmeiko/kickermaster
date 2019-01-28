@@ -5,13 +5,17 @@
   "dependencies": {
     "@material-ui/core": "^1.4.1",
     "@material-ui/icons": "^2.0.1",
+    "apollo-boost": "^0.1.27",
     "date-fns": "2.0.0-alpha.7",
     "dateformat": "^3.0.3",
+    "graphql": "^14.1.1",
+    "graphql-tag": "^2.10.1",
     "material-ui-pickers": "^1.0.0-rc.11",
     "mobx": "^4.1.1",
     "mobx-react": "^5.0.0",
     "mobx-state-tree": "^2.0.2",
     "react": "^16.2.0",
+    "react-apollo": "^2.4.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1"
