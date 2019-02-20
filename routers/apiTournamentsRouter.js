@@ -34,6 +34,22 @@ apiTournamentsRouter
     });
     ctx.body = { success: true };
   })
+  .post("/api/tournaments/:tournamentId/schedule", async ctx => {
+    const { tournamentId } = ctx.params;
+
+    const tournament = await tournamentsModule.createTournamentGames(
+      tournamentId
+    );
+    ctx.body = { success: true };
+  })
+  .post("/api/tournaments/games", async ctx => {
+    const { tournamentGameId, gameId } = ctx.request.body;
+    const tournament = await tournamentsModule.linkGame({
+      tournamentGameId,
+      gameId
+    });
+    ctx.body = { success: true };
+  })
   .delete("/api/tournaments/:tournamentId/teams", async ctx => {
     const { tournamentId } = ctx.params;
     const { teamId } = ctx.request.body;

@@ -14,7 +14,29 @@ async function deleteTournament() {}
 
 async function getTournaments() {
   const tournaments = await db.Tournament.findAll({
-    include: [{ model: db.User }, { model: db.Team }],
+    include: [
+      {
+        model: db.TournamentGame,
+        include: [
+          {
+            model: db.Team,
+            as: "team1",
+            include: [
+              { model: db.User, as: "player1" },
+              { model: db.User, as: "player2" }
+            ]
+          },
+          {
+            model: db.Team,
+            as: "team2",
+            include: [
+              { model: db.User, as: "player1" },
+              { model: db.User, as: "player2" }
+            ]
+          }
+        ]
+      }
+    ],
     order: [["createdAt", "DESC"]]
   });
   return tournaments;
@@ -22,7 +44,34 @@ async function getTournaments() {
 
 async function getTournament(tournamentId) {
   const tournament = await db.Tournament.findById(tournamentId, {
-    include: [{ model: db.User }, { model: db.Team }]
+    include: [
+      { model: db.Team },
+      {
+        model: db.TournamentGame,
+        include: [
+          {
+            model: db.Game,
+            include: [{ model: db.User }, { model: db.Goal }]
+          },
+          {
+            model: db.Team,
+            as: "team1",
+            include: [
+              { model: db.User, as: "player1" },
+              { model: db.User, as: "player2" }
+            ]
+          },
+          {
+            model: db.Team,
+            as: "team2",
+            include: [
+              { model: db.User, as: "player1" },
+              { model: db.User, as: "player2" }
+            ]
+          }
+        ]
+      }
+    ]
   });
   return tournament;
 }
@@ -43,10 +92,52 @@ async function unlinkTeam({ tournamentId, teamId }) {
   }
 }
 
+async function createTournamentGames(tournamentId) {
+  const tournament = await db.Tournament.findById(tournamentId, {
+    include: [{ model: db.Team }]
+  });
+
+  const tournamentGames = [];
+  const teams = tournament.Teams.slice();
+  while (teams.length > 0) {
+    const team1 = teams.pop();
+    teams.forEach(team2 => {
+      tournamentGames.push({
+        team1Id: team1.id,
+        team2Id: team2.id,
+        tournamentId
+      });
+    });
+  }
+
+  await db.TournamentGame.bulkCreate(tournamentGames);
+}
+
+async function linkGame({ tournamentGameId, gameId }) {
+  const tournamentGame = await db.TournamentGame.findById(tournamentGameId);
+  const game = await db.Game.findById(gameId);
+
+  if (tournamentGame && game) {
+    tournamentGame.addGame(game);
+  }
+}
+
+async function unlinkGame({ tournamentGameId, gameId }) {
+  const tournamentGame = await db.TournamentGame.findById(tournamentGameId);
+  const game = await db.Game.findById(gameId);
+
+  if (tournamentGame && game) {
+    tournamentGame.removeGame(game);
+  }
+}
+
 module.exports = {
   createTournament,
   getTournaments,
   getTournament,
   linkTeam,
-  unlinkTeam
+  unlinkTeam,
+  createTournamentGames,
+  linkGame,
+  unlinkGame
 };
