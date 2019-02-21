@@ -131,6 +131,151 @@ async function unlinkGame({ tournamentGameId, gameId }) {
   }
 }
 
+function getGamesResultsQuery(tournamentId) {
+  return `
+    SELECT
+      TournamentGames.team1Id,
+      TournamentGames.team2Id,
+      Games.id AS gameId,
+      TeamsRed.id AS teamIdRed,
+      TeamsBlue.id AS teamIdBlue,
+      CAST(
+        SUM(
+          CASE
+            WHEN GamePlayers.team = 0 AND Goals.ownGoal = 0 THEN 1
+            WHEN GamePlayers.team = 1 AND Goals.ownGoal = 1 THEN 1
+            ELSE 0
+          END
+        ) AS UNSIGNED
+      ) AS goalsRed,
+      CAST(
+        SUM(
+          CASE
+            WHEN GamePlayers.team = 1 AND Goals.ownGoal = 0 THEN 1
+            WHEN GamePlayers.team = 0 AND Goals.ownGoal = 1 THEN 1
+            ELSE 0
+          END
+        ) AS UNSIGNED
+      ) AS goalsBlue
+    FROM TournamentGames
+      LEFT JOIN TournamentGamesGames
+        ON TournamentGamesGames.tournamentGameId = TournamentGames.id
+      LEFT JOIN Games
+        ON TournamentGamesGames.gameId = Games.id
+      LEFT JOIN Goals
+        ON Games.id = Goals.gameId
+      
+      LEFT JOIN GamePlayers
+        ON Goals.gameId = GamePlayers.gameId
+        AND Goals.userId = GamePlayers.userId
+      
+      LEFT JOIN GamePlayers AS GamePlayersRedForward
+        ON Games.id = GamePlayersRedForward.gameId
+        AND GamePlayersRedForward.team = 0
+        AND GamePlayersRedForward.position = 0
+      
+      LEFT JOIN GamePlayers AS GamePlayersRedDefender
+        ON Games.id = GamePlayersRedDefender.gameId
+        AND GamePlayersRedDefender.team = 0
+        AND GamePlayersRedDefender.position = 1
+      
+      LEFT JOIN GamePlayers AS GamePlayersBlueForward
+        ON Games.id = GamePlayersBlueForward.gameId
+        AND GamePlayersBlueForward.team = 1
+        AND GamePlayersBlueForward.position = 0
+      
+      LEFT JOIN GamePlayers AS GamePlayersBlueDefender
+        ON Games.id = GamePlayersBlueDefender.gameId
+        AND GamePlayersBlueDefender.team = 1
+        AND GamePlayersBlueDefender.position = 1
+      
+      LEFT JOIN Teams AS TeamsRed
+        ON TeamsRed.id IN (TournamentGames.team1Id, TournamentGames.team2Id)
+        AND TeamsRed.player1Id IN (GamePlayersRedDefender.userId, GamePlayersRedForward.userId)
+        AND TeamsRed.player2Id IN (GamePlayersRedDefender.userId, GamePlayersRedForward.userId)
+      
+      LEFT JOIN Teams AS TeamsBlue
+        ON TeamsBlue.id IN (TournamentGames.team1Id, TournamentGames.team2Id)
+        AND TeamsBlue.player1Id IN (GamePlayersBlueDefender.userId, GamePlayersBlueForward.userId)
+        AND TeamsBlue.player2Id IN (GamePlayersBlueDefender.userId, GamePlayersBlueForward.userId)
+    WHERE TournamentGames.tournamentId = ${tournamentId}
+    GROUP BY
+      TournamentGames.team1Id,
+      TournamentGames.team2Id,
+      Games.id,
+      TeamsRed.id,
+      TeamsBlue.id
+  `;
+}
+
+async function getGamesResults(tournamentId) {
+  const gamesResults = await db.sequelize.query(
+    getGamesResultsQuery(tournamentId),
+    {
+      model: db.TournamentGameResult
+    }
+  );
+  return gamesResults;
+}
+
+function getStatsQuery(tournamentId) {
+  return `
+    SELECT
+      Teams.id as teamId,
+      Teams.name as teamName,
+      COUNT(TournamentGameResults.gameId) AS games,
+      CAST(
+        SUM(
+          CASE
+            WHEN Teams.id = TournamentGameResults.teamIdRed AND TournamentGameResults.goalsRed > TournamentGameResults.goalsBlue THEN 1
+            WHEN Teams.id = TournamentGameResults.teamIdBlue AND TournamentGameResults.goalsBlue > TournamentGameResults.goalsRed THEN 1
+            ELSE 0
+          END
+        ) AS UNSIGNED
+      ) AS wins,
+      CAST(
+        SUM(
+          CASE
+            WHEN Teams.id = TournamentGameResults.teamIdRed AND TournamentGameResults.goalsRed < TournamentGameResults.goalsBlue THEN 1
+            WHEN Teams.id = TournamentGameResults.teamIdBlue AND TournamentGameResults.goalsBlue < TournamentGameResults.goalsRed THEN 1
+            ELSE 0
+          END
+        ) AS UNSIGNED
+      ) AS defeats,
+      CAST(
+        SUM(
+          CASE
+            WHEN Teams.id = TournamentGameResults.teamIdRed THEN TournamentGameResults.goalsRed
+            WHEN Teams.id = TournamentGameResults.teamIdBlue THEN TournamentGameResults.goalsBlue
+            ELSE 0
+          END
+        ) AS UNSIGNED
+      ) AS goalsScored,
+      CAST(
+        SUM(
+          CASE
+            WHEN Teams.id = TournamentGameResults.teamIdRed THEN TournamentGameResults.goalsBlue
+            WHEN Teams.id = TournamentGameResults.teamIdBlue THEN TournamentGameResults.goalsRed
+            ELSE 0
+          END
+        ) AS UNSIGNED
+      ) AS goalsMissed
+    FROM TournamentTeams
+    LEFT JOIN Teams ON TournamentTeams.teamId = Teams.id
+    LEFT JOIN (${getGamesResultsQuery(tournamentId)}) AS TournamentGameResults
+      ON Teams.id IN (TournamentGameResults.team1Id, TournamentGameResults.team2Id)
+      AND TournamentGameResults.gameId IS NOT NULL
+    GROUP BY Teams.id
+  `;
+}
+
+async function getStats(tournamentId) {
+  const gamesResults = await db.sequelize.query(getStatsQuery(tournamentId), {
+    model: db.TournamentGameResult
+  });
+  return gamesResults;
+}
+
 module.exports = {
   createTournament,
   getTournaments,
@@ -139,5 +284,7 @@ module.exports = {
   unlinkTeam,
   createTournamentGames,
   linkGame,
-  unlinkGame
+  unlinkGame,
+  getGamesResults,
+  getStats
 };
