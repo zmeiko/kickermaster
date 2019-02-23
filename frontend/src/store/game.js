@@ -5,7 +5,7 @@ import Goal from "./goal";
 
 const Game = types
   .model({
-    id: types.maybe(types.identifier(types.number)),
+    id: types.maybe(types.number),
     createdAt: types.maybe(types.string),
     Users: types.optional(types.array(User), []),
     Goals: types.optional(types.array(Goal), [])

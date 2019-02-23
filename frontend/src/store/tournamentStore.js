@@ -15,6 +15,10 @@ const TournamentStore = types
       addTournament: flow(function*({ title }) {
         const { tournament } = yield api.post("/api/tournaments", { title });
         self.tournaments.unshift(tournament);
+      }),
+      getTournament: flow(function*(id) {
+        const { tournament } = yield api.get(`/api/tournaments/${id}`);
+        return Tournament.create(tournament);
       })
     };
   });

@@ -20,14 +20,6 @@ import { store } from "./store";
 
 const API_HOST = process.env.REACT_APP_API_HOST;
 
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
