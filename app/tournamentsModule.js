@@ -1,6 +1,8 @@
 const moment = require("moment");
 const db = require("../models");
 
+const { Op } = db.Sequelize;
+
 async function createTournament(params) {
   const { id } = await db.Tournament.create(params);
   const tournament = await db.Tournament.findById(id, {
@@ -131,7 +133,7 @@ async function unlinkGame({ tournamentGameId, gameId }) {
   }
 }
 
-function getGamesResultsQuery(tournamentId) {
+function getGamesResultsQuery() {
   return `
     SELECT
       TournamentGames.team1Id,
@@ -198,7 +200,7 @@ function getGamesResultsQuery(tournamentId) {
         ON TeamsBlue.id IN (TournamentGames.team1Id, TournamentGames.team2Id)
         AND TeamsBlue.player1Id IN (GamePlayersBlueDefender.userId, GamePlayersBlueForward.userId)
         AND TeamsBlue.player2Id IN (GamePlayersBlueDefender.userId, GamePlayersBlueForward.userId)
-    WHERE TournamentGames.tournamentId = ${tournamentId}
+    WHERE TournamentGames.tournamentId = :tournamentId
     GROUP BY
       TournamentGames.team1Id,
       TournamentGames.team2Id,
@@ -209,20 +211,50 @@ function getGamesResultsQuery(tournamentId) {
 }
 
 async function getGamesResults(tournamentId) {
-  const gamesResults = await db.sequelize.query(
-    getGamesResultsQuery(tournamentId),
-    {
-      model: db.TournamentGameResult
-    }
-  );
-  return gamesResults;
+  const gamesResults = await db.sequelize.query(getGamesResultsQuery(), {
+    type: db.sequelize.QueryTypes.SELECT,
+    replacements: { tournamentId }
+  });
+  const teamsIds = [
+    ...gamesResults.map(gamesResult => gamesResult.team1Id),
+    ...gamesResults.map(gamesResult => gamesResult.team2Id)
+  ];
+  const teams = await db.Team.findAll({
+    where: {
+      id: {
+        [Op.in]: teamsIds
+      }
+    },
+    include: [
+      { model: db.User, as: "player1" },
+      { model: db.User, as: "player2" }
+    ]
+  });
+
+  const gamesIds = gamesResults.map(gamesResult => gamesResult.gameId);
+  const games = await db.Game.findAll({
+    where: {
+      id: {
+        [Op.in]: gamesIds
+      }
+    },
+    include: [{ model: db.User }, { model: db.Goal }]
+  });
+
+  return gamesResults.map(gamesResult => ({
+    ...gamesResult,
+    game: games.find(game => game.id === gamesResult.gameId),
+    team1: teams.find(team => team.id === gamesResult.team1Id),
+    team2: teams.find(team => team.id === gamesResult.team2Id),
+    teamRed: teams.find(team => team.id === gamesResult.teamIdRed),
+    teamBlue: teams.find(team => team.id === gamesResult.teamIdBlue)
+  }));
 }
 
-function getStatsQuery(tournamentId) {
+function getStatsQuery() {
   return `
     SELECT
       Teams.id as teamId,
-      Teams.name as teamName,
       COUNT(TournamentGameResults.gameId) AS games,
       CAST(
         SUM(
@@ -262,7 +294,7 @@ function getStatsQuery(tournamentId) {
       ) AS goalsMissed
     FROM TournamentTeams
     LEFT JOIN Teams ON TournamentTeams.teamId = Teams.id
-    LEFT JOIN (${getGamesResultsQuery(tournamentId)}) AS TournamentGameResults
+    LEFT JOIN (${getGamesResultsQuery()}) AS TournamentGameResults
       ON Teams.id IN (TournamentGameResults.team1Id, TournamentGameResults.team2Id)
       AND TournamentGameResults.gameId IS NOT NULL
     GROUP BY Teams.id
@@ -270,10 +302,27 @@ function getStatsQuery(tournamentId) {
 }
 
 async function getStats(tournamentId) {
-  const gamesResults = await db.sequelize.query(getStatsQuery(tournamentId), {
-    model: db.TournamentGameResult
+  const stats = await db.sequelize.query(getStatsQuery(), {
+    type: db.sequelize.QueryTypes.SELECT,
+    replacements: { tournamentId }
   });
-  return gamesResults;
+  const teamsIds = stats.map(data => data.teamId);
+  const teams = await db.Team.findAll({
+    where: {
+      id: {
+        [Op.in]: teamsIds
+      }
+    },
+    include: [
+      { model: db.User, as: "player1" },
+      { model: db.User, as: "player2" }
+    ]
+  });
+
+  return stats.map(data => ({
+    ...data,
+    team: teams.find(team => team.id === data.teamId)
+  }));
 }
 
 module.exports = {
