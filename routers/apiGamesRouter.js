@@ -14,7 +14,8 @@ apiGamesRouter
     ctx.body = { game };
   })
   .post("/api/game", async ctx => {
-    ctx.body = await gamesModule.addGame(ctx.request.body);
+    const game = await gamesModule.addGame(ctx.request.body);
+    ctx.body = { game };
   })
   .delete("/api/game", async ctx => {
     await gamesModule.removeGame({ userId, gameId });
