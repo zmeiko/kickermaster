@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import { store } from "../store/tournamentStore";
 import dateFormat from "dateformat";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import TournamentAddForm from "./TournamentAddForm";
 
 @withRouter
@@ -53,18 +53,10 @@ class Tournaments extends Component {
   }
 
   render() {
-    return (
-      <Typography
-        variant="subheading"
-        style={{ marginTop: "15px", textAlign: "center" }}
-      >
-        Coming soon
-      </Typography>
-    );
-
     if (this.state.isLoading) {
       return <CircularProgress style={{ margin: "15px auto" }} />;
     }
+
     return store.tournaments.length ? (
       <React.Fragment>
         <div style={{ overflowX: "auto" }}>
@@ -102,20 +94,6 @@ class Tournaments extends Component {
                 <TableCell>
                   <Button
                     color={
-                      this.state.sortingProperty === "user"
-                        ? "primary"
-                        : "default"
-                    }
-                    onClick={() => {
-                      this.setState({ sortingProperty: "user" });
-                    }}
-                  >
-                    Author
-                  </Button>
-                </TableCell>
-                <TableCell>
-                  <Button
-                    color={
                       this.state.sortingProperty === "status"
                         ? "primary"
                         : "default"
@@ -137,7 +115,7 @@ class Tournaments extends Component {
                       fontSize: this.state.sortingProperty === "title" && 18
                     }}
                   >
-                    {tour.title}
+                    <Link to={`/tournaments/${tour.id}`}>{tour.title}</Link>
                   </TableCell>
                   <TableCell
                     style={{
@@ -145,13 +123,6 @@ class Tournaments extends Component {
                     }}
                   >
                     {dateFormat(tour.date, "dddd, mmmm dS, yyyy, hh:MM")}
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: this.state.sortingProperty === "user" && 18
-                    }}
-                  >
-                    {tour.User.name}
                   </TableCell>
                   <TableCell
                     style={{

@@ -24,6 +24,16 @@ apiTournamentsRouter
     const tournament = await tournamentsModule.getTournament(tournamentId);
     ctx.body = { tournament };
   })
+  .get("/api/tournaments/:tournamentId/games-results", async ctx => {
+    const { tournamentId } = ctx.params;
+    const gamesResults = await tournamentsModule.getGamesResults(tournamentId);
+    ctx.body = { gamesResults };
+  })
+  .get("/api/tournaments/:tournamentId/stats", async ctx => {
+    const { tournamentId } = ctx.params;
+    const stats = await tournamentsModule.getStats(tournamentId);
+    ctx.body = { stats };
+  })
   .post("/api/tournaments/:tournamentId/teams", async ctx => {
     const { tournamentId } = ctx.params;
     const { teamId } = ctx.request.body;
@@ -31,6 +41,22 @@ apiTournamentsRouter
     const tournament = await tournamentsModule.linkTeam({
       tournamentId,
       teamId
+    });
+    ctx.body = { success: true };
+  })
+  .post("/api/tournaments/:tournamentId/schedule", async ctx => {
+    const { tournamentId } = ctx.params;
+
+    const tournament = await tournamentsModule.createTournamentGames(
+      tournamentId
+    );
+    ctx.body = { success: true };
+  })
+  .post("/api/tournaments/games", async ctx => {
+    const { tournamentGameId, gameId } = ctx.request.body;
+    const tournament = await tournamentsModule.linkGame({
+      tournamentGameId,
+      gameId
     });
     ctx.body = { success: true };
   })

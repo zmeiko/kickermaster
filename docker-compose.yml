@@ -9,7 +9,7 @@ services:
       MYSQL_DATABASE: "kicker_development"
       MYSQL_USER: "user"
       MYSQL_PASSWORD: "password"
-    image: 'mysql:latest'
+    image: 'mysql:8.0.15'
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 20s
