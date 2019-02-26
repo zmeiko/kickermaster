@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     "Tournament",
     {
       title: DataTypes.STRING,
-      status: DataTypes.STRING
+      status: DataTypes.STRING,
+      userId: DataTypes.INTEGER
     },
     {}
   );
